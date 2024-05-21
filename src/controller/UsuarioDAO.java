@@ -6,6 +6,7 @@ package controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import model.Usuario;
 
@@ -54,4 +55,28 @@ public class UsuarioDAO {
             return -1;
         }
     }
+
+    public Usuario acessarUsuario(String nome, String senha){
+        try {
+            String SQL = "select * from tb_usuario where nome=? and senha=MD5(?)";
+
+            cmd = con.prepareStatement(SQL);
+            cmd.setString(1, nome);
+            cmd.setString(2, senha);
+
+            ResultSet rs = cmd.executeQuery();
+
+            if(rs.next()) {
+                Usuario u = new Usuario(rs.getString("nome"), rs.getString("email"));
+                return u;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.err.println("ERRO: " + e.getMessage());
+            return null;
+        } finally{
+            Conexao.desconectar(con);
+        }
+    }  
 }

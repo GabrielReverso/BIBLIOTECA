@@ -20,6 +20,10 @@ public class Usuario {
         this.senha = senha;
         this.nome = nome;
     }
+    public Usuario(String nome ,String email) {
+        this.email = email;
+        this.nome = nome;
+    }
     public int getId() {
         return id;
     }
@@ -38,14 +42,14 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    @Override
-    public String toString() {
-        return "Usuario [id=" + id + ", email=" + email + ", senha=" + senha + "]";
-    }
     public String getNome() {
         return nome;
     }
     public void setNome(String nome) {
         this.nome = nome;
+    }
+    @Override
+    public String toString() {
+        return "Usuario [id=" + id + ", email=" + email + ", senha=" + senha + "]";
     }
 }

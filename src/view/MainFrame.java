@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 
 import controller.UsuarioDAO;
+import images.ImagePanel;
 import model.Usuario;
 
 /**
@@ -17,10 +18,13 @@ import model.Usuario;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    protected static Usuario usuarioLogado;
+
     /**
      * Creates new form UsuarioView
      */
     public MainFrame() {
+        this.setContentPane(new ImagePanel());
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false); 
@@ -42,70 +46,78 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tbPane = new javax.swing.JTabbedPane();
         paneLogin = new javax.swing.JPanel();
-        lblLogin = new javax.swing.JLabel();
-        lblNome = new javax.swing.JLabel();
-        txtNome = new javax.swing.JTextField();
-        lblSenha = new javax.swing.JLabel();
-        btnEntrar = new javax.swing.JButton();
-        lblNoConta = new javax.swing.JLabel();
-        lblCadastre = new javax.swing.JLabel();
-        txtSenha = new javax.swing.JPasswordField();
+        lblLogin_paneLogin = new javax.swing.JLabel();
+        lblNome_paneLogin = new javax.swing.JLabel();
+        txtNome_paneLogin = new javax.swing.JTextField();
+        lblSenha_paneLogin = new javax.swing.JLabel();
+        btnEntrar_paneLogin = new javax.swing.JButton();
+        lblNoConta_paneLogin = new javax.swing.JLabel();
+        lblCadastre_paneLogin = new javax.swing.JLabel();
+        txtSenha_paneLogin = new javax.swing.JPasswordField();
         paneCadastro = new javax.swing.JPanel();
-        lblCadastro = new javax.swing.JLabel();
-        lblNome2 = new javax.swing.JLabel();
-        txtNome2 = new javax.swing.JTextField();
-        lblEmail = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
-        lblSenha2 = new javax.swing.JLabel();
-        txtSenha2 = new javax.swing.JPasswordField();
-        lblConfirmarSenha = new javax.swing.JLabel();
-        txtConfirmarSenha = new javax.swing.JPasswordField();
-        btnCadastrar = new javax.swing.JButton();
+        lblCadastro_paneCadastro = new javax.swing.JLabel();
+        lblNome_paneCadastro = new javax.swing.JLabel();
+        txtNome_paneCadastro = new javax.swing.JTextField();
+        lblEmail_paneCadastro = new javax.swing.JLabel();
+        txtEmail_paneCadastro = new javax.swing.JTextField();
+        lblSenha_paneCadastro = new javax.swing.JLabel();
+        txtSenha_paneCadastro = new javax.swing.JPasswordField();
+        lblConfirmarSenha_paneCadastro = new javax.swing.JLabel();
+        txtConfirmarSenha_paneCadastro = new javax.swing.JPasswordField();
+        btnCadastrar_paneCadastro = new javax.swing.JButton();
+        paneHome = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(new java.awt.Dimension(700, 550));
 
-        lblLogin.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
-        lblLogin.setText("LOGIN");
+        paneLogin.setPreferredSize(new java.awt.Dimension(700, 550));
 
-        lblNome.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblNome.setText("Nome");
+        lblLogin_paneLogin.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
+        lblLogin_paneLogin.setText("LOGIN");
 
-        txtNome.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        txtNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeActionPerformed(evt);
+        lblNome_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblNome_paneLogin.setText("Nome");
+
+        txtNome_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        txtNome_paneLogin.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtNome_paneLoginFocusGained(evt);
             }
         });
 
-        lblSenha.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblSenha.setText("Senha");
+        lblSenha_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblSenha_paneLogin.setText("Senha");
 
-        btnEntrar.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
-        btnEntrar.setText("Entrar");
-        btnEntrar.addActionListener(new java.awt.event.ActionListener() {
+        btnEntrar_paneLogin.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
+        btnEntrar_paneLogin.setText("Entrar");
+        btnEntrar_paneLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEntrarActionPerformed(evt);
+                btnEntrar_paneLoginActionPerformed(evt);
             }
         });
 
-        lblNoConta.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblNoConta.setText("Não possui conta?");
+        lblNoConta_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblNoConta_paneLogin.setText("Não possui conta?");
 
-        lblCadastre.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblCadastre.setForeground(new java.awt.Color(0, 0, 255));
-        lblCadastre.setText("Cadastre-se");
-        lblCadastre.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblCadastre.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblCadastre_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblCadastre_paneLogin.setForeground(new java.awt.Color(0, 0, 255));
+        lblCadastre_paneLogin.setText("Cadastre-se");
+        lblCadastre_paneLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblCadastre_paneLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblCadastreMouseClicked(evt);
+                lblCadastre_paneLoginMouseClicked(evt);
             }
         });
 
-        txtSenha.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        txtSenha_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        txtSenha_paneLogin.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtSenha_paneLoginFocusGained(evt);
+            }
+        });
 
         javax.swing.GroupLayout paneLoginLayout = new javax.swing.GroupLayout(paneLogin);
         paneLogin.setLayout(paneLoginLayout);
@@ -115,77 +127,77 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(paneLoginLayout.createSequentialGroup()
                         .addGap(212, 212, 212)
-                        .addComponent(lblNoConta)
+                        .addComponent(lblNoConta_paneLogin)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblCadastre))
+                        .addComponent(lblCadastre_paneLogin))
                     .addGroup(paneLoginLayout.createSequentialGroup()
                         .addGap(290, 290, 290)
-                        .addComponent(lblLogin))
+                        .addComponent(lblLogin_paneLogin))
                     .addGroup(paneLoginLayout.createSequentialGroup()
                         .addGap(298, 298, 298)
-                        .addComponent(btnEntrar)))
-                .addContainerGap(220, Short.MAX_VALUE))
+                        .addComponent(btnEntrar_paneLogin)))
+                .addContainerGap(219, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblNome)
-                    .addComponent(txtNome)
-                    .addComponent(lblSenha)
-                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNome_paneLogin)
+                    .addComponent(txtNome_paneLogin)
+                    .addComponent(lblSenha_paneLogin)
+                    .addComponent(txtSenha_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(169, 169, 169))
         );
         paneLoginLayout.setVerticalGroup(
             paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneLoginLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblLogin)
+                .addComponent(lblLogin_paneLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                .addComponent(lblNome)
+                .addComponent(lblNome_paneLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNome_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lblSenha)
+                .addComponent(lblSenha_paneLogin)
                 .addGap(18, 18, 18)
-                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSenha_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66)
-                .addComponent(btnEntrar)
+                .addComponent(btnEntrar_paneLogin)
                 .addGap(57, 57, 57)
                 .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNoConta)
-                    .addComponent(lblCadastre))
+                    .addComponent(lblNoConta_paneLogin)
+                    .addComponent(lblCadastre_paneLogin))
                 .addGap(41, 41, 41))
         );
 
-        jTabbedPane1.addTab("tab1", paneLogin);
+        tbPane.addTab("Login", paneLogin);
 
-        lblCadastro.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
-        lblCadastro.setText("CADASTRO");
+        lblCadastro_paneCadastro.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
+        lblCadastro_paneCadastro.setText("CADASTRO");
 
-        lblNome2.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblNome2.setText("Nome");
+        lblNome_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblNome_paneCadastro.setText("Nome");
 
-        txtNome2.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        txtNome_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
 
-        lblEmail.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblEmail.setText("Email");
+        lblEmail_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblEmail_paneCadastro.setText("Email");
 
-        txtEmail.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        txtEmail_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
 
-        lblSenha2.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblSenha2.setText("Senha");
+        lblSenha_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblSenha_paneCadastro.setText("Senha");
 
-        txtSenha2.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        txtSenha_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
 
-        lblConfirmarSenha.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblConfirmarSenha.setText("Confirmar senha");
+        lblConfirmarSenha_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblConfirmarSenha_paneCadastro.setText("Confirmar senha");
 
-        txtConfirmarSenha.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        txtConfirmarSenha_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
 
-        btnCadastrar.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
-        btnCadastrar.setText("Cadastrar");
-        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+        btnCadastrar_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
+        btnCadastrar_paneCadastro.setText("Cadastrar");
+        btnCadastrar_paneCadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadastrarActionPerformed(evt);
+                btnCadastrar_paneCadastroActionPerformed(evt);
             }
         });
 
@@ -197,79 +209,86 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(paneCadastroLayout.createSequentialGroup()
                         .addGap(276, 276, 276)
-                        .addComponent(btnCadastrar))
+                        .addComponent(btnCadastrar_paneCadastro))
                     .addGroup(paneCadastroLayout.createSequentialGroup()
                         .addGap(165, 165, 165)
                         .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneCadastroLayout.createSequentialGroup()
-                                .addComponent(lblCadastro)
+                                .addComponent(lblCadastro_paneCadastro)
                                 .addGap(85, 85, 85))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lblConfirmarSenha)
-                                .addComponent(lblSenha2)
-                                .addComponent(lblEmail)
-                                .addComponent(txtEmail)
-                                .addComponent(lblNome2)
-                                .addComponent(txtNome2)
-                                .addComponent(txtSenha2)
-                                .addComponent(txtConfirmarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 175, Short.MAX_VALUE))
+                                .addComponent(lblConfirmarSenha_paneCadastro)
+                                .addComponent(lblSenha_paneCadastro)
+                                .addComponent(lblEmail_paneCadastro)
+                                .addComponent(txtEmail_paneCadastro)
+                                .addComponent(lblNome_paneCadastro)
+                                .addComponent(txtNome_paneCadastro)
+                                .addComponent(txtSenha_paneCadastro)
+                                .addComponent(txtConfirmarSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(0, 174, Short.MAX_VALUE))
         );
         paneCadastroLayout.setVerticalGroup(
             paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneCadastroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblCadastro)
+                .addComponent(lblCadastro_paneCadastro)
                 .addGap(18, 18, 18)
-                .addComponent(lblNome2)
+                .addComponent(lblNome_paneCadastro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNome2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNome_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lblEmail)
+                .addComponent(lblEmail_paneCadastro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmail_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lblSenha2)
+                .addComponent(lblSenha_paneCadastro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtSenha2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lblConfirmarSenha)
+                .addComponent(lblConfirmarSenha_paneCadastro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtConfirmarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtConfirmarSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45)
-                .addComponent(btnCadastrar)
+                .addComponent(btnCadastrar_paneCadastro)
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("tab2", paneCadastro);
+        tbPane.addTab("Cadastro", paneCadastro);
+
+        javax.swing.GroupLayout paneHomeLayout = new javax.swing.GroupLayout(paneHome);
+        paneHome.setLayout(paneHomeLayout);
+        paneHomeLayout.setHorizontalGroup(
+            paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 700, Short.MAX_VALUE)
+        );
+        paneHomeLayout.setVerticalGroup(
+            paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 519, Short.MAX_VALUE)
+        );
+
+        tbPane.addTab("Home", paneHome);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tbPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tbPane)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeActionPerformed
 
-    private void lblCadastreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastreMouseClicked
-        jTabbedPane1.setSelectedIndex(1);
-    }//GEN-LAST:event_lblCadastreMouseClicked
-
-    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+    /*CADASTRO*/
+    private void btnCadastrar_paneCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrar_paneCadastroActionPerformed
         
-        if(txtSenha2.getPassword().toString().equals(txtConfirmarSenha.getPassword().toString())){
+        if(txtSenha_paneCadastro.getText().equals(txtConfirmarSenha_paneCadastro.getText())){
 
-            Usuario u = new Usuario(txtNome2.getText(), txtEmail.getText(), txtSenha2.getPassword().toString());
+            Usuario u = new Usuario(txtNome_paneCadastro.getText(), txtEmail_paneCadastro.getText(), new String(txtSenha_paneCadastro.getPassword()));
             UsuarioDAO dao = new UsuarioDAO();
     
             if (dao.inserirNovoUsuario(u) != -1) {
@@ -277,20 +296,55 @@ public class MainFrame extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
             }
-            jTabbedPane1.setSelectedIndex(0);
+            tbPane.setSelectedIndex(0);
         } else {
-            lblConfirmarSenha.setForeground(Color.RED);
-            txtConfirmarSenha.setForeground(Color.RED);
+            lblConfirmarSenha_paneCadastro.setForeground(Color.RED);
+            txtConfirmarSenha_paneCadastro.setForeground(Color.RED);
             JOptionPane.showMessageDialog(null, "Senhas não correspondem");
         }
 
-    }//GEN-LAST:event_btnCadastrarActionPerformed
+    }//GEN-LAST:event_btnCadastrar_paneCadastroActionPerformed
 
-    private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEntrarActionPerformed
+    /*FIM-CADASTRO*/
 
-    /**
+    /*LOGIN*/
+    private void btnEntrar_paneLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrar_paneLoginActionPerformed
+        
+        String nome = txtNome_paneLogin.getText();
+        String senha = new String(txtSenha_paneLogin.getPassword());
+        UsuarioDAO dao = new UsuarioDAO();
+
+        if(!senha.isEmpty() && !nome.isEmpty()){
+            usuarioLogado = dao.acessarUsuario(nome, senha);
+            System.out.println(usuarioLogado);
+            if (usuarioLogado == null){
+                txtNome_paneLogin.setForeground(Color.RED);
+                txtSenha_paneLogin.setForeground(Color.RED);
+                JOptionPane.showMessageDialog(null, "Usuário ou Senha inválidos");
+            } else {
+                tbPane.setSelectedIndex(2);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos para entrar!");
+        }
+    }//GEN-LAST:event_btnEntrar_paneLoginActionPerformed
+
+    private void lblCadastre_paneLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastre_paneLoginMouseClicked
+        tbPane.setSelectedIndex(1);
+    }//GEN-LAST:event_lblCadastre_paneLoginMouseClicked
+
+    private void txtNome_paneLoginFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNome_paneLoginFocusGained
+        txtNome_paneLogin.setForeground(Color.BLACK);
+    }//GEN-LAST:event_txtNome_paneLoginFocusGained
+
+    private void txtSenha_paneLoginFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSenha_paneLoginFocusGained
+
+        txtSenha_paneLogin.setForeground(Color.BLACK);
+    }//GEN-LAST:event_txtSenha_paneLoginFocusGained
+
+    /*FIM-LOGIN*/
+
+    /**                txtNome_paneLogin.setBorder(BorderFactory.createLineBorder(Color.RED));
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -328,26 +382,27 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCadastrar;
-    private javax.swing.JButton btnEntrar;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblCadastre;
-    private javax.swing.JLabel lblCadastro;
-    private javax.swing.JLabel lblConfirmarSenha;
-    private javax.swing.JLabel lblEmail;
-    private javax.swing.JLabel lblLogin;
-    private javax.swing.JLabel lblNoConta;
-    private javax.swing.JLabel lblNome;
-    private javax.swing.JLabel lblNome2;
-    private javax.swing.JLabel lblSenha;
-    private javax.swing.JLabel lblSenha2;
+    private javax.swing.JButton btnCadastrar_paneCadastro;
+    private javax.swing.JButton btnEntrar_paneLogin;
+    private javax.swing.JLabel lblCadastre_paneLogin;
+    private javax.swing.JLabel lblCadastro_paneCadastro;
+    private javax.swing.JLabel lblConfirmarSenha_paneCadastro;
+    private javax.swing.JLabel lblEmail_paneCadastro;
+    private javax.swing.JLabel lblLogin_paneLogin;
+    private javax.swing.JLabel lblNoConta_paneLogin;
+    private javax.swing.JLabel lblNome_paneCadastro;
+    private javax.swing.JLabel lblNome_paneLogin;
+    private javax.swing.JLabel lblSenha_paneCadastro;
+    private javax.swing.JLabel lblSenha_paneLogin;
     private javax.swing.JPanel paneCadastro;
+    private javax.swing.JPanel paneHome;
     private javax.swing.JPanel paneLogin;
-    private javax.swing.JPasswordField txtConfirmarSenha;
-    private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtNome2;
-    private javax.swing.JPasswordField txtSenha;
-    private javax.swing.JPasswordField txtSenha2;
+    private javax.swing.JTabbedPane tbPane;
+    private javax.swing.JPasswordField txtConfirmarSenha_paneCadastro;
+    private javax.swing.JTextField txtEmail_paneCadastro;
+    private javax.swing.JTextField txtNome_paneCadastro;
+    private javax.swing.JTextField txtNome_paneLogin;
+    private javax.swing.JPasswordField txtSenha_paneCadastro;
+    private javax.swing.JPasswordField txtSenha_paneLogin;
     // End of variables declaration//GEN-END:variables
 }
