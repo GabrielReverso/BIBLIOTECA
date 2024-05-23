@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class Conexao {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/BIBLIOTECA";
+    private static final String URL = "jdbc:postgresql://localhost:5432/biblioteca";
     private static final String USR = "postgres";
     private static final String PWD = "123";
     private static final String DRIVER = "org.postgresql.Driver";

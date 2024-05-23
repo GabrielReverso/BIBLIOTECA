@@ -13,7 +13,7 @@ public class ImagePanel extends JPanel {
 
     public ImagePanel() {
         try {
-            this.img = ImageIO.read(new URL(getClass().getResource("/Images/background.png"), "background.png"));
+            this.img = ImageIO.read(new URL(getClass().getResource("/images/background.png"), "background.png"));
         } catch (IOException e) {
             System.err.println("ERRO: " + e.getMessage());
         }
@@ -22,8 +22,10 @@ public class ImagePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (img != null) {
-            g.drawImage(img, 0, 0, this);
+        if (img!= null) {
+            // Redimensiona a imagem para cobrir toda a área do painel
+            Image scaledImg = img.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT);
+            g.drawImage(scaledImg, 0, 0, this);
         }
 
     }

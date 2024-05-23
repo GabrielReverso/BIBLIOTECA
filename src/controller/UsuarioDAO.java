@@ -56,18 +56,25 @@ public class UsuarioDAO {
         }
     }
 
-    public Usuario acessarUsuario(String nome, String senha){
+    public Usuario acessarUsuario(String nomeEmail, String senha){
         try {
-            String SQL = "select * from tb_usuario where nome=? and senha=MD5(?)";
+
+            String SQL;
+            if(nomeEmail.contains("@")){
+                SQL = "select * from tb_usuario where email=? and senha=MD5(?)";
+            } else {
+                SQL = "select * from tb_usuario where nome=? and senha=MD5(?)";
+            }
 
             cmd = con.prepareStatement(SQL);
-            cmd.setString(1, nome);
+            cmd.setString(1, nomeEmail);
             cmd.setString(2, senha);
 
             ResultSet rs = cmd.executeQuery();
 
             if(rs.next()) {
                 Usuario u = new Usuario(rs.getString("nome"), rs.getString("email"));
+                u.setId(rs.getInt("id"));
                 return u;
             } else {
                 return null;
