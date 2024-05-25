@@ -1,19 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import controller.conexao.Conexao;
 import model.Usuario;
 
-/**
- *
- * @author gabriel
- */
 public class UsuarioDAO {
     
     private Connection con;
@@ -36,12 +29,13 @@ public class UsuarioDAO {
 
     public int inserirNovoUsuario(Usuario u){
         try {
-            String SQL = "insert into tb_usuario (nome, email, senha) values (?,?,MD5(?))";
+            String SQL = "insert into tb_usuario (nome, email, senha, possuiLivro) values (?,?,MD5(?), ?)";
 
             cmd = con.prepareStatement(SQL);
             cmd.setString(1, u.getNome());
             cmd.setString(2, u.getEmail());
             cmd.setString(3, u.getSenha());
+            cmd.setBoolean(4, false);
 
             int rowsAffected = cmd.executeUpdate();
 
@@ -73,7 +67,7 @@ public class UsuarioDAO {
             ResultSet rs = cmd.executeQuery();
 
             if(rs.next()) {
-                Usuario u = new Usuario(rs.getString("nome"), rs.getString("email"));
+                Usuario u = new Usuario(rs.getString("nome"), rs.getString("email"), rs.getBoolean("possuiLivro"));
                 u.setId(rs.getInt("id"));
                 return u;
             } else {

@@ -14,15 +14,17 @@ public class Usuario {
     private String email;
     private String senha;
     private String nome;
+    private boolean possuiLivro;
     
     public Usuario(String nome ,String email, String senha) {
         this.email = email;
         this.senha = senha;
         this.nome = nome;
     }
-    public Usuario(String nome ,String email) {
+    public Usuario(String nome ,String email, boolean possuiLivro) {
         this.email = email;
         this.nome = nome;
+        this.possuiLivro = possuiLivro;
     }
     public int getId() {
         return id;
@@ -48,6 +50,13 @@ public class Usuario {
     public void setNome(String nome) {
         this.nome = nome;
     }
+    public boolean isPossuiLivro() {
+        return possuiLivro;
+    }
+    public void setPossuiLivro(boolean possuiLivro) {
+        this.possuiLivro = possuiLivro;
+    }
+
     @Override
     public String toString() {
         return "\nNome: " + this.nome + "\nEmail: " + this.email + "\nID: " + this.id + "\n";

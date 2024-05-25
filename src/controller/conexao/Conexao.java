@@ -1,4 +1,4 @@
-package controller;
+package controller.conexao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,12 +31,12 @@ public class Conexao {
         }
     }
     
-    public static void main(String[] args) {
+ /*    public static void main(String[] args) {
         Connection con = Conexao.conectar();
         if (con != null){
             System.out.println("Conectado");
         }
         Conexao.desconectar(con);
-    }
+    } */
 
 }

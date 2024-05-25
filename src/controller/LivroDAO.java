@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import controller.conexao.Conexao;
 import model.Livro;
 
 public class LivroDAO {
