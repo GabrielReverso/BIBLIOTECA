@@ -69,6 +69,15 @@ begin
 	end loop;
 end $$;
 
+SELECT 
+	titulo,
+	autor,
+	editora,
+	descricao
+FROM tb_livro tl 
+INNER JOIN tb_livro_acervo tla ON tl.id = tla.id_livro 
+INNER JOIN tb_acervo ta ON ta.id = tla.id_acervo  
+WHERE ta.localidade = 'Ribeirão Preto';
 
 
 

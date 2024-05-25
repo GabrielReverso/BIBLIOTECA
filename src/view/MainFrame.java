@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -10,8 +11,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
+import controller.LivroAcervoDAO;
 import controller.UsuarioDAO;
 import images.ImagePanel;
+import model.Livro;
 import model.Usuario;
 
 public class MainFrame extends javax.swing.JFrame {
@@ -60,8 +63,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         tabPane.setEnabledAt(0, true);
-        tabPane.setEnabledAt(1, false);
-        tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(1, true);
+        tabPane.setEnabledAt(2, true);
     }
 
     private void loadIcons() {
@@ -91,10 +94,26 @@ public class MainFrame extends javax.swing.JFrame {
                 Image scaledImageConfig = imageConfig.getScaledInstance(homeIconWidth, homeIconHeight, Image.SCALE_SMOOTH);
                 ImageIcon scaledIconConfig = new ImageIcon(scaledImageConfig);
                 iconConfig.setIcon(scaledIconConfig);
+                iconConfig2.setIcon(scaledIconConfig);
             }
         } catch (Exception e) {
             System.err.println("Imagem 'setting.png' nao existe, usando fallback textual!");
             iconConfig.setText("Conf");
+            iconConfig2.setText("Conf");
+        }
+
+        try {
+            // Carrega e redimensiona a imagem para iconVoltar
+            ImageIcon imageIconVoltar = new ImageIcon(getClass().getResource("/images/back.png")); 
+            if (imageIconVoltar!= null) {
+                Image imageVoltar = imageIconVoltar.getImage();
+                Image scaledImageVoltar = imageVoltar.getScaledInstance(homeIconWidth, homeIconHeight, Image.SCALE_SMOOTH);
+                ImageIcon scaledIconVoltar = new ImageIcon(scaledImageVoltar);
+                iconVoltar_paneVerLivros.setIcon(scaledIconVoltar);
+            }
+        } catch (Exception e) {
+            System.err.println("Imagem 'back.png' nao existe, usando fallback textual!");
+            iconConfig.setText("Back");
         }
     }
 
@@ -102,14 +121,23 @@ public class MainFrame extends javax.swing.JFrame {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
     
-        for (int i = 0; i < 10; i++) {
+        LivroAcervoDAO dao = new LivroAcervoDAO();
+
+        List<Livro> lista = dao.obterLivrosDoAcervo("Ribeirão Preto");
+
+        for (Livro l : lista) {
+            LivroView panel = new LivroView(l.getTitulo(), l.getAutor(), l.getEditora(), l.getDescricao());
+            container.add(panel);
+        }
+
+/*         for (int i = 0; i < 10; i++) {
             String titulo = String.format("Titulo %d", i);
             String autor = String.format("Autor %d", i);
             String editora = String.format("Editora %d", i);
             String descricao = String.format("Descricao %d", i);
             LivroView panel = new LivroView(titulo, autor, editora, descricao);
             container.add(panel); // Adicionando o painel ao container
-        }
+        } */
     
         scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
@@ -162,13 +190,19 @@ public class MainFrame extends javax.swing.JFrame {
         iconConfig = new javax.swing.JLabel();
         paneVerLivros = new javax.swing.JPanel();
         scrollVerLivros = new javax.swing.JScrollPane();
-        jLabel1 = new javax.swing.JLabel();
+        lblLivros_paneVerLivros = new javax.swing.JLabel();
+        cbxSelecioneRegiao_paneVerLivros = new javax.swing.JComboBox<>();
+        lblSelecioneRegiao_paneVerLivros = new javax.swing.JLabel();
+        txtBucarTitulo_paneVerLivros = new javax.swing.JTextField();
+        lblBuscarTitulo_paneVerLivros = new javax.swing.JLabel();
+        iconVoltar_paneVerLivros = new javax.swing.JLabel();
+        iconConfig2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(new java.awt.Dimension(700, 550));
 
-        paneLogin.setPreferredSize(new java.awt.Dimension(700, 550));
+        paneLogin.setPreferredSize(new java.awt.Dimension(800, 600));
 
         lblLogin_paneLogin.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
         lblLogin_paneLogin.setText("LOGIN");
@@ -219,48 +253,49 @@ public class MainFrame extends javax.swing.JFrame {
         paneLoginLayout.setHorizontalGroup(
             paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
-                .addGap(0, 171, Short.MAX_VALUE)
-                .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblNome_paneLogin)
-                    .addComponent(txtNome_paneLogin)
-                    .addComponent(lblSenha_paneLogin)
-                    .addComponent(txtSenha_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(169, 169, 169))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblLogin_paneLogin)
+                .addGap(341, 341, 341))
             .addGroup(paneLoginLayout.createSequentialGroup()
+                .addGap(189, 189, 189)
+                .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblSenha_paneLogin)
+                    .addComponent(txtSenha_paneLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
+                    .addComponent(lblNome_paneLogin)
+                    .addComponent(txtNome_paneLogin))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
+                .addContainerGap(266, Short.MAX_VALUE)
                 .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(paneLoginLayout.createSequentialGroup()
-                        .addGap(290, 290, 290)
-                        .addComponent(lblLogin_paneLogin))
-                    .addGroup(paneLoginLayout.createSequentialGroup()
-                        .addGap(211, 211, 211)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
                         .addComponent(lblNoConta_paneLogin)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblCadastre_paneLogin))
-                    .addGroup(paneLoginLayout.createSequentialGroup()
-                        .addGap(282, 282, 282)
-                        .addComponent(btnEntrar_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lblCadastre_paneLogin)
+                        .addGap(265, 265, 265))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
+                        .addComponent(btnEntrar_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(334, 334, 334))))
         );
         paneLoginLayout.setVerticalGroup(
             paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneLoginLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblLogin_paneLogin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addComponent(lblNome_paneLogin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(txtNome_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblSenha_paneLogin)
                 .addGap(18, 18, 18)
                 .addComponent(txtSenha_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73)
+                .addGap(93, 93, 93)
                 .addComponent(btnEntrar_paneLogin)
-                .addGap(57, 57, 57)
+                .addGap(62, 62, 62)
                 .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNoConta_paneLogin)
-                    .addComponent(lblCadastre_paneLogin))
-                .addGap(18, 18, 18))
+                    .addComponent(lblCadastre_paneLogin)
+                    .addComponent(lblNoConta_paneLogin))
+                .addGap(38, 38, 38))
         );
 
         tabPane.addTab("Login", paneLogin);
@@ -297,7 +332,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         lblRetornarLogin_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblRetornarLogin_paneCadastro.setForeground(new java.awt.Color(0, 51, 255));
+        lblRetornarLogin_paneCadastro.setForeground(new java.awt.Color(0, 0, 255));
         lblRetornarLogin_paneCadastro.setText("Retornar ao Login");
         lblRetornarLogin_paneCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblRetornarLogin_paneCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -310,35 +345,40 @@ public class MainFrame extends javax.swing.JFrame {
         paneCadastro.setLayout(paneCadastroLayout);
         paneCadastroLayout.setHorizontalGroup(
             paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneCadastroLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnCadastrar_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblRetornarLogin_paneCadastro))
+                .addGap(318, 318, 318))
             .addGroup(paneCadastroLayout.createSequentialGroup()
                 .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(paneCadastroLayout.createSequentialGroup()
-                        .addGap(247, 247, 247)
-                        .addComponent(lblCadastro_paneCadastro))
-                    .addGroup(paneCadastroLayout.createSequentialGroup()
                         .addGap(168, 168, 168)
-                        .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblConfirmarSenha_paneCadastro)
                             .addComponent(lblSenha_paneCadastro)
                             .addComponent(lblEmail_paneCadastro)
-                            .addComponent(txtEmail_paneCadastro)
-                            .addComponent(lblNome_paneCadastro)
-                            .addComponent(txtNome_paneCadastro)
-                            .addComponent(txtSenha_paneCadastro)
-                            .addComponent(txtConfirmarSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblNome_paneCadastro)))
                     .addGroup(paneCadastroLayout.createSequentialGroup()
-                        .addGap(265, 265, 265)
-                        .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblRetornarLogin_paneCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCadastrar_paneCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(171, Short.MAX_VALUE))
+                        .addGap(299, 299, 299)
+                        .addComponent(lblCadastro_paneCadastro)))
+                .addContainerGap(307, Short.MAX_VALUE))
+            .addGroup(paneCadastroLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtSenha_paneCadastro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                    .addComponent(txtEmail_paneCadastro, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNome_paneCadastro, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtConfirmarSenha_paneCadastro, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         paneCadastroLayout.setVerticalGroup(
             paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneCadastroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblCadastro_paneCadastro)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(31, 31, 31)
                 .addComponent(lblNome_paneCadastro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtNome_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -354,11 +394,11 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(lblConfirmarSenha_paneCadastro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtConfirmarSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(btnCadastrar_paneCadastro)
-                .addGap(18, 18, 18)
+                .addGap(38, 38, 38)
                 .addComponent(lblRetornarLogin_paneCadastro)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGap(32, 32, 32))
         );
 
         tabPane.addTab("Cadastro", paneCadastro);
@@ -497,35 +537,34 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(paneHomeLayout.createSequentialGroup()
-                        .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnEmprestimo_paneMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
-                            .addComponent(btnDevolucao_paneMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnRenovar_paneMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneHomeLayout.createSequentialGroup()
+                        .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnLivrosEscolhidos_paneMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBuscar_paneMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE))
+                        .addGap(67, 67, 67)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(paneHomeLayout.createSequentialGroup()
+                            .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnDevolucao_paneMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnEmprestimo_paneMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                                .addComponent(btnRenovar_paneMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(paneHomeLayout.createSequentialGroup()
+                            .addComponent(iconSair, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(154, 154, 154)
+                            .addComponent(lblMenu_paneMenu)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(iconConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(paneHomeLayout.createSequentialGroup()
                             .addComponent(lblOperacoes_paneMenu)
                             .addGap(18, 18, 18)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(paneHomeLayout.createSequentialGroup()
-                                .addComponent(iconSair, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(102, 102, 102)
-                                .addComponent(lblMenu_paneMenu)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(iconConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, paneHomeLayout.createSequentialGroup()
-                                .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(btnLivrosEscolhidos_paneMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnBuscar_paneMenu, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, paneHomeLayout.createSequentialGroup()
-                                .addComponent(lblBusca_paneMenu)
-                                .addGap(18, 18, 18)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                            .addComponent(jSeparator2))
+                        .addGroup(paneHomeLayout.createSequentialGroup()
+                            .addComponent(lblBusca_paneMenu)
+                            .addGap(18, 18, 18)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         paneHomeLayout.setVerticalGroup(
             paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -535,25 +574,25 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(lblMenu_paneMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(iconSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(iconConfig, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(39, 39, 39)
+                .addGap(35, 35, 35)
                 .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblBusca_paneMenu)
                     .addGroup(paneHomeLayout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
                 .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(paneHomeLayout.createSequentialGroup()
                         .addComponent(btnBuscar_paneMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnLivrosEscolhidos_paneMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(50, 50, 50)
                 .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblOperacoes_paneMenu)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(30, 30, 30)
+                .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(paneHomeLayout.createSequentialGroup()
                         .addComponent(btnEmprestimo_paneMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -561,32 +600,81 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnRenovar_paneMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Home", paneHome);
 
         scrollVerLivros.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jLabel1.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
-        jLabel1.setText("LIVROS");
+        lblLivros_paneVerLivros.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
+        lblLivros_paneVerLivros.setText("LIVROS");
+
+        cbxSelecioneRegiao_paneVerLivros.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        cbxSelecioneRegiao_paneVerLivros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblSelecioneRegiao_paneVerLivros.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        lblSelecioneRegiao_paneVerLivros.setText("Selecione a região");
+
+        txtBucarTitulo_paneVerLivros.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+
+        lblBuscarTitulo_paneVerLivros.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        lblBuscarTitulo_paneVerLivros.setText("Buscar por título:");
+
+        iconVoltar_paneVerLivros.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        iconVoltar_paneVerLivros.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconVoltar_paneVerLivros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconVoltar_paneVerLivrosMouseClicked(evt);
+            }
+        });
+
+        iconConfig2.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        iconConfig2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout paneVerLivrosLayout = new javax.swing.GroupLayout(paneVerLivros);
         paneVerLivros.setLayout(paneVerLivrosLayout);
         paneVerLivrosLayout.setHorizontalGroup(
             paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollVerLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addComponent(scrollVerLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
             .addGroup(paneVerLivrosLayout.createSequentialGroup()
-                .addGap(281, 281, 281)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addGroup(paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneVerLivrosLayout.createSequentialGroup()
+                        .addComponent(iconVoltar_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(250, 250, 250)
+                        .addComponent(lblLivros_paneVerLivros)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(iconConfig2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneVerLivrosLayout.createSequentialGroup()
+                        .addGroup(paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbxSelecioneRegiao_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblSelecioneRegiao_paneVerLivros))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblBuscarTitulo_paneVerLivros)
+                            .addComponent(txtBucarTitulo_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(35, 35, 35))
         );
         paneVerLivrosLayout.setVerticalGroup(
             paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneVerLivrosLayout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addContainerGap()
+                .addGroup(paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(iconConfig2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblLivros_paneVerLivros)
+                        .addComponent(iconVoltar_paneVerLivros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSelecioneRegiao_paneVerLivros)
+                    .addComponent(lblBuscarTitulo_paneVerLivros))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollVerLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE))
+                .addGroup(paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxSelecioneRegiao_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBucarTitulo_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrollVerLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Ver Livros", paneVerLivros);
@@ -599,7 +687,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabPane, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
+            .addComponent(tabPane, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
 
         pack();
@@ -693,7 +781,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     /*HOME*************************************************************************/
     private void btnBuscar_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {                                                   
-        // TODO add your handling code here:
+        tabPane.setSelectedIndex(3);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, false);
     }
 
     private void btnEmprestimo_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {                                                       
@@ -770,6 +861,16 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_iconSairMouseClicked
 
+    /*FIM-HOME*************************************************************************/
+
+    /*VER LIVROS*************************************************************************/
+    private void iconVoltar_paneVerLivrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconVoltar_paneVerLivrosMouseClicked
+        tabPane.setSelectedIndex(2);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, true);
+    }//GEN-LAST:event_iconVoltar_paneVerLivrosMouseClicked
+
     
 
     /**             
@@ -817,18 +918,22 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnEntrar_paneLogin;
     private javax.swing.JButton btnLivrosEscolhidos_paneMenu;
     private javax.swing.JButton btnRenovar_paneMenu;
+    private javax.swing.JComboBox<String> cbxSelecioneRegiao_paneVerLivros;
     private javax.swing.JLabel iconConfig;
+    private javax.swing.JLabel iconConfig2;
     private javax.swing.JLabel iconSair;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel iconVoltar_paneVerLivros;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblBusca_paneMenu;
+    private javax.swing.JLabel lblBuscarTitulo_paneVerLivros;
     private javax.swing.JLabel lblCadastre_paneLogin;
     private javax.swing.JLabel lblCadastro_paneCadastro;
     private javax.swing.JLabel lblConfirmarSenha_paneCadastro;
     private javax.swing.JLabel lblEmail_paneCadastro;
+    private javax.swing.JLabel lblLivros_paneVerLivros;
     private javax.swing.JLabel lblLogin_paneLogin;
     private javax.swing.JLabel lblMenu_paneMenu;
     private javax.swing.JLabel lblNoConta_paneLogin;
@@ -836,6 +941,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblNome_paneLogin;
     private javax.swing.JLabel lblOperacoes_paneMenu;
     private javax.swing.JLabel lblRetornarLogin_paneCadastro;
+    private javax.swing.JLabel lblSelecioneRegiao_paneVerLivros;
     private javax.swing.JLabel lblSenha_paneCadastro;
     private javax.swing.JLabel lblSenha_paneLogin;
     private javax.swing.JPanel paneCadastro;
@@ -844,6 +950,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel paneVerLivros;
     private javax.swing.JScrollPane scrollVerLivros;
     private javax.swing.JTabbedPane tabPane;
+    private javax.swing.JTextField txtBucarTitulo_paneVerLivros;
     private javax.swing.JPasswordField txtConfirmarSenha_paneCadastro;
     private javax.swing.JTextArea txtDescricaoBusca_paneMenu;
     private javax.swing.JTextArea txtDescricaoOp_paneMenu;
