@@ -6,12 +6,21 @@ public class LivroAcervo {
 	private int id_acervo;
 	private int quantidade;
 	private int disponibilidade;
+    private Livro livro;
     
     public LivroAcervo(int id_livro, int id_acervo, int quantidade, int disponibilidade) {
         this.id_livro = id_livro;
         this.id_acervo = id_acervo;
         this.quantidade = quantidade;
         this.disponibilidade = disponibilidade;
+    }
+
+    public LivroAcervo(int id_livro, int id_acervo, int quantidade, int disponibilidade, Livro livro) {
+        this.id_livro = id_livro;
+        this.id_acervo = id_acervo;
+        this.quantidade = quantidade;
+        this.disponibilidade = disponibilidade;
+        this.livro = livro;
     }
     
     public int getId_livro() {
@@ -37,5 +46,11 @@ public class LivroAcervo {
     }
     public void setDisponibilidade(int disponibilidade) {
         this.disponibilidade = disponibilidade;
+    }
+    public Livro getLivro() {
+        return livro;
+    }
+    public void setLivro(Livro livro) {
+        this.livro = livro;
     }
 }

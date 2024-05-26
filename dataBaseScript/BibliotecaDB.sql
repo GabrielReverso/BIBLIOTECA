@@ -69,15 +69,22 @@ begin
 	end loop;
 end $$;
 
-SELECT 
-	titulo,
-	autor,
-	editora,
-	descricao
+select *
 FROM tb_livro tl 
 INNER JOIN tb_livro_acervo tla ON tl.id = tla.id_livro 
 INNER JOIN tb_acervo ta ON ta.id = tla.id_acervo  
 WHERE ta.localidade = 'Ribeirão Preto';
+
+select *
+FROM tb_livro_acervo tla 
+INNER JOIN tb_acervo ta ON ta.id = tla.id_acervo  
+WHERE ta.localidade = 'Ribeirão Preto';
+
+select *
+from tb_livro tl 
+inner join tb_livro_acervo tla on tl.id = tla.id_livro 
+INNER JOIN tb_acervo ta ON ta.id = tla.id_acervo 
+where ta.localidade = 'Ribeirão Preto' and tl.titulo ilike '%Técnicas%'
 
 
 

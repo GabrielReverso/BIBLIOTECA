@@ -674,7 +674,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="scrollVerLivros" alignment="0" pref="800" max="32767" attributes="0"/>
+                  <Component id="scrollVerLivros" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -690,10 +690,17 @@
                                   <Component id="cbxSelecioneRegiao_paneVerLivros" alignment="0" min="-2" pref="257" max="-2" attributes="0"/>
                                   <Component id="lblSelecioneRegiao_paneVerLivros" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="42" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblBuscarTitulo_paneVerLivros" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtBucarTitulo_paneVerLivros" min="-2" pref="398" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="txtBucarTitulo_paneVerLivros" min="-2" pref="296" max="-2" attributes="0"/>
+                                      <EmptySpace pref="42" max="32767" attributes="0"/>
+                                      <Component id="btnLimpar_paneVerLivros" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="lblBuscarTitulo_paneVerLivros" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -715,12 +722,13 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblSelecioneRegiao_paneVerLivros" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblBuscarTitulo_paneVerLivros" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblBuscarTitulo_paneVerLivros" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="cbxSelecioneRegiao_paneVerLivros" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtBucarTitulo_paneVerLivros" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnLimpar_paneVerLivros" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="scrollVerLivros" pref="419" max="32767" attributes="0"/>
@@ -758,6 +766,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbxSelecioneRegiao_paneVerLivrosItemStateChanged"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -776,6 +787,9 @@
                   <Font name="sansserif" size="18" style="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtBucarTitulo_paneVerLivrosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblBuscarTitulo_paneVerLivros">
               <Properties>
@@ -807,6 +821,17 @@
                   <Color id="Cursor em Forma de M&#xe3;o"/>
                 </Property>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnLimpar_paneVerLivros">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="sansserif" size="18" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Limpar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimpar_paneVerLivrosActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

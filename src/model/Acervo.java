@@ -25,6 +25,6 @@ public class Acervo {
 
     @Override
     public String toString() {
-        return "Acervo [id=" + id + ", localidade=" + localidade + "]";
+        return this.getLocalidade();
     }
 }

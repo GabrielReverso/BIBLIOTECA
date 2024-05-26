@@ -6,15 +6,20 @@ import java.awt.Image;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
+import controller.AcervoDAO;
 import controller.LivroAcervoDAO;
+import controller.LivroDAO;
 import controller.UsuarioDAO;
 import images.ImagePanel;
+import model.Acervo;
 import model.Livro;
+import model.LivroAcervo;
 import model.Usuario;
 
 public class MainFrame extends javax.swing.JFrame {
@@ -31,6 +36,7 @@ public class MainFrame extends javax.swing.JFrame {
         configureTabbedPaneUI();
         loadIcons();
         adicionarLivrosScroll();
+        preencherComboBox();
         setLocationRelativeTo(null);
         setResizable(false); 
         setTitle("BIBLIOTECA");
@@ -121,25 +127,82 @@ public class MainFrame extends javax.swing.JFrame {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
     
-        LivroAcervoDAO dao = new LivroAcervoDAO();
+        LivroDAO dao = new LivroDAO();
 
-        List<Livro> lista = dao.obterLivrosDoAcervo("Ribeirão Preto");
+        List<Livro> lista = dao.obterLivros();
 
         for (Livro l : lista) {
             LivroView panel = new LivroView(l.getTitulo(), l.getAutor(), l.getEditora(), l.getDescricao());
             container.add(panel);
-        }
-
-/*         for (int i = 0; i < 10; i++) {
-            String titulo = String.format("Titulo %d", i);
-            String autor = String.format("Autor %d", i);
-            String editora = String.format("Editora %d", i);
-            String descricao = String.format("Descricao %d", i);
-            LivroView panel = new LivroView(titulo, autor, editora, descricao);
-            container.add(panel); // Adicionando o painel ao container
-        } */
-    
+        }    
         scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
+    }
+
+    private void adicionarLivrosScroll(String local) {
+        JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+    
+        LivroAcervoDAO dao = new LivroAcervoDAO();
+
+        List<LivroAcervo> lista = dao.obterLivrosDoAcervo(local);
+
+        for (LivroAcervo l : lista) {
+            LivroView panel = new LivroView(l.getLivro().getTitulo(), 
+                                            l.getLivro().getAutor(), 
+                                            l.getLivro().getEditora(), 
+                                            l.getLivro().getDescricao(), 
+                                            l.getDisponibilidade());
+            container.add(panel);
+        }    
+        scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
+    }
+
+    private void adicionarBuscaScroll(String busca) {
+        JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+    
+        LivroAcervoDAO dao = new LivroAcervoDAO();
+
+        List<Livro> lista = dao.buscarLivrosDoAcervo(busca);
+
+        for (Livro l : lista) {
+            LivroView panel = new LivroView(l.getTitulo(), l.getAutor(), l.getEditora(), l.getDescricao());
+            container.add(panel);
+        }    
+        scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
+    }
+
+    private void adicionarBuscaScroll(String local, String busca) {
+        JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+    
+        LivroAcervoDAO dao = new LivroAcervoDAO();
+
+        List<LivroAcervo> lista = dao.buscarLivrosDoAcervo(local, busca);
+
+        for (LivroAcervo l : lista) {
+            LivroView panel = new LivroView(l.getLivro().getTitulo(), 
+                                            l.getLivro().getAutor(), 
+                                            l.getLivro().getEditora(), 
+                                            l.getLivro().getDescricao(), 
+                                            l.getDisponibilidade());
+            container.add(panel);
+        }    
+        scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
+    }
+
+    private void preencherComboBox(){
+        DefaultComboBoxModel<String> m = new DefaultComboBoxModel<>();
+
+        AcervoDAO dao = new AcervoDAO();
+
+        List<Acervo> lista = dao.obterAcervos();
+
+        for(Acervo a : lista) {
+            m.addElement(a.toString());
+        }
+        cbxSelecioneRegiao_paneVerLivros.setModel(m);
+        cbxSelecioneRegiao_paneVerLivros.setSelectedIndex(-1);
     }
 
     /**
@@ -197,6 +260,7 @@ public class MainFrame extends javax.swing.JFrame {
         lblBuscarTitulo_paneVerLivros = new javax.swing.JLabel();
         iconVoltar_paneVerLivros = new javax.swing.JLabel();
         iconConfig2 = new javax.swing.JLabel();
+        btnLimpar_paneVerLivros = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -612,11 +676,21 @@ public class MainFrame extends javax.swing.JFrame {
 
         cbxSelecioneRegiao_paneVerLivros.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         cbxSelecioneRegiao_paneVerLivros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSelecioneRegiao_paneVerLivros.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxSelecioneRegiao_paneVerLivrosItemStateChanged(evt);
+            }
+        });
 
         lblSelecioneRegiao_paneVerLivros.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         lblSelecioneRegiao_paneVerLivros.setText("Selecione a região");
 
         txtBucarTitulo_paneVerLivros.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        txtBucarTitulo_paneVerLivros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBucarTitulo_paneVerLivrosActionPerformed(evt);
+            }
+        });
 
         lblBuscarTitulo_paneVerLivros.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         lblBuscarTitulo_paneVerLivros.setText("Buscar por título:");
@@ -632,11 +706,19 @@ public class MainFrame extends javax.swing.JFrame {
         iconConfig2.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         iconConfig2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        btnLimpar_paneVerLivros.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        btnLimpar_paneVerLivros.setText("Limpar");
+        btnLimpar_paneVerLivros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpar_paneVerLivrosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout paneVerLivrosLayout = new javax.swing.GroupLayout(paneVerLivros);
         paneVerLivros.setLayout(paneVerLivrosLayout);
         paneVerLivrosLayout.setHorizontalGroup(
             paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollVerLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            .addComponent(scrollVerLivros)
             .addGroup(paneVerLivrosLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -650,10 +732,15 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbxSelecioneRegiao_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblSelecioneRegiao_paneVerLivros))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addGroup(paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblBuscarTitulo_paneVerLivros)
-                            .addComponent(txtBucarTitulo_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(paneVerLivrosLayout.createSequentialGroup()
+                                .addComponent(txtBucarTitulo_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                                .addComponent(btnLimpar_paneVerLivros))
+                            .addGroup(paneVerLivrosLayout.createSequentialGroup()
+                                .addComponent(lblBuscarTitulo_paneVerLivros)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(35, 35, 35))
         );
         paneVerLivrosLayout.setVerticalGroup(
@@ -672,7 +759,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(paneVerLivrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxSelecioneRegiao_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBucarTitulo_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBucarTitulo_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpar_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(scrollVerLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))
         );
@@ -871,6 +959,44 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(2, true);
     }//GEN-LAST:event_iconVoltar_paneVerLivrosMouseClicked
 
+    private void cbxSelecioneRegiao_paneVerLivrosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxSelecioneRegiao_paneVerLivrosItemStateChanged
+        
+        int posicao = cbxSelecioneRegiao_paneVerLivros.getSelectedIndex();
+
+        if (posicao >= 0){
+            String local = cbxSelecioneRegiao_paneVerLivros.getSelectedItem().toString();
+            adicionarLivrosScroll(local);
+        }
+    }//GEN-LAST:event_cbxSelecioneRegiao_paneVerLivrosItemStateChanged
+
+    private void txtBucarTitulo_paneVerLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBucarTitulo_paneVerLivrosActionPerformed
+        
+        String busca = txtBucarTitulo_paneVerLivros.getText();
+        String local = "";
+        int posicao = cbxSelecioneRegiao_paneVerLivros.getSelectedIndex();
+
+        if (posicao >= 0){
+            local = cbxSelecioneRegiao_paneVerLivros.getSelectedItem().toString();
+        }
+
+        if(!busca.isEmpty()){
+
+            if(!local.isEmpty()){
+                adicionarBuscaScroll(local,busca);
+            } else {
+                adicionarBuscaScroll(busca);
+            }
+        }
+
+    }//GEN-LAST:event_txtBucarTitulo_paneVerLivrosActionPerformed
+
+    private void btnLimpar_paneVerLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpar_paneVerLivrosActionPerformed
+        
+        txtBucarTitulo_paneVerLivros.setText("");
+        cbxSelecioneRegiao_paneVerLivros.setSelectedIndex(-1);
+        adicionarLivrosScroll();
+    }//GEN-LAST:event_btnLimpar_paneVerLivrosActionPerformed
+
     
 
     /**             
@@ -916,6 +1042,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnDevolucao_paneMenu;
     private javax.swing.JButton btnEmprestimo_paneMenu;
     private javax.swing.JButton btnEntrar_paneLogin;
+    private javax.swing.JButton btnLimpar_paneVerLivros;
     private javax.swing.JButton btnLivrosEscolhidos_paneMenu;
     private javax.swing.JButton btnRenovar_paneMenu;
     private javax.swing.JComboBox<String> cbxSelecioneRegiao_paneVerLivros;

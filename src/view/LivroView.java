@@ -19,6 +19,16 @@ public class LivroView extends javax.swing.JPanel {
         txtAutor.setText(autor);
         txtEditora.setText(editora);
         txtDescricao.setText(descricao);
+        txtDisponibilidade.setText("Selecione uma região para ver disponibilidade");
+    }
+
+    public LivroView(String titulo, String autor, String editora, String descricao, int disponibilidade) {
+        initComponents();
+        txtTitulo.setText(titulo);
+        txtAutor.setText(autor);
+        txtEditora.setText(editora);
+        txtDescricao.setText(descricao);
+        txtDisponibilidade.setText(String.format("%d", disponibilidade));
     }
 
     /**
@@ -44,9 +54,9 @@ public class LivroView extends javax.swing.JPanel {
         lblDescricao = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtDescricao = new javax.swing.JTextArea();
-        lblDescricao1 = new javax.swing.JLabel();
+        lblDisponibilidade = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        txtEditora1 = new javax.swing.JTextArea();
+        txtDisponibilidade = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
 
         setBackground(new java.awt.Color(244, 231, 207));
@@ -71,7 +81,7 @@ public class LivroView extends javax.swing.JPanel {
 
         txtTitulo.setEditable(false);
         txtTitulo.setColumns(20);
-        txtTitulo.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
+        txtTitulo.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
         txtTitulo.setLineWrap(true);
         txtTitulo.setRows(1);
         txtTitulo.setWrapStyleWord(true);
@@ -86,7 +96,7 @@ public class LivroView extends javax.swing.JPanel {
 
         txtAutor.setEditable(false);
         txtAutor.setColumns(20);
-        txtAutor.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
+        txtAutor.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
         txtAutor.setLineWrap(true);
         txtAutor.setRows(1);
         txtAutor.setWrapStyleWord(true);
@@ -98,7 +108,7 @@ public class LivroView extends javax.swing.JPanel {
 
         txtEditora.setEditable(false);
         txtEditora.setColumns(20);
-        txtEditora.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
+        txtEditora.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
         txtEditora.setLineWrap(true);
         txtEditora.setRows(1);
         txtEditora.setWrapStyleWord(true);
@@ -110,24 +120,24 @@ public class LivroView extends javax.swing.JPanel {
 
         txtDescricao.setEditable(false);
         txtDescricao.setColumns(20);
-        txtDescricao.setFont(new java.awt.Font("sansserif", 0, 15)); // NOI18N
+        txtDescricao.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
         txtDescricao.setLineWrap(true);
         txtDescricao.setRows(1);
         txtDescricao.setWrapStyleWord(true);
         txtDescricao.setEnabled(false);
         jScrollPane4.setViewportView(txtDescricao);
 
-        lblDescricao1.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        lblDescricao1.setText("Disponibilidade:");
+        lblDisponibilidade.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblDisponibilidade.setText("Disponibilidade:");
 
-        txtEditora1.setEditable(false);
-        txtEditora1.setColumns(20);
-        txtEditora1.setFont(new java.awt.Font("sansserif", 0, 16)); // NOI18N
-        txtEditora1.setLineWrap(true);
-        txtEditora1.setRows(1);
-        txtEditora1.setWrapStyleWord(true);
-        txtEditora1.setEnabled(false);
-        jScrollPane5.setViewportView(txtEditora1);
+        txtDisponibilidade.setEditable(false);
+        txtDisponibilidade.setColumns(20);
+        txtDisponibilidade.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
+        txtDisponibilidade.setLineWrap(true);
+        txtDisponibilidade.setRows(1);
+        txtDisponibilidade.setWrapStyleWord(true);
+        txtDisponibilidade.setEnabled(false);
+        jScrollPane5.setViewportView(txtDisponibilidade);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -140,17 +150,24 @@ public class LivroView extends javax.swing.JPanel {
                         .addComponent(imageBackground, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lblDescricao)
-                                .addComponent(lblEditora)
-                                .addComponent(lblAutor)
-                                .addComponent(lblTitulo)
-                                .addComponent(lblDescricao1)
-                                .addComponent(jScrollPane3)
-                                .addComponent(jScrollPane2)
-                                .addComponent(jScrollPane1)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane5)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane4)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDescricao)
+                                    .addComponent(lblTitulo)
+                                    .addComponent(lblDisponibilidade))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblAutor)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblEditora))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jSeparator1))
                 .addGap(38, 38, 38))
         );
@@ -162,21 +179,21 @@ public class LivroView extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblAutor)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblEditora)
+                            .addComponent(lblAutor))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblEditora)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDescricao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDescricao1)
+                        .addComponent(lblDisponibilidade)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(imageBackground, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -196,14 +213,14 @@ public class LivroView extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblAutor;
     private javax.swing.JLabel lblDescricao;
-    private javax.swing.JLabel lblDescricao1;
+    private javax.swing.JLabel lblDisponibilidade;
     private javax.swing.JLabel lblEditora;
     private javax.swing.JLabel lblImage;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTextArea txtAutor;
     private javax.swing.JTextArea txtDescricao;
+    private javax.swing.JTextArea txtDisponibilidade;
     private javax.swing.JTextArea txtEditora;
-    private javax.swing.JTextArea txtEditora1;
     private javax.swing.JTextArea txtTitulo;
     // End of variables declaration//GEN-END:variables
 }
