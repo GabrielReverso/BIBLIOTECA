@@ -15,6 +15,14 @@ public class Livro implements Comparable<Livro>{
         this.editora = editora;
         this.descricao = descricao;
     }
+
+    public Livro(int id, String titulo, String autor, String editora, String descricao) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.editora = editora;
+        this.descricao = descricao;
+        this.id = id;
+    }
     
     public int getId() {
         return id;

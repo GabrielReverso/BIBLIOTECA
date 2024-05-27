@@ -2,29 +2,31 @@ package model;
 
 public class LivroUsuario {
     
-    private int id_usuario;
-	private int id_livro;
+    private Usuario usuario;
+	private Livro livro;
+    private String dataEmprestimo;
 	private String prazo;
 	private boolean expirado;
     
-    public LivroUsuario(int id_usuario, int id_livro, String prazo, boolean expirado) {
-        this.id_usuario = id_usuario;
-        this.id_livro = id_livro;
+    public LivroUsuario(Usuario usuario, Livro livro, String dataEmprestimo ,String prazo, boolean expirado) {
+        this.usuario = usuario;
+        this.livro = livro;
         this.prazo = prazo;
         this.expirado = expirado;
+        this.dataEmprestimo = dataEmprestimo;
     }
     
-    public int getId_usuario() {
-        return id_usuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
-    public void setId_usuario(int id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
-    public int getId_livro() {
-        return id_livro;
+    public Livro getLivro() {
+        return livro;
     }
-    public void setId_livro(int id_livro) {
-        this.id_livro = id_livro;
+    public void setLivro(Livro livro) {
+        this.livro = livro;
     }
     public String getPrazo() {
         return prazo;
@@ -38,5 +40,10 @@ public class LivroUsuario {
     public void setExpirado(boolean expirado) {
         this.expirado = expirado;
     }
-    
+    public String getDataEmprestimo() {
+        return dataEmprestimo;
+    }
+    public void setDataEmprestimo(String dataEmprestimo) {
+        this.dataEmprestimo = dataEmprestimo;
+    }    
 }

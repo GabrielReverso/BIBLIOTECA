@@ -1,34 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package view;
 
 /**
  *
  * @author gabriel
  */
-public class LivroView extends javax.swing.JPanel {
+public class LivroEmprestadoView extends javax.swing.JPanel {
 
     /**
      * Creates new form LivroView
+     * 
+     * @param titulo
+     * @param autor
+     * @param dataEmprestimo
+     * @param dataPrazo
+     * @param status
      */
-    public LivroView(String titulo, String autor, String editora, String descricao) {
+    public LivroEmprestadoView(String titulo, String autor, String dataEmprestimo, String dataPrazo, String status) {
         initComponents();
         txtTitulo.setText(titulo);
         txtAutor.setText(autor);
-        txtEditora.setText(editora);
-        txtDescricao.setText(descricao);
-        txtDisponibilidade.setText("Selecione uma região para ver disponibilidade");
-    }
-
-    public LivroView(String titulo, String autor, String editora, String descricao, int disponibilidade) {
-        initComponents();
-        txtTitulo.setText(titulo);
-        txtAutor.setText(autor);
-        txtEditora.setText(editora);
-        txtDescricao.setText(descricao);
-        txtDisponibilidade.setText(String.format("%d", disponibilidade));
+        txtDiaEmprestimo.setText(dataEmprestimo);
+        txtPrazoVencimento.setText(dataPrazo);
+        txtStatus.setText(status);
     }
 
     /**
@@ -45,19 +38,19 @@ public class LivroView extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtTitulo = new javax.swing.JTextArea();
         lblTitulo = new javax.swing.JLabel();
-        lblAutor = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtAutor = new javax.swing.JTextArea();
-        lblEditora = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtEditora = new javax.swing.JTextArea();
-        lblDescricao = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        txtDescricao = new javax.swing.JTextArea();
-        lblDisponibilidade = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        txtDisponibilidade = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
+        lblPrazoVencimento = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtPrazoVencimento = new javax.swing.JTextArea();
+        lblStatus = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtStatus = new javax.swing.JTextArea();
+        lblDiaEmprestimo = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        txtDiaEmprestimo = new javax.swing.JTextArea();
+        lblAutor = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        txtAutor = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(244, 231, 207));
 
@@ -69,14 +62,14 @@ public class LivroView extends javax.swing.JPanel {
         imageBackgroundLayout.setHorizontalGroup(
             imageBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, imageBackgroundLayout.createSequentialGroup()
-                .addGap(0, 87, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 104, Short.MAX_VALUE)
+                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         imageBackgroundLayout.setVerticalGroup(
             imageBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, imageBackgroundLayout.createSequentialGroup()
-                .addGap(0, 107, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(imageBackgroundLayout.createSequentialGroup()
+                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 77, Short.MAX_VALUE))
         );
 
         txtTitulo.setEditable(false);
@@ -91,6 +84,42 @@ public class LivroView extends javax.swing.JPanel {
         lblTitulo.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         lblTitulo.setText("Título:");
 
+        lblPrazoVencimento.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblPrazoVencimento.setText("Prazo de vencimento:");
+
+        txtPrazoVencimento.setEditable(false);
+        txtPrazoVencimento.setColumns(20);
+        txtPrazoVencimento.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
+        txtPrazoVencimento.setLineWrap(true);
+        txtPrazoVencimento.setRows(1);
+        txtPrazoVencimento.setWrapStyleWord(true);
+        txtPrazoVencimento.setEnabled(false);
+        jScrollPane2.setViewportView(txtPrazoVencimento);
+
+        lblStatus.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblStatus.setText("Status:");
+
+        txtStatus.setEditable(false);
+        txtStatus.setColumns(20);
+        txtStatus.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
+        txtStatus.setLineWrap(true);
+        txtStatus.setRows(1);
+        txtStatus.setWrapStyleWord(true);
+        txtStatus.setEnabled(false);
+        jScrollPane3.setViewportView(txtStatus);
+
+        lblDiaEmprestimo.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblDiaEmprestimo.setText("Dia do empréstimo:");
+
+        txtDiaEmprestimo.setEditable(false);
+        txtDiaEmprestimo.setColumns(20);
+        txtDiaEmprestimo.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
+        txtDiaEmprestimo.setLineWrap(true);
+        txtDiaEmprestimo.setRows(1);
+        txtDiaEmprestimo.setWrapStyleWord(true);
+        txtDiaEmprestimo.setEnabled(false);
+        jScrollPane5.setViewportView(txtDiaEmprestimo);
+
         lblAutor.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         lblAutor.setText("Autor:");
 
@@ -101,104 +130,66 @@ public class LivroView extends javax.swing.JPanel {
         txtAutor.setRows(1);
         txtAutor.setWrapStyleWord(true);
         txtAutor.setEnabled(false);
-        jScrollPane2.setViewportView(txtAutor);
-
-        lblEditora.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        lblEditora.setText("Editora:");
-
-        txtEditora.setEditable(false);
-        txtEditora.setColumns(20);
-        txtEditora.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
-        txtEditora.setLineWrap(true);
-        txtEditora.setRows(1);
-        txtEditora.setWrapStyleWord(true);
-        txtEditora.setEnabled(false);
-        jScrollPane3.setViewportView(txtEditora);
-
-        lblDescricao.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        lblDescricao.setText("Descrição:");
-
-        txtDescricao.setEditable(false);
-        txtDescricao.setColumns(20);
-        txtDescricao.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
-        txtDescricao.setLineWrap(true);
-        txtDescricao.setRows(1);
-        txtDescricao.setWrapStyleWord(true);
-        txtDescricao.setEnabled(false);
-        jScrollPane4.setViewportView(txtDescricao);
-
-        lblDisponibilidade.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        lblDisponibilidade.setText("Disponibilidade:");
-
-        txtDisponibilidade.setEditable(false);
-        txtDisponibilidade.setColumns(20);
-        txtDisponibilidade.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
-        txtDisponibilidade.setLineWrap(true);
-        txtDisponibilidade.setRows(1);
-        txtDisponibilidade.setWrapStyleWord(true);
-        txtDisponibilidade.setEnabled(false);
-        jScrollPane5.setViewportView(txtDisponibilidade);
+        jScrollPane6.setViewportView(txtAutor);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(imageBackground, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane5)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jScrollPane4)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                            .addComponent(jScrollPane6)
+                            .addComponent(jScrollPane3)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblDescricao)
                                     .addComponent(lblTitulo)
-                                    .addComponent(lblDisponibilidade))
+                                    .addComponent(lblPrazoVencimento)
+                                    .addComponent(lblStatus)
+                                    .addComponent(lblDiaEmprestimo)
+                                    .addComponent(lblAutor))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblAutor)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblEditora))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(jSeparator1))
+                            .addComponent(jScrollPane5)
+                            .addComponent(jScrollPane2))))
                 .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblAutor)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblEditora)
-                            .addComponent(lblAutor))
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblStatus)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDescricao)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(lblDiaEmprestimo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblPrazoVencimento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDisponibilidade)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(imageBackground, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(imageBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)))
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -208,19 +199,19 @@ public class LivroView extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblAutor;
-    private javax.swing.JLabel lblDescricao;
-    private javax.swing.JLabel lblDisponibilidade;
-    private javax.swing.JLabel lblEditora;
+    private javax.swing.JLabel lblDiaEmprestimo;
     private javax.swing.JLabel lblImage;
+    private javax.swing.JLabel lblPrazoVencimento;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTextArea txtAutor;
-    private javax.swing.JTextArea txtDescricao;
-    private javax.swing.JTextArea txtDisponibilidade;
-    private javax.swing.JTextArea txtEditora;
+    private javax.swing.JTextArea txtDiaEmprestimo;
+    private javax.swing.JTextArea txtPrazoVencimento;
+    private javax.swing.JTextArea txtStatus;
     private javax.swing.JTextArea txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

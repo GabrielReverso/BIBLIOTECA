@@ -4,31 +4,47 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
+import controller.LivroUsuarioDAO;
+import model.Livro;
+import model.LivroAcervo;
+
 /**
  *
  * @author gabriel
  */
-public class LivroView extends javax.swing.JPanel {
+public class LivroEmprestimoView extends javax.swing.JPanel {
+    
+    public Livro livro;
+    public LivroAcervo livroAcervo;
 
     /**
      * Creates new form LivroView
+     * 
+     * @param livro Livro
      */
-    public LivroView(String titulo, String autor, String editora, String descricao) {
+    public LivroEmprestimoView(Livro livro) {
         initComponents();
-        txtTitulo.setText(titulo);
-        txtAutor.setText(autor);
-        txtEditora.setText(editora);
-        txtDescricao.setText(descricao);
+        this.livro = livro;
+        txtTitulo.setText(livro.getTitulo());
+        txtAutor.setText(livro.getAutor());
+        txtEditora.setText(livro.getEditora());
+        txtDescricao.setText(livro.getDescricao());
         txtDisponibilidade.setText("Selecione uma região para ver disponibilidade");
     }
 
-    public LivroView(String titulo, String autor, String editora, String descricao, int disponibilidade) {
+    public LivroEmprestimoView(LivroAcervo livroAcervo) {
         initComponents();
-        txtTitulo.setText(titulo);
-        txtAutor.setText(autor);
-        txtEditora.setText(editora);
-        txtDescricao.setText(descricao);
-        txtDisponibilidade.setText(String.format("%d", disponibilidade));
+        
+        this.livroAcervo = livroAcervo;
+        Livro livro = livroAcervo.getLivro();
+        this.livro = livro;
+        txtTitulo.setText(livro.getTitulo());
+        txtAutor.setText(livro.getAutor());
+        txtEditora.setText(livro.getEditora());
+        txtDescricao.setText(livro.getDescricao());
+        txtDisponibilidade.setText(String.format("%d", livroAcervo.getDisponibilidade()));
     }
 
     /**
@@ -58,6 +74,7 @@ public class LivroView extends javax.swing.JPanel {
         jScrollPane5 = new javax.swing.JScrollPane();
         txtDisponibilidade = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
+        btnPedirEmprestado = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(244, 231, 207));
 
@@ -68,15 +85,11 @@ public class LivroView extends javax.swing.JPanel {
         imageBackground.setLayout(imageBackgroundLayout);
         imageBackgroundLayout.setHorizontalGroup(
             imageBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, imageBackgroundLayout.createSequentialGroup()
-                .addGap(0, 87, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(lblImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
         imageBackgroundLayout.setVerticalGroup(
             imageBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, imageBackgroundLayout.createSequentialGroup()
-                .addGap(0, 107, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(lblImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
         );
 
         txtTitulo.setEditable(false);
@@ -139,6 +152,14 @@ public class LivroView extends javax.swing.JPanel {
         txtDisponibilidade.setEnabled(false);
         jScrollPane5.setViewportView(txtDisponibilidade);
 
+        btnPedirEmprestado.setFont(new java.awt.Font("sansserif", 0, 20)); // NOI18N
+        btnPedirEmprestado.setText("Pedir Emprestado!");
+        btnPedirEmprestado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPedirEmprestadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -163,13 +184,17 @@ public class LivroView extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblAutor)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblEditora))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(0, 12, Short.MAX_VALUE))))
                     .addComponent(jSeparator1))
                 .addGap(38, 38, 38))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(282, 282, 282)
+                .addComponent(btnPedirEmprestado)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,13 +222,31 @@ public class LivroView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(imageBackground, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(btnPedirEmprestado)
+                .addGap(26, 26, 26)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnPedirEmprestadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedirEmprestadoActionPerformed
+        
+        if(livroAcervo != null) {
+            if(livroAcervo.getDisponibilidade() > 0) {
+                LivroUsuarioDAO dao = new LivroUsuarioDAO();     
+                System.out.println("Entrou");
+                dao.emprestimoLivro(MainFrame.usuarioLogado, livroAcervo.getLivro(), livroAcervo.getAcervo());
+            } else {
+                JOptionPane.showMessageDialog(null, "Livro indisponível neste acervo!");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione uma região");
+        }
+    }//GEN-LAST:event_btnPedirEmprestadoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPedirEmprestado;
     private javax.swing.JPanel imageBackground;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -223,4 +266,20 @@ public class LivroView extends javax.swing.JPanel {
     private javax.swing.JTextArea txtEditora;
     private javax.swing.JTextArea txtTitulo;
     // End of variables declaration//GEN-END:variables
+
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public void setLivro(Livro livro) {
+        this.livro = livro;
+    }
+
+    public LivroAcervo getLivroAcervo() {
+        return livroAcervo;
+    }
+
+    public void setLivroAcervo(LivroAcervo livroAcervo) {
+        this.livroAcervo = livroAcervo;
+    }
 }

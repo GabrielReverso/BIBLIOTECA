@@ -2,39 +2,18 @@ package model;
 
 public class LivroAcervo {
     
-    private int id_livro;
-	private int id_acervo;
+    private Livro livro;
+	private Acervo acervo;
 	private int quantidade;
 	private int disponibilidade;
-    private Livro livro;
     
-    public LivroAcervo(int id_livro, int id_acervo, int quantidade, int disponibilidade) {
-        this.id_livro = id_livro;
-        this.id_acervo = id_acervo;
-        this.quantidade = quantidade;
-        this.disponibilidade = disponibilidade;
-    }
-
-    public LivroAcervo(int id_livro, int id_acervo, int quantidade, int disponibilidade, Livro livro) {
-        this.id_livro = id_livro;
-        this.id_acervo = id_acervo;
+    public LivroAcervo(Livro livro, Acervo acervo, int quantidade, int disponibilidade) {
+        this.acervo = acervo;
         this.quantidade = quantidade;
         this.disponibilidade = disponibilidade;
         this.livro = livro;
     }
     
-    public int getId_livro() {
-        return id_livro;
-    }
-    public void setId_livro(int id_livro) {
-        this.id_livro = id_livro;
-    }
-    public int getId_acervo() {
-        return id_acervo;
-    }
-    public void setId_acervo(int id_acervo) {
-        this.id_acervo = id_acervo;
-    }
     public int getQuantidade() {
         return quantidade;
     }
@@ -52,5 +31,11 @@ public class LivroAcervo {
     }
     public void setLivro(Livro livro) {
         this.livro = livro;
+    }
+    public Acervo getAcervo() {
+        return acervo;
+    }
+    public void setAcervo(Acervo acervo) {
+        this.acervo = acervo;
     }
 }

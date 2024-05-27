@@ -47,6 +47,8 @@ public class UsuarioDAO {
         } catch(Exception e) {
             System.err.println("Erro: " + e.getMessage());
             return -1;
+        } finally {
+            Conexao.desconectar(con);
         }
     }
 

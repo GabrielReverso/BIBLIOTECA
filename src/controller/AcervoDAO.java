@@ -37,6 +37,8 @@ public class AcervoDAO {
         } catch (Exception e) {
             System.err.println("Erro na execução do query: " + e.getMessage());
             return lista;
+        } finally {
+            Conexao.desconectar(con);
         }
     }
     

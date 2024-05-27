@@ -45,6 +45,8 @@ public class LivroDAO {
         } catch (Exception e) {
             System.err.println("Erro na execução do query: " + e.getMessage());
             return null;
+        } finally {
+            Conexao.desconectar(con);
         }
     }
 }

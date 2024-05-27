@@ -44,6 +44,7 @@ insert  into tb_acervo (localidade) values ('Ribeirão Preto'), ('São Paulo');
 create table tb_livro_usuario (
 	id_usuario int references tb_usuario(id) on delete cascade,
 	id_livro int references tb_livro(id) on delete cascade,
+	dataEmprestimo date,
 	prazo date,
 	expirado boolean
 );
@@ -84,7 +85,10 @@ select *
 from tb_livro tl 
 inner join tb_livro_acervo tla on tl.id = tla.id_livro 
 INNER JOIN tb_acervo ta ON ta.id = tla.id_acervo 
-where ta.localidade = 'Ribeirão Preto' and tl.titulo ilike '%Técnicas%'
+where ta.localidade = 'Ribeirão Preto' and tl.titulo ilike '%Técnicas%';
 
+select disponibilidade from tb_livro_acervo tla  
+inner join tb_acervo ta on tla.id_acervo = ta.id 
+where tla.id_livro = 1 and ta.localidade = 'Ribeirão Preto';
 
 
