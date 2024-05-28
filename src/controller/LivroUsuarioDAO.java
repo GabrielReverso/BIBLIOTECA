@@ -128,7 +128,7 @@ public class LivroUsuarioDAO {
 
         try {
             String SQL = "select * "+
-                         "from tb_livros_usuario tlu " +
+                         "from tb_livro_usuario tlu " +
                          "inner join tb_livro tl on tl.id = tlu.id_livro " +
                          "where tlu.id_usuario = ?";
 

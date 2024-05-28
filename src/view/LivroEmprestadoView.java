@@ -1,5 +1,8 @@
 package view;
 
+
+import model.LivroUsuario;
+
 /**
  *
  * @author gabriel
@@ -15,13 +18,13 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
      * @param dataPrazo
      * @param status
      */
-    public LivroEmprestadoView(String titulo, String autor, String dataEmprestimo, String dataPrazo, String status) {
+    public LivroEmprestadoView(LivroUsuario livro) {
         initComponents();
-        txtTitulo.setText(titulo);
-        txtAutor.setText(autor);
-        txtDiaEmprestimo.setText(dataEmprestimo);
-        txtPrazoVencimento.setText(dataPrazo);
-        txtStatus.setText(status);
+        txtTitulo.setText(livro.getLivro().getTitulo());
+        txtAutor.setText(livro.getLivro().getAutor());
+        txtDiaEmprestimo.setText(livro.getDataEmprestimo());
+        txtPrazoVencimento.setText(livro.getPrazo());
+        txtStatus.setText(livro.isExpirado()? "Expirado" : "Em dia");
     }
 
     /**
@@ -53,6 +56,7 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
         txtAutor = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(244, 231, 207));
+        setPreferredSize(new java.awt.Dimension(800, 450));
 
         imageBackground.setBackground(new java.awt.Color(204, 141, 72));
         imageBackground.setPreferredSize(new java.awt.Dimension(300, 420));
@@ -184,10 +188,8 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
                         .addComponent(lblPrazoVencimento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(imageBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)))
+                        .addGap(53, 53, 53))
+                    .addComponent(imageBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );

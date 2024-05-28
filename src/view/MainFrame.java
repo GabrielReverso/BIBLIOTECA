@@ -15,11 +15,13 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import controller.AcervoDAO;
 import controller.LivroAcervoDAO;
 import controller.LivroDAO;
+import controller.LivroUsuarioDAO;
 import controller.UsuarioDAO;
 import images.ImagePanel;
 import model.Acervo;
 import model.Livro;
 import model.LivroAcervo;
+import model.LivroUsuario;
 import model.Usuario;
 
 public class MainFrame extends javax.swing.JFrame {
@@ -251,6 +253,22 @@ public class MainFrame extends javax.swing.JFrame {
             container.add(panel);
         }    
         scrollEmprestimo.setViewportView(container); // Definindo o container como o viewport do JScrollPane
+    }
+
+    /******EMPRESTADO******/
+    private void adicionarLivrosEmprestadosScroll() {
+        JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+    
+        LivroUsuarioDAO dao = new LivroUsuarioDAO();
+
+        List<LivroUsuario> lista = dao.obterLivrosUsuario(usuarioLogado);
+
+        for (LivroUsuario l : lista) {
+            LivroEmprestadoView panel = new LivroEmprestadoView(l);
+            container.add(panel);
+        }    
+        scrollLivrosEmprestados.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
     //COMBOBOX
@@ -1114,7 +1132,8 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void btnLivrosEscolhidos_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {                                                             
-        // TODO add your handling code here:
+        adicionarLivrosEmprestadosScroll();
+        tabPane.setSelectedIndex(5);
     }
 
     private void btnBuscar_paneMenuMouseEntered(java.awt.event.MouseEvent evt) {                                                
