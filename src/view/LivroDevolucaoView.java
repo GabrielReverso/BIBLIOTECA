@@ -1,13 +1,17 @@
 package view;
 
+import java.text.SimpleDateFormat;
 
+import controller.LivroUsuarioDAO;
 import model.LivroUsuario;
 
 /**
  *
  * @author gabriel
  */
-public class LivroEmprestadoView extends javax.swing.JPanel {
+public class LivroDevolucaoView extends javax.swing.JPanel {
+
+    private LivroUsuario livroUsuario;
 
     /**
      * Creates new form LivroView
@@ -18,8 +22,9 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
      * @param dataPrazo
      * @param status
      */
-    public LivroEmprestadoView(LivroUsuario livro) {
+    public LivroDevolucaoView(LivroUsuario livro) {
         initComponents();
+        this.livroUsuario = livro;
         txtTitulo.setText(livro.getLivro().getTitulo());
         txtAutor.setText(livro.getLivro().getAutor());
         txtDiaEmprestimo.setText(livro.getDataEmprestimo());
@@ -54,6 +59,7 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
         lblAutor = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         txtAutor = new javax.swing.JTextArea();
+        btnDevolver = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(244, 231, 207));
         setPreferredSize(new java.awt.Dimension(800, 450));
@@ -65,15 +71,11 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
         imageBackground.setLayout(imageBackgroundLayout);
         imageBackgroundLayout.setHorizontalGroup(
             imageBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, imageBackgroundLayout.createSequentialGroup()
-                .addGap(0, 104, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(lblImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
         imageBackgroundLayout.setVerticalGroup(
             imageBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(imageBackgroundLayout.createSequentialGroup()
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 77, Short.MAX_VALUE))
+            .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
 
         txtTitulo.setEditable(false);
@@ -136,6 +138,14 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
         txtAutor.setEnabled(false);
         jScrollPane6.setViewportView(txtAutor);
 
+        btnDevolver.setFont(new java.awt.Font("sansserif", 0, 20)); // NOI18N
+        btnDevolver.setText("Devolver Livro!");
+        btnDevolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDevolverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -162,12 +172,16 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
                             .addComponent(jScrollPane5)
                             .addComponent(jScrollPane2))))
                 .addGap(38, 38, 38))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(317, 317, 317)
+                .addComponent(btnDevolver)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -176,27 +190,38 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
                         .addComponent(lblAutor)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblStatus)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblDiaEmprestimo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblPrazoVencimento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53))
-                    .addComponent(imageBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(imageBackground, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(btnDevolver)
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(16, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolverActionPerformed
+        
+        LivroUsuarioDAO dao = new LivroUsuarioDAO();
+
+        dao.DevolverLivro(livroUsuario.getUsuario(), livroUsuario.getLivro());
+        
+    }//GEN-LAST:event_btnDevolverActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDevolver;
     private javax.swing.JPanel imageBackground;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -216,4 +241,12 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
     private javax.swing.JTextArea txtStatus;
     private javax.swing.JTextArea txtTitulo;
     // End of variables declaration//GEN-END:variables
+
+    public LivroUsuario getLivroUsuario() {
+        return livroUsuario;
+    }
+
+    public void setLivroUsuario(LivroUsuario livroUsuario) {
+        this.livroUsuario = livroUsuario;
+    }
 }

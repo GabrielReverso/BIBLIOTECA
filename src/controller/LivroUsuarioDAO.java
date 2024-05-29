@@ -20,6 +20,7 @@ public class LivroUsuarioDAO {
 
     private Connection con;
     private PreparedStatement cmd;
+    private final long SETE_DIAS_EM_MILISEGUNDOS = (long) 7 * 24 * 60 * 60 * 1000;
 
     public LivroUsuarioDAO() {
         this.con = Conexao.conectar();
@@ -88,7 +89,7 @@ public class LivroUsuarioDAO {
             cmd.setInt(1, u.getId());
             cmd.setInt(2, l.getId());
             cmd.setDate(3, new Date(System.currentTimeMillis()));
-            cmd.setDate(4, new Date(System.currentTimeMillis() + ((long)7 * 24 * 60 * 60 * 1000)));
+            cmd.setDate(4, new Date(System.currentTimeMillis() + SETE_DIAS_EM_MILISEGUNDOS));
             cmd.setBoolean(5, false);
 
             int rowsAffected = cmd.executeUpdate();
@@ -158,6 +159,55 @@ public class LivroUsuarioDAO {
         } catch (Exception e) {
             System.err.println("Erro ao executar query: " + e.getMessage());
             return lista;
+        } finally {
+            Conexao.desconectar(con);
+        }
+    }
+
+    public void RenovarEmprestimo(Usuario u, Livro l, Date prazoAtual){
+
+        try {
+            String SQL = "update tb_livro_usuario set prazo = ? where id_usuario = ? and id_livro = ?";
+
+            cmd = con.prepareStatement(SQL);
+            cmd.setDate(1, new Date(prazoAtual.getTime() + SETE_DIAS_EM_MILISEGUNDOS));
+            cmd.setInt(2, u.getId());
+            cmd.setInt(3, l.getId());
+
+            int rowsAffected = cmd.executeUpdate();
+
+            if(rowsAffected == 0){
+                JOptionPane.showMessageDialog(null, "Erro no banco de dados");
+            } else {
+                JOptionPane.showMessageDialog(null, "Foram acrescentados mais 7 dias no seu empréstimo");
+            }
+
+        } catch (Exception e) {
+            System.err.println("Erro ao executar update: " + e.getMessage());
+        } finally {
+            Conexao.desconectar(con);
+        }
+    }
+
+    public void DevolverLivro(Usuario u, Livro l){
+
+        try {
+            String SQL = "delete from tb_livro_usuario where id_usuario = ? and id_livro = ?";
+
+            cmd = con.prepareStatement(SQL);
+            cmd.setInt(1, u.getId());
+            cmd.setInt(2, l.getId());
+
+            int rowsAffected = cmd.executeUpdate();
+
+            if(rowsAffected == 0){
+                JOptionPane.showMessageDialog(null, "Erro no banco de dados");
+            } else {
+                JOptionPane.showMessageDialog(null, "Livro devolvido!");
+            }
+
+        } catch (Exception e) {
+            System.err.println("Erro ao executar update: " + e.getMessage());
         } finally {
             Conexao.desconectar(con);
         }

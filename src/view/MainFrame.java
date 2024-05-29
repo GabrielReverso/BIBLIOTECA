@@ -271,6 +271,38 @@ public class MainFrame extends javax.swing.JFrame {
         scrollLivrosEmprestados.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
+    /******RENOVAR******/
+    private void adicionarLivrosRenovarScroll() {
+        JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+    
+        LivroUsuarioDAO dao = new LivroUsuarioDAO();
+
+        List<LivroUsuario> lista = dao.obterLivrosUsuario(usuarioLogado);
+
+        for (LivroUsuario l : lista) {
+            LivroRenovarView panel = new LivroRenovarView(l);
+            container.add(panel);
+        }    
+        scrollRenovar.setViewportView(container); // Definindo o container como o viewport do JScrollPane
+    }
+
+    /******DEVOLUCAO******/
+    private void adicionarLivrosDevolucaoScroll() {
+        JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+    
+        LivroUsuarioDAO dao = new LivroUsuarioDAO();
+
+        List<LivroUsuario> lista = dao.obterLivrosUsuario(usuarioLogado);
+
+        for (LivroUsuario l : lista) {
+            LivroDevolucaoView panel = new LivroDevolucaoView(l);
+            container.add(panel);
+        }    
+        scrollDevolucao.setViewportView(container); // Definindo o container como o viewport do JScrollPane
+    }
+
     //COMBOBOX
     private void preencherComboBox(){
         DefaultComboBoxModel<String> m = new DefaultComboBoxModel<>();
@@ -359,6 +391,16 @@ public class MainFrame extends javax.swing.JFrame {
         lblLivros_paneLivrosEmprestados = new javax.swing.JLabel();
         iconVoltar_paneLivrosEmprestados = new javax.swing.JLabel();
         iconConfig3 = new javax.swing.JLabel();
+        paneDevolucao = new javax.swing.JPanel();
+        scrollDevolucao = new javax.swing.JScrollPane();
+        lblLivros_paneDevolucao = new javax.swing.JLabel();
+        iconVoltar_paneDevolucao = new javax.swing.JLabel();
+        iconConfig6 = new javax.swing.JLabel();
+        paneRenovar = new javax.swing.JPanel();
+        scrollRenovar = new javax.swing.JScrollPane();
+        lblLivros_paneRenovar = new javax.swing.JLabel();
+        iconVoltar_paneRenovar = new javax.swing.JLabel();
+        iconConfig5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -1008,6 +1050,96 @@ public class MainFrame extends javax.swing.JFrame {
 
         tabPane.addTab("Livros Emp.", paneLivrosEmprestados);
 
+        scrollDevolucao.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        lblLivros_paneDevolucao.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
+        lblLivros_paneDevolucao.setText("DEVOLUÇÃO DE LIVROS");
+
+        iconVoltar_paneDevolucao.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        iconVoltar_paneDevolucao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconVoltar_paneDevolucao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconVoltar_paneDevolucaoMouseClicked(evt);
+            }
+        });
+
+        iconConfig6.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        iconConfig6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout paneDevolucaoLayout = new javax.swing.GroupLayout(paneDevolucao);
+        paneDevolucao.setLayout(paneDevolucaoLayout);
+        paneDevolucaoLayout.setHorizontalGroup(
+            paneDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrollDevolucao)
+            .addGroup(paneDevolucaoLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(iconVoltar_paneDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                .addComponent(lblLivros_paneDevolucao)
+                .addGap(106, 106, 106)
+                .addComponent(iconConfig6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
+        );
+        paneDevolucaoLayout.setVerticalGroup(
+            paneDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneDevolucaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(paneDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(iconConfig6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(paneDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblLivros_paneDevolucao)
+                        .addComponent(iconVoltar_paneDevolucao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollDevolucao, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE))
+        );
+
+        tabPane.addTab("Devolucao", paneDevolucao);
+
+        scrollRenovar.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        lblLivros_paneRenovar.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
+        lblLivros_paneRenovar.setText("RENOVAR EMPRÉSTIMO");
+
+        iconVoltar_paneRenovar.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        iconVoltar_paneRenovar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconVoltar_paneRenovar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconVoltar_paneRenovarMouseClicked(evt);
+            }
+        });
+
+        iconConfig5.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        iconConfig5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout paneRenovarLayout = new javax.swing.GroupLayout(paneRenovar);
+        paneRenovar.setLayout(paneRenovarLayout);
+        paneRenovarLayout.setHorizontalGroup(
+            paneRenovarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrollRenovar)
+            .addGroup(paneRenovarLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(iconVoltar_paneRenovar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addComponent(lblLivros_paneRenovar)
+                .addGap(104, 104, 104)
+                .addComponent(iconConfig5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
+        );
+        paneRenovarLayout.setVerticalGroup(
+            paneRenovarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneRenovarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(paneRenovarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(iconConfig5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(paneRenovarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblLivros_paneRenovar)
+                        .addComponent(iconVoltar_paneRenovar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollRenovar, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE))
+        );
+
+        tabPane.addTab("Renovar", paneRenovar);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1123,12 +1255,20 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(2, false);
     }
 
-    private void btnDevolucao_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {                                                      
-        // TODO add your handling code here:
+    private void btnDevolucao_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {   
+        adicionarLivrosDevolucaoScroll();   
+        tabPane.setSelectedIndex(6);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, false);
     }
 
     private void btnRenovar_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {                                                    
-        // TODO add your handling code here:
+        adicionarLivrosRenovarScroll();                                                 
+        tabPane.setSelectedIndex(7);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, false);
     }
 
     private void btnLivrosEscolhidos_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {                                                             
@@ -1293,6 +1433,22 @@ public class MainFrame extends javax.swing.JFrame {
         adicionarEmprestimoScroll();
     }//GEN-LAST:event_btnLimpar_paneEmprestimoActionPerformed
 
+    /*RENOVAR**************************************************************************/
+    private void iconVoltar_paneRenovarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconVoltar_paneRenovarMouseClicked
+        tabPane.setSelectedIndex(2);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, true);
+    }//GEN-LAST:event_iconVoltar_paneRenovarMouseClicked
+
+    /*DEVOLUÇÃO**************************************************************************/
+    private void iconVoltar_paneDevolucaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconVoltar_paneDevolucaoMouseClicked
+        tabPane.setSelectedIndex(2);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, true);
+    }//GEN-LAST:event_iconVoltar_paneDevolucaoMouseClicked
+
     
     /**             
      * @param args the command line arguments
@@ -1347,9 +1503,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel iconConfig2;
     private javax.swing.JLabel iconConfig3;
     private javax.swing.JLabel iconConfig4;
+    private javax.swing.JLabel iconConfig5;
+    private javax.swing.JLabel iconConfig6;
     private javax.swing.JLabel iconSair;
+    private javax.swing.JLabel iconVoltar_paneDevolucao;
     private javax.swing.JLabel iconVoltar_paneEmprestimo;
     private javax.swing.JLabel iconVoltar_paneLivrosEmprestados;
+    private javax.swing.JLabel iconVoltar_paneRenovar;
     private javax.swing.JLabel iconVoltar_paneVerLivros;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1362,8 +1522,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblCadastro_paneCadastro;
     private javax.swing.JLabel lblConfirmarSenha_paneCadastro;
     private javax.swing.JLabel lblEmail_paneCadastro;
+    private javax.swing.JLabel lblLivros_paneDevolucao;
     private javax.swing.JLabel lblLivros_paneEmprestimo;
     private javax.swing.JLabel lblLivros_paneLivrosEmprestados;
+    private javax.swing.JLabel lblLivros_paneRenovar;
     private javax.swing.JLabel lblLivros_paneVerLivros;
     private javax.swing.JLabel lblLogin_paneLogin;
     private javax.swing.JLabel lblMenu_paneMenu;
@@ -1377,13 +1539,17 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblSenha_paneCadastro;
     private javax.swing.JLabel lblSenha_paneLogin;
     private javax.swing.JPanel paneCadastro;
+    private javax.swing.JPanel paneDevolucao;
     private javax.swing.JPanel paneEmprestimo;
     private javax.swing.JPanel paneHome;
     private javax.swing.JPanel paneLivrosEmprestados;
     private javax.swing.JPanel paneLogin;
+    private javax.swing.JPanel paneRenovar;
     private javax.swing.JPanel paneVerLivros;
+    private javax.swing.JScrollPane scrollDevolucao;
     private javax.swing.JScrollPane scrollEmprestimo;
     private javax.swing.JScrollPane scrollLivrosEmprestados;
+    private javax.swing.JScrollPane scrollRenovar;
     private javax.swing.JScrollPane scrollVerLivros;
     private javax.swing.JTabbedPane tabPane;
     private javax.swing.JTextField txtBucarTitulo_paneEmprestimo;
