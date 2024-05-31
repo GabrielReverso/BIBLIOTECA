@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javax.swing.JOptionPane;
+
 import controller.conexao.Conexao;
 import model.Usuario;
 
@@ -78,6 +80,72 @@ public class UsuarioDAO {
         } catch (Exception e) {
             System.err.println("ERRO: " + e.getMessage());
             return null;
+        } finally{
+            Conexao.desconectar(con);
+        }
+    }  
+
+    public void alterarNomeUsuario(Usuario u, String novoNome){
+        try {
+
+            String SQL = "update tb_usuario set nome = ? where id = ?";
+
+            cmd = con.prepareStatement(SQL);
+            cmd.setString(1, novoNome);
+            cmd.setInt(2, u.getId());
+
+            int rowsAffected = cmd.executeUpdate();
+
+            if (rowsAffected == 0){
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro no banco de dados");
+            }
+
+        } catch (Exception e) {
+            System.err.println("ERRO: " + e.getMessage());
+        } finally{
+            Conexao.desconectar(con);
+        }
+    }  
+
+    public void alterarEmailUsuario(Usuario u, String novoEmail){
+        try {
+
+            String SQL = "update tb_usuario set email = ? where id = ?";
+
+            cmd = con.prepareStatement(SQL);
+            cmd.setString(1, novoEmail);
+            cmd.setInt(2, u.getId());
+
+            int rowsAffected = cmd.executeUpdate();
+
+            if (rowsAffected == 0){
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro no banco de dados");
+            }
+
+        } catch (Exception e) {
+            System.err.println("ERRO: " + e.getMessage());
+        } finally{
+            Conexao.desconectar(con);
+        }
+    }  
+
+    public void alterarSenhaUsuario(Usuario u, String novaSenha){
+        try {
+
+            String SQL = "update tb_usuario set senha = MD5(?) where id = ?";
+
+            cmd = con.prepareStatement(SQL);
+            cmd.setString(1, novaSenha);
+            cmd.setInt(2, u.getId());
+
+            int rowsAffected = cmd.executeUpdate();
+
+            if (rowsAffected == 0){
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro no banco de dados");
+            }
+
+        } catch (Exception e) {
+            System.err.println("ERRO: " + e.getMessage());
         } finally{
             Conexao.desconectar(con);
         }

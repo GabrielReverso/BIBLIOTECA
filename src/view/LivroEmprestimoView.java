@@ -234,7 +234,6 @@ public class LivroEmprestimoView extends javax.swing.JPanel {
         if(livroAcervo != null) {
             if(livroAcervo.getDisponibilidade() > 0) {
                 LivroUsuarioDAO dao = new LivroUsuarioDAO();     
-                System.out.println("Entrou");
                 dao.emprestimoLivro(MainFrame.usuarioLogado, livroAcervo.getLivro(), livroAcervo.getAcervo());
             } else {
                 JOptionPane.showMessageDialog(null, "Livro indisponível neste acervo!");

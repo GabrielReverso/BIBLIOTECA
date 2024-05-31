@@ -2,14 +2,18 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 import controller.AcervoDAO;
@@ -104,11 +108,19 @@ public class MainFrame extends javax.swing.JFrame {
                 ImageIcon scaledIconConfig = new ImageIcon(scaledImageConfig);
                 iconConfig.setIcon(scaledIconConfig);
                 iconConfig2.setIcon(scaledIconConfig);
+                iconConfig3.setIcon(scaledIconConfig);
+                iconConfig4.setIcon(scaledIconConfig);
+                iconConfig5.setIcon(scaledIconConfig);
+                iconConfig6.setIcon(scaledIconConfig);
             }
         } catch (Exception e) {
             System.err.println("Imagem 'setting.png' nao existe, usando fallback textual!");
-            iconConfig.setText("Conf");
-            iconConfig2.setText("Conf");
+            iconConfig.setText("Config");
+            iconConfig2.setText("Config");
+            iconConfig3.setText("Config");
+            iconConfig4.setText("Config");
+            iconConfig5.setText("Config");
+            iconConfig6.setText("Config");
         }
 
         try {
@@ -119,10 +131,34 @@ public class MainFrame extends javax.swing.JFrame {
                 Image scaledImageVoltar = imageVoltar.getScaledInstance(homeIconWidth, homeIconHeight, Image.SCALE_SMOOTH);
                 ImageIcon scaledIconVoltar = new ImageIcon(scaledImageVoltar);
                 iconVoltar_paneVerLivros.setIcon(scaledIconVoltar);
+                iconVoltar_paneRenovar.setIcon(scaledIconVoltar);
+                iconVoltar_paneLivrosEmprestados.setIcon(scaledIconVoltar);
+                iconVoltar_paneEmprestimo.setIcon(scaledIconVoltar);
+                iconVoltar_paneDevolucao.setIcon(scaledIconVoltar);
+                iconVoltar_paneConfig.setIcon(scaledIconVoltar);
             }
         } catch (Exception e) {
             System.err.println("Imagem 'back.png' nao existe, usando fallback textual!");
-            iconConfig.setText("Back");
+            iconVoltar_paneVerLivros.setText("Back");
+            iconVoltar_paneRenovar.setText("Back");
+            iconVoltar_paneLivrosEmprestados.setText("Back");
+            iconVoltar_paneEmprestimo.setText("Back");
+            iconVoltar_paneDevolucao.setText("Back");
+            iconVoltar_paneConfig.setText("Back");
+        }
+
+        try {
+            // Carrega e redimensiona a imagem para iconInformacao
+            ImageIcon imageIconInformacao = new ImageIcon(getClass().getResource("/images/information-button.png"));
+            if (imageIconInformacao!= null) {
+                Image imageInformacao = imageIconInformacao.getImage();
+                Image scaledImageInformacao = imageInformacao.getScaledInstance(homeIconWidth, homeIconHeight, Image.SCALE_SMOOTH);
+                ImageIcon scaledIconInformacao = new ImageIcon(scaledImageInformacao);
+                iconInformacao.setIcon(scaledIconInformacao);
+            }
+        } catch (Exception e) {
+            System.err.println("Imagem 'information-button.png' nao existe, usando fallback textual!");
+            iconInformacao.setText("Info");
         }
     }
 
@@ -172,6 +208,12 @@ public class MainFrame extends javax.swing.JFrame {
         for (Livro l : lista) {
             LivroView panel = new LivroView(l.getTitulo(), l.getAutor(), l.getEditora(), l.getDescricao());
             container.add(panel);
+        }
+        if (lista.isEmpty()){
+            JLabel label = new JLabel("Nenhum livro encontrado com o termo '" + busca + "'");
+            label.setFont(new java.awt.Font("sansserif", 0, 24));
+            label.setAlignmentX(JLabel.CENTER);
+            container.add(label);
         }    
         scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
@@ -191,7 +233,14 @@ public class MainFrame extends javax.swing.JFrame {
                                             l.getLivro().getDescricao(), 
                                             l.getDisponibilidade());
             container.add(panel);
-        }    
+        }   
+        if (lista.isEmpty()){
+            JLabel label = new JLabel("Nenhum livro encontrado com o termo '" + busca + "'");
+            label.setFont(new java.awt.Font("sansserif", 0, 18));
+            label.setAlignmentX(JLabel.CENTER);
+            label.setAlignmentY(JLabel.CENTER);
+            container.add(label);
+        }  
         scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
@@ -236,7 +285,14 @@ public class MainFrame extends javax.swing.JFrame {
         for (Livro l : lista) {
             LivroEmprestimoView panel = new LivroEmprestimoView(l);
             container.add(panel);
-        }    
+        }
+        if (lista.isEmpty()){
+            JLabel label = new JLabel("Nenhum livro encontrado com o termo '" + busca + "'");
+            label.setFont(new java.awt.Font("sansserif", 0, 18));
+            label.setAlignmentX(JLabel.CENTER);
+            label.setAlignmentY(JLabel.CENTER);
+            container.add(label);
+        }     
         scrollEmprestimo.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
@@ -251,7 +307,14 @@ public class MainFrame extends javax.swing.JFrame {
         for (LivroAcervo l : lista) {
             LivroEmprestimoView panel = new LivroEmprestimoView(l);
             container.add(panel);
-        }    
+        }
+        if (lista.isEmpty()){
+            JLabel label = new JLabel("Nenhum livro encontrado com o termo '" + busca + "'");
+            label.setFont(new java.awt.Font("sansserif", 0, 18));
+            label.setAlignmentX(JLabel.CENTER);
+            label.setAlignmentY(JLabel.CENTER);
+            container.add(label);
+        }     
         scrollEmprestimo.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
@@ -401,6 +464,17 @@ public class MainFrame extends javax.swing.JFrame {
         lblLivros_paneRenovar = new javax.swing.JLabel();
         iconVoltar_paneRenovar = new javax.swing.JLabel();
         iconConfig5 = new javax.swing.JLabel();
+        paneConfig = new javax.swing.JPanel();
+        lblCOnfiguracoes_paneConfig = new javax.swing.JLabel();
+        lblOperacoes_paneConfig = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+        btnAlterarNome_paneConfig = new javax.swing.JButton();
+        iconVoltar_paneConfig = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
+        btnAlterarEmail_paneConfig = new javax.swing.JButton();
+        btnAlterarSenha_paneConfig = new javax.swing.JButton();
+        btnEncerrar_paneConfig = new javax.swing.JButton();
+        iconInformacao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -732,6 +806,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         iconConfig.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         iconConfig.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconConfig.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconConfigMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout paneHomeLayout = new javax.swing.GroupLayout(paneHome);
         paneHome.setLayout(paneHomeLayout);
@@ -845,6 +924,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         iconConfig2.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         iconConfig2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconConfig2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconConfig2MouseClicked(evt);
+            }
+        });
 
         btnLimpar_paneVerLivros.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         btnLimpar_paneVerLivros.setText("Limpar");
@@ -943,6 +1027,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         iconConfig4.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         iconConfig4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconConfig4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconConfig4MouseClicked(evt);
+            }
+        });
 
         btnLimpar_paneEmprestimo.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         btnLimpar_paneEmprestimo.setText("Limpar");
@@ -1020,6 +1109,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         iconConfig3.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         iconConfig3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconConfig3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconConfig3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout paneLivrosEmprestadosLayout = new javax.swing.GroupLayout(paneLivrosEmprestados);
         paneLivrosEmprestados.setLayout(paneLivrosEmprestadosLayout);
@@ -1065,6 +1159,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         iconConfig6.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         iconConfig6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconConfig6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconConfig6MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout paneDevolucaoLayout = new javax.swing.GroupLayout(paneDevolucao);
         paneDevolucao.setLayout(paneDevolucaoLayout);
@@ -1110,6 +1209,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         iconConfig5.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         iconConfig5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconConfig5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconConfig5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout paneRenovarLayout = new javax.swing.GroupLayout(paneRenovar);
         paneRenovar.setLayout(paneRenovarLayout);
@@ -1139,6 +1243,124 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         tabPane.addTab("Renovar", paneRenovar);
+
+        lblCOnfiguracoes_paneConfig.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
+        lblCOnfiguracoes_paneConfig.setText("CONFIGURAÇÕES");
+
+        lblOperacoes_paneConfig.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
+        lblOperacoes_paneConfig.setForeground(new java.awt.Color(153, 153, 153));
+        lblOperacoes_paneConfig.setText("Operações");
+
+        jSeparator4.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
+
+        btnAlterarNome_paneConfig.setFont(new java.awt.Font("sansserif", 0, 22)); // NOI18N
+        btnAlterarNome_paneConfig.setText("Alterar Nome");
+        btnAlterarNome_paneConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarNome_paneConfigActionPerformed(evt);
+            }
+        });
+
+        iconVoltar_paneConfig.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        iconVoltar_paneConfig.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconVoltar_paneConfig.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconVoltar_paneConfigMouseClicked(evt);
+            }
+        });
+
+        jSeparator5.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
+
+        btnAlterarEmail_paneConfig.setFont(new java.awt.Font("sansserif", 0, 22)); // NOI18N
+        btnAlterarEmail_paneConfig.setText("Alterar Email");
+        btnAlterarEmail_paneConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarEmail_paneConfigActionPerformed(evt);
+            }
+        });
+
+        btnAlterarSenha_paneConfig.setFont(new java.awt.Font("sansserif", 0, 22)); // NOI18N
+        btnAlterarSenha_paneConfig.setText("Alterar Senha");
+        btnAlterarSenha_paneConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarSenha_paneConfigActionPerformed(evt);
+            }
+        });
+
+        btnEncerrar_paneConfig.setFont(new java.awt.Font("sansserif", 0, 22)); // NOI18N
+        btnEncerrar_paneConfig.setText("Encerrar Seção");
+        btnEncerrar_paneConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEncerrar_paneConfigActionPerformed(evt);
+            }
+        });
+
+        iconInformacao.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        iconInformacao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        iconInformacao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconInformacaoMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout paneConfigLayout = new javax.swing.GroupLayout(paneConfig);
+        paneConfig.setLayout(paneConfigLayout);
+        paneConfigLayout.setHorizontalGroup(
+            paneConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneConfigLayout.createSequentialGroup()
+                .addGroup(paneConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneConfigLayout.createSequentialGroup()
+                        .addGap(222, 222, 222)
+                        .addGroup(paneConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAlterarNome_paneConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAlterarEmail_paneConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAlterarSenha_paneConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(paneConfigLayout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addGroup(paneConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneConfigLayout.createSequentialGroup()
+                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(lblOperacoes_paneConfig)
+                                .addGap(27, 27, 27)
+                                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(paneConfigLayout.createSequentialGroup()
+                                .addComponent(iconVoltar_paneConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(160, 160, 160)
+                                .addComponent(lblCOnfiguracoes_paneConfig)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(iconInformacao, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(paneConfigLayout.createSequentialGroup()
+                        .addGap(264, 264, 264)
+                        .addComponent(btnEncerrar_paneConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        paneConfigLayout.setVerticalGroup(
+            paneConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneConfigLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(paneConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(iconInformacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(paneConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lblCOnfiguracoes_paneConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(iconVoltar_paneConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGroup(paneConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblOperacoes_paneConfig, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60)
+                .addComponent(btnAlterarNome_paneConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAlterarEmail_paneConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAlterarSenha_paneConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(109, 109, 109)
+                .addComponent(btnEncerrar_paneConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
+        );
+
+        tabPane.addTab("Config", paneConfig);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1216,6 +1438,9 @@ public class MainFrame extends javax.swing.JFrame {
                 txtNome_paneLogin.setText("");
                 txtSenha_paneLogin.setText("");
                 tabPane.setSelectedIndex(2);
+
+                LivroUsuarioDAO luDao = new LivroUsuarioDAO();
+                luDao.VerificarLivrosExpirados(usuarioLogado);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos para entrar!");
@@ -1231,11 +1456,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void txtNome_paneLoginFocusGained(java.awt.event.FocusEvent evt) {                                              
         txtNome_paneLogin.setForeground(Color.BLACK);
+        txtSenha_paneLogin.setForeground(Color.BLACK);
     }
 
     private void txtSenha_paneLoginFocusGained(java.awt.event.FocusEvent evt) {                                               
-
         txtSenha_paneLogin.setForeground(Color.BLACK);
+        txtNome_paneLogin.setForeground(Color.BLACK);
     }
 
     /*FIM-LOGIN*************************************************************************/
@@ -1316,7 +1542,7 @@ public class MainFrame extends javax.swing.JFrame {
         txtDescricaoOp_paneMenu.setText("");
     }      
     
-    private void iconSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconSairMouseClicked
+    private void iconSairMouseClicked(java.awt.event.MouseEvent evt) {
         int resposta = JOptionPane.showConfirmDialog(
              null,
              "Você precisará fazer o login novamente ao sair",
@@ -1332,19 +1558,19 @@ public class MainFrame extends javax.swing.JFrame {
             usuarioLogado = null;
         }
 
-    }//GEN-LAST:event_iconSairMouseClicked
+    }
 
     /*FIM-HOME*************************************************************************/
 
     /*VER LIVROS*************************************************************************/
-    private void iconVoltar_paneVerLivrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconVoltar_paneVerLivrosMouseClicked
+    private void iconVoltar_paneVerLivrosMouseClicked(java.awt.event.MouseEvent evt) {
         tabPane.setSelectedIndex(2);
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, true);
-    }//GEN-LAST:event_iconVoltar_paneVerLivrosMouseClicked
+    }
 
-    private void cbxSelecioneRegiao_paneVerLivrosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxSelecioneRegiao_paneVerLivrosItemStateChanged
+    private void cbxSelecioneRegiao_paneVerLivrosItemStateChanged(java.awt.event.ItemEvent evt) {
         
         int posicao = cbxSelecioneRegiao_paneVerLivros.getSelectedIndex();
 
@@ -1352,9 +1578,9 @@ public class MainFrame extends javax.swing.JFrame {
             String local = cbxSelecioneRegiao_paneVerLivros.getSelectedItem().toString();
             adicionarVerLivrosScroll(local);
         }
-    }//GEN-LAST:event_cbxSelecioneRegiao_paneVerLivrosItemStateChanged
+    }
 
-    private void txtBucarTitulo_paneVerLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBucarTitulo_paneVerLivrosActionPerformed
+    private void txtBucarTitulo_paneVerLivrosActionPerformed(java.awt.event.ActionEvent evt) {
         
         String busca = txtBucarTitulo_paneVerLivros.getText();
         String local = "";
@@ -1373,34 +1599,34 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
 
-    }//GEN-LAST:event_txtBucarTitulo_paneVerLivrosActionPerformed
+    }
 
-    private void btnLimpar_paneVerLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpar_paneVerLivrosActionPerformed
+    private void btnLimpar_paneVerLivrosActionPerformed(java.awt.event.ActionEvent evt) {
         
         txtBucarTitulo_paneVerLivros.setText("");
         cbxSelecioneRegiao_paneVerLivros.setSelectedIndex(-1);
         adicionarLivrosScroll();
-    }//GEN-LAST:event_btnLimpar_paneVerLivrosActionPerformed
+    }
 
     /*LIVROS EMPRESTADOS*************************************************************************/
-    private void iconVoltar_paneLivrosEmprestadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconVoltar_paneLivrosEmprestadosMouseClicked
+    private void iconVoltar_paneLivrosEmprestadosMouseClicked(java.awt.event.MouseEvent evt) {
         tabPane.setSelectedIndex(2);
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, true);
-    }//GEN-LAST:event_iconVoltar_paneLivrosEmprestadosMouseClicked
+    }
     
     /*EMPRESTIMO*************************************************************************/
-    private void cbxSelecioneRegiao_paneEmprestimoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxSelecioneRegiao_paneEmprestimoItemStateChanged
+    private void cbxSelecioneRegiao_paneEmprestimoItemStateChanged(java.awt.event.ItemEvent evt) {
         int posicao = cbxSelecioneRegiao_paneEmprestimo.getSelectedIndex();
 
         if (posicao >= 0){
             String local = cbxSelecioneRegiao_paneEmprestimo.getSelectedItem().toString();
             adicionarEmprestimoScroll(local);
         }
-    }//GEN-LAST:event_cbxSelecioneRegiao_paneEmprestimoItemStateChanged
+    }
 
-    private void txtBucarTitulo_paneEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBucarTitulo_paneEmprestimoActionPerformed
+    private void txtBucarTitulo_paneEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {
         
         String busca = txtBucarTitulo_paneEmprestimo.getText();
         String local = "";
@@ -1418,36 +1644,172 @@ public class MainFrame extends javax.swing.JFrame {
                 adicionarEmprestimoBuscaScroll(busca);
             }
         }
-    }//GEN-LAST:event_txtBucarTitulo_paneEmprestimoActionPerformed
+    }
 
-    private void iconVoltar_paneEmprestimoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconVoltar_paneEmprestimoMouseClicked
+    private void iconVoltar_paneEmprestimoMouseClicked(java.awt.event.MouseEvent evt) {
         tabPane.setSelectedIndex(2);
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, true);
-    }//GEN-LAST:event_iconVoltar_paneEmprestimoMouseClicked
+    }
 
-    private void btnLimpar_paneEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpar_paneEmprestimoActionPerformed
+    private void btnLimpar_paneEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {
         txtBucarTitulo_paneEmprestimo.setText("");
         cbxSelecioneRegiao_paneEmprestimo.setSelectedIndex(-1);
         adicionarEmprestimoScroll();
-    }//GEN-LAST:event_btnLimpar_paneEmprestimoActionPerformed
+    }
 
     /*RENOVAR**************************************************************************/
-    private void iconVoltar_paneRenovarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconVoltar_paneRenovarMouseClicked
+    private void iconVoltar_paneRenovarMouseClicked(java.awt.event.MouseEvent evt) {
         tabPane.setSelectedIndex(2);
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, true);
-    }//GEN-LAST:event_iconVoltar_paneRenovarMouseClicked
+    }
 
     /*DEVOLUÇÃO**************************************************************************/
-    private void iconVoltar_paneDevolucaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconVoltar_paneDevolucaoMouseClicked
+    private void iconVoltar_paneDevolucaoMouseClicked(java.awt.event.MouseEvent evt) {
         tabPane.setSelectedIndex(2);
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, true);
-    }//GEN-LAST:event_iconVoltar_paneDevolucaoMouseClicked
+    }
+
+    /*CONFIGURAÇÕES***********************************************************************/
+    private void btnAlterarNome_paneConfigActionPerformed(java.awt.event.ActionEvent evt) {
+        JTextField novoNome = new JTextField();
+        String mensagem = "Informe seu novo nome";
+        int resposta = JOptionPane.showOptionDialog(this, new Object[] {mensagem, novoNome},
+                                        "Alterar nome!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                                         null, null, null);
+        if (resposta == JOptionPane.OK_OPTION){
+            if (novoNome.getText().equals(usuarioLogado.getNome())){
+                JOptionPane.showMessageDialog(null, "Nome não pode ser igual o atual!");
+            } else {
+                int respostaFinal = JOptionPane.showConfirmDialog(null, "Confirmar alteração do nome?","Confirmação",JOptionPane.YES_NO_OPTION);
+                if (respostaFinal == JOptionPane.OK_OPTION){
+                    UsuarioDAO dao = new UsuarioDAO();
+                    dao.alterarNomeUsuario(usuarioLogado, novoNome.getText());
+                    usuarioLogado.setNome(novoNome.getText());
+                    JOptionPane.showMessageDialog(null, "Alteração bem sucedida!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Operação cancelada!");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Operação cancelada!");
+        }
+    }
+
+    private void btnAlterarEmail_paneConfigActionPerformed(java.awt.event.ActionEvent evt) {
+        JTextField novoEmail = new JTextField();
+        String mensagem = "Informe seu novo email";
+        int resposta = JOptionPane.showOptionDialog(this, new Object[] {mensagem, novoEmail},
+                                        "Alterar email!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                                         null, null, null);
+        if (resposta == JOptionPane.OK_OPTION){
+            if (novoEmail.getText().equals(usuarioLogado.getEmail())){
+                JOptionPane.showMessageDialog(null, "Email não pode ser igual o atual!");
+            } else {
+                int respostaFinal = JOptionPane.showConfirmDialog(null, "Confirmar alteração do email?","Confirmação",JOptionPane.YES_NO_OPTION);
+                if (respostaFinal == JOptionPane.OK_OPTION){
+                    UsuarioDAO dao = new UsuarioDAO();
+                    dao.alterarEmailUsuario(usuarioLogado, novoEmail.getText());
+                    usuarioLogado.setEmail(novoEmail.getText());
+                    JOptionPane.showMessageDialog(null, "Alteração bem sucedida!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Operação cancelada!");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Operação cancelada!");
+        }
+    }
+
+    private void btnAlterarSenha_paneConfigActionPerformed(java.awt.event.ActionEvent evt) {
+        JPasswordField novaSenha = new JPasswordField();
+        JPasswordField novaSenhaConfirmar = new JPasswordField();
+        String mensagem = "Informe sua nova senha!\n";
+        Object obj = new Object[] {
+            mensagem, 
+            "Nova Senha:", 
+            novaSenha, 
+            "Confirmar Senha:", 
+            novaSenhaConfirmar
+        };
+        int resposta = JOptionPane.showOptionDialog(this, obj,"Alterar senha!", 
+                                                  JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                                             null, null, null);
+        if (resposta == JOptionPane.OK_OPTION){
+            if (!novaSenha.getText().equals(novaSenhaConfirmar.getText())){
+                JOptionPane.showMessageDialog(null, "Senhas não conferem!");
+            } else {
+                int respostaFinal = JOptionPane.showConfirmDialog(null, "Confirmar alteração da senha?", "Confirmação",JOptionPane.YES_NO_OPTION);
+                if (respostaFinal == JOptionPane.OK_OPTION){
+                    UsuarioDAO dao = new UsuarioDAO();
+                    dao.alterarSenhaUsuario(usuarioLogado, novaSenha.getText());
+                    JOptionPane.showMessageDialog(null, "Alteração bem sucedida!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Operação cancelada!");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Operação cancelada!");
+        }
+    }
+
+    private void iconVoltar_paneConfigMouseClicked(java.awt.event.MouseEvent evt) {
+        tabPane.setSelectedIndex(2);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, true);
+    }
+
+    private void btnEncerrar_paneConfigActionPerformed(java.awt.event.ActionEvent evt) {
+        int resposta = JOptionPane.showConfirmDialog(
+             null,
+             "Você precisará fazer o login novamente ao sair",
+             "Deseja realmente sair?",
+             JOptionPane.YES_NO_OPTION
+             );
+
+        if(resposta == JOptionPane.YES_OPTION){
+            tabPane.setSelectedIndex(0);
+            tabPane.setEnabledAt(0, true);
+            tabPane.setEnabledAt(1, false);
+            tabPane.setEnabledAt(2, false);
+            usuarioLogado = null;
+        }
+    }
+
+    private void iconInformacaoMouseClicked(java.awt.event.MouseEvent evt) {
+        JOptionPane.showMessageDialog(this, "Desenvolvedor: Gabriel Reverso Pereira\nCódigo: 837789");
+    }
+
+    //ICONES DE CONFIGURAÇÃO
+    private void iconConfigMouseClicked(java.awt.event.MouseEvent evt) {
+        tabPane.setSelectedIndex(8);
+    }
+
+    private void iconConfig2MouseClicked(java.awt.event.MouseEvent evt) {
+        tabPane.setSelectedIndex(8);
+    }
+
+    private void iconConfig4MouseClicked(java.awt.event.MouseEvent evt) {
+        tabPane.setSelectedIndex(8);
+    }
+
+    private void iconConfig3MouseClicked(java.awt.event.MouseEvent evt) {
+        tabPane.setSelectedIndex(8);
+    }
+
+    private void iconConfig6MouseClicked(java.awt.event.MouseEvent evt) {
+        tabPane.setSelectedIndex(8);
+    }
+
+    private void iconConfig5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconConfig5MouseClicked
+        tabPane.setSelectedIndex(8);
+    }//GEN-LAST:event_iconConfig5MouseClicked
 
     
     /**             
@@ -1488,10 +1850,14 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlterarEmail_paneConfig;
+    private javax.swing.JButton btnAlterarNome_paneConfig;
+    private javax.swing.JButton btnAlterarSenha_paneConfig;
     private javax.swing.JButton btnBuscar_paneMenu;
     private javax.swing.JButton btnCadastrar_paneCadastro;
     private javax.swing.JButton btnDevolucao_paneMenu;
     private javax.swing.JButton btnEmprestimo_paneMenu;
+    private javax.swing.JButton btnEncerrar_paneConfig;
     private javax.swing.JButton btnEntrar_paneLogin;
     private javax.swing.JButton btnLimpar_paneEmprestimo;
     private javax.swing.JButton btnLimpar_paneVerLivros;
@@ -1505,7 +1871,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel iconConfig4;
     private javax.swing.JLabel iconConfig5;
     private javax.swing.JLabel iconConfig6;
+    private javax.swing.JLabel iconInformacao;
     private javax.swing.JLabel iconSair;
+    private javax.swing.JLabel iconVoltar_paneConfig;
     private javax.swing.JLabel iconVoltar_paneDevolucao;
     private javax.swing.JLabel iconVoltar_paneEmprestimo;
     private javax.swing.JLabel iconVoltar_paneLivrosEmprestados;
@@ -1515,9 +1883,12 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JLabel lblBusca_paneMenu;
     private javax.swing.JLabel lblBuscarTitulo_paneEmprestimo;
     private javax.swing.JLabel lblBuscarTitulo_paneVerLivros;
+    private javax.swing.JLabel lblCOnfiguracoes_paneConfig;
     private javax.swing.JLabel lblCadastre_paneLogin;
     private javax.swing.JLabel lblCadastro_paneCadastro;
     private javax.swing.JLabel lblConfirmarSenha_paneCadastro;
@@ -1532,6 +1903,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblNoConta_paneLogin;
     private javax.swing.JLabel lblNome_paneCadastro;
     private javax.swing.JLabel lblNome_paneLogin;
+    private javax.swing.JLabel lblOperacoes_paneConfig;
     private javax.swing.JLabel lblOperacoes_paneMenu;
     private javax.swing.JLabel lblRetornarLogin_paneCadastro;
     private javax.swing.JLabel lblSelecioneRegiao_paneEmprestimo;
@@ -1539,6 +1911,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblSenha_paneCadastro;
     private javax.swing.JLabel lblSenha_paneLogin;
     private javax.swing.JPanel paneCadastro;
+    private javax.swing.JPanel paneConfig;
     private javax.swing.JPanel paneDevolucao;
     private javax.swing.JPanel paneEmprestimo;
     private javax.swing.JPanel paneHome;

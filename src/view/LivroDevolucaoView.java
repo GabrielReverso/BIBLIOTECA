@@ -2,6 +2,8 @@ package view;
 
 import java.text.SimpleDateFormat;
 
+import javax.swing.JOptionPane;
+
 import controller.LivroUsuarioDAO;
 import model.LivroUsuario;
 
@@ -62,7 +64,7 @@ public class LivroDevolucaoView extends javax.swing.JPanel {
         btnDevolver = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(244, 231, 207));
-        setPreferredSize(new java.awt.Dimension(800, 450));
+        setPreferredSize(new java.awt.Dimension(800, 530));
 
         imageBackground.setBackground(new java.awt.Color(204, 141, 72));
         imageBackground.setPreferredSize(new java.awt.Dimension(300, 420));
@@ -203,11 +205,11 @@ public class LivroDevolucaoView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(imageBackground, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(btnDevolver)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -216,6 +218,8 @@ public class LivroDevolucaoView extends javax.swing.JPanel {
         LivroUsuarioDAO dao = new LivroUsuarioDAO();
 
         dao.DevolverLivro(livroUsuario.getUsuario(), livroUsuario.getLivro());
+
+        JOptionPane.showMessageDialog(null, "Reinicie a página!");
         
     }//GEN-LAST:event_btnDevolverActionPerformed
 
