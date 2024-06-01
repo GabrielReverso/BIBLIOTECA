@@ -1,6 +1,10 @@
 package view;
 
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 import model.LivroUsuario;
 
 /**
@@ -18,13 +22,34 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
      * @param dataPrazo
      * @param status
      */
-    public LivroEmprestadoView(LivroUsuario livro) {
+    public LivroEmprestadoView(LivroUsuario livroUsuario) {
         initComponents();
-        txtTitulo.setText(livro.getLivro().getTitulo());
-        txtAutor.setText(livro.getLivro().getAutor());
-        txtDiaEmprestimo.setText(livro.getDataEmprestimo());
-        txtPrazoVencimento.setText(livro.getPrazo());
-        txtStatus.setText(livro.isExpirado()? "Expirado" : "Em dia");
+        loadImage(livroUsuario.getLivro().getPathImagem());
+        txtTitulo.setText(livroUsuario.getLivro().getTitulo());
+        txtAutor.setText(livroUsuario.getLivro().getAutor());
+        txtDiaEmprestimo.setText(livroUsuario.getDataEmprestimo());
+        txtPrazoVencimento.setText(livroUsuario.getPrazo());
+        txtStatus.setText(livroUsuario.isExpirado()? "Expirado" : "Em dia");
+    }
+
+    private void loadImage(String path){
+
+        int width = 300;
+        int height = 400;
+
+        try {
+            // Carrega e redimensiona a imagem do livro
+            ImageIcon imageIconLivro = new ImageIcon(getClass().getResource(path));
+            if (imageIconLivro!= null) {
+                Image imageLivro = imageIconLivro.getImage();
+                Image scaledImageLivro = imageLivro.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                ImageIcon scaledIconLivro = new ImageIcon(scaledImageLivro);
+                lblImage.setIcon(scaledIconLivro);
+            }
+        } catch (Exception e) {
+            System.err.println("Erro na obtencao da imagem: " + e.getMessage());
+            lblImage.setText("                                    Image not found");
+        }
     }
 
     /**
@@ -65,15 +90,11 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
         imageBackground.setLayout(imageBackgroundLayout);
         imageBackgroundLayout.setHorizontalGroup(
             imageBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, imageBackgroundLayout.createSequentialGroup()
-                .addGap(0, 83, Short.MAX_VALUE)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(lblImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
         imageBackgroundLayout.setVerticalGroup(
             imageBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(imageBackgroundLayout.createSequentialGroup()
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 93, Short.MAX_VALUE))
+            .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
 
         txtTitulo.setEditable(false);

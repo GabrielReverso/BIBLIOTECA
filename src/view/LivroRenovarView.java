@@ -1,7 +1,9 @@
 package view;
 
+import java.awt.Image;
 import java.text.SimpleDateFormat;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import controller.LivroUsuarioDAO;
@@ -24,14 +26,35 @@ public class LivroRenovarView extends javax.swing.JPanel {
      * @param dataPrazo
      * @param status
      */
-    public LivroRenovarView(LivroUsuario livro) {
+    public LivroRenovarView(LivroUsuario livroUsuario) {
         initComponents();
-        this.livroUsuario = livro;
-        txtTitulo.setText(livro.getLivro().getTitulo());
-        txtAutor.setText(livro.getLivro().getAutor());
-        txtDiaEmprestimo.setText(livro.getDataEmprestimo());
-        txtPrazoVencimento.setText(livro.getPrazo());
-        txtStatus.setText(livro.isExpirado()? "Expirado" : "Em dia");
+        this.livroUsuario = livroUsuario;
+        loadImage(livroUsuario.getLivro().getPathImagem());
+        txtTitulo.setText(livroUsuario.getLivro().getTitulo());
+        txtAutor.setText(livroUsuario.getLivro().getAutor());
+        txtDiaEmprestimo.setText(livroUsuario.getDataEmprestimo());
+        txtPrazoVencimento.setText(livroUsuario.getPrazo());
+        txtStatus.setText(livroUsuario.isExpirado()? "Expirado" : "Em dia");
+    }
+
+    private void loadImage(String path){
+
+        int width = 300;
+        int height = 400;
+
+        try {
+            // Carrega e redimensiona a imagem do livro
+            ImageIcon imageIconLivro = new ImageIcon(getClass().getResource(path));
+            if (imageIconLivro!= null) {
+                Image imageLivro = imageIconLivro.getImage();
+                Image scaledImageLivro = imageLivro.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                ImageIcon scaledIconLivro = new ImageIcon(scaledImageLivro);
+                lblImage.setIcon(scaledIconLivro);
+            }
+        } catch (Exception e) {
+            System.err.println("Erro na obtencao da imagem: " + e.getMessage());
+            lblImage.setText("                                    Image not found");
+        }
     }
 
     /**

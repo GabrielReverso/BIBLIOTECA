@@ -31,7 +31,29 @@ public class UsuarioDAO {
 
     public int inserirNovoUsuario(Usuario u){
         try {
-            String SQL = "insert into tb_usuario (nome, email, senha, possuiLivro) values (?,?,MD5(?), ?)";
+            String SQL = "select id from tb_usuario where nome = ?";
+            cmd = con.prepareStatement(SQL);
+            cmd.setString(1, u.getNome());
+
+            ResultSet rs = cmd.executeQuery();
+
+            if(rs.next()){
+                System.out.println("Nome ja cadastrado");
+                return -2;
+            }
+
+            SQL = "select id from tb_usuario where email = ?";
+            cmd = con.prepareStatement(SQL);
+            cmd.setString(1, u.getEmail());
+
+            rs = cmd.executeQuery();
+
+            if(rs.next()){
+                System.out.println("Email ja cadastrado");
+                return -3;
+            }
+
+            SQL = "insert into tb_usuario (nome, email, senha, possuiLivro) values (?,?,MD5(?), ?)";
 
             cmd = con.prepareStatement(SQL);
             cmd.setString(1, u.getNome());

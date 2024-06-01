@@ -41,11 +41,12 @@ public class LivroAcervoDAO {
                             rs.getString("autor"),
                             rs.getString("editora"),
                             rs.getString("descricao")
-                        );
+                        );  
+                livro.setId(rs.getInt("id"));
+                livro.setPathImagem(rs.getString("imagePath"));
                 
                 Acervo acervo = new Acervo(rs.getInt("id_acervo"), rs.getString("localidade"));
                 
-                livro.setId(rs.getInt("id"));
                 LivroAcervo livroAcervo = new LivroAcervo(livro, 
                                                           acervo, 
                                                           rs.getInt("quantidade"), 
@@ -87,6 +88,7 @@ public class LivroAcervoDAO {
                             rs.getString("descricao")
                         );
                 livro.setId(rs.getInt("id"));
+                livro.setPathImagem(rs.getString("imagePath"));
 
                 Acervo acervo = new Acervo(rs.getInt("id_acervo"), rs.getString("localidade"));
 
@@ -128,6 +130,7 @@ public class LivroAcervoDAO {
                             rs.getString("descricao")
                         );
                 livro.setId(rs.getInt("id"));
+                livro.setPathImagem(rs.getString("imagePath"));
                 lista.add(livro);
             }
 

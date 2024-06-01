@@ -4,6 +4,13 @@
  */
 package view;
 
+import javax.swing.ImageIcon;
+
+import model.Livro;
+import model.LivroAcervo;
+
+import java.awt.Image;
+
 /**
  *
  * @author gabriel
@@ -13,22 +20,44 @@ public class LivroView extends javax.swing.JPanel {
     /**
      * Creates new form LivroView
      */
-    public LivroView(String titulo, String autor, String editora, String descricao) {
+    public LivroView(Livro livro) {
         initComponents();
-        txtTitulo.setText(titulo);
-        txtAutor.setText(autor);
-        txtEditora.setText(editora);
-        txtDescricao.setText(descricao);
+        loadImage(livro.getPathImagem());
+        txtTitulo.setText(livro.getTitulo());
+        txtAutor.setText(livro.getAutor());
+        txtEditora.setText(livro.getEditora());
+        txtDescricao.setText(livro.getDescricao());
         txtDisponibilidade.setText("Selecione uma região para ver disponibilidade");
     }
 
-    public LivroView(String titulo, String autor, String editora, String descricao, int disponibilidade) {
+    public LivroView(LivroAcervo livroAcervo) {
         initComponents();
-        txtTitulo.setText(titulo);
-        txtAutor.setText(autor);
-        txtEditora.setText(editora);
-        txtDescricao.setText(descricao);
-        txtDisponibilidade.setText(String.format("%d", disponibilidade));
+        loadImage(livroAcervo.getLivro().getPathImagem());
+        txtTitulo.setText(livroAcervo.getLivro().getTitulo());
+        txtAutor.setText(livroAcervo.getLivro().getAutor());
+        txtEditora.setText(livroAcervo.getLivro().getEditora());
+        txtDescricao.setText(livroAcervo.getLivro().getDescricao());
+        txtDisponibilidade.setText(String.format("%d", livroAcervo.getDisponibilidade()));
+    }
+
+    private void loadImage(String path){
+
+        int width = 300;
+        int height = 420;
+
+        try {
+            // Carrega e redimensiona a imagem do livro
+            ImageIcon imageIconLivro = new ImageIcon(getClass().getResource(path));
+            if (imageIconLivro!= null) {
+                Image imageLivro = imageIconLivro.getImage();
+                Image scaledImageLivro = imageLivro.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                ImageIcon scaledIconLivro = new ImageIcon(scaledImageLivro);
+                lblImage.setIcon(scaledIconLivro);
+            }
+        } catch (Exception e) {
+            System.err.println("Erro na obtencao da imagem: " + e.getMessage());
+            lblImage.setText("                                    Image not found");
+        }
     }
 
     /**

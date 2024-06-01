@@ -37,6 +37,7 @@ public class LivroDAO {
                         );
                 
                 livro.setId(rs.getInt("id"));
+                livro.setPathImagem(rs.getString("imagePath"));
                 lista.add(livro);
             }
 

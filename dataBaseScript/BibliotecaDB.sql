@@ -38,6 +38,19 @@ INSERT INTO tb_livro (titulo, autor, editora, descricao) VALUES
 	('Gestão de Projetos de Software: Ferramentas e Técnicas', 'James White', 'Editora VWX', 'Oferece uma visão abrangente da gestão de projetos de software, incluindo ferramentas e técnicas essenciais.'),
 	('Tecnologias Web Modernas: Desenvolvimento Front-end e Back-end', 'Linda Black', 'Editora YZA', 'Cobre tecnologias web modernas, focando em desenvolvimento front-end e back-end, para construir aplicativos web robustos.');
 
+/*ADIÇÃO DO PATH DAS IMAGENS*/
+update tb_livro set imagepath = '/images/CapaInteligenciaArtificial.jpg' where id = 1;
+update tb_livro set imagepath = '/images/CapaJava.jpg' where id = 2;
+update tb_livro set imagepath = '/images/CapaDesignSoftware.jpg' where id = 3;
+update tb_livro set imagepath = '/images/CapaEngenhariaRequisitos.jpg' where id = 4;
+update tb_livro set imagepath = '/images/CapaCienciaComputacao.jpg' where id = 5;
+update tb_livro set imagepath = '/images/CapaCyberSecurity.jpg' where id = 6;
+update tb_livro set imagepath = '/images/CapaAnaliseAlgoritmo.jpg' where id = 7;
+update tb_livro set imagepath = '/images/CapaArquiteturaSoftware.jpg' where id = 8;
+update tb_livro set imagepath = '/images/CapaSoftwareProjectManegement.jpg' where id = 9;
+update tb_livro set imagepath = '/images/CapaModernWeb.jpg' where id = 10;
+
+/*INSERÇÃO DOS ACERVOS*/
 insert  into tb_acervo (localidade) values ('Ribeirão Preto'), ('São Paulo');
 
 /*TABELAS RELACIONAIS*/
@@ -69,26 +82,5 @@ begin
 		end loop;
 	end loop;
 end $$;
-
-select *
-FROM tb_livro tl 
-INNER JOIN tb_livro_acervo tla ON tl.id = tla.id_livro 
-INNER JOIN tb_acervo ta ON ta.id = tla.id_acervo  
-WHERE ta.localidade = 'Ribeirão Preto';
-
-select *
-FROM tb_livro_acervo tla 
-INNER JOIN tb_acervo ta ON ta.id = tla.id_acervo  
-WHERE ta.localidade = 'Ribeirão Preto';
-
-select *
-from tb_livro tl 
-inner join tb_livro_acervo tla on tl.id = tla.id_livro 
-INNER JOIN tb_acervo ta ON ta.id = tla.id_acervo 
-where ta.localidade = 'Ribeirão Preto' and tl.titulo ilike '%Técnicas%';
-
-select disponibilidade from tb_livro_acervo tla  
-inner join tb_acervo ta on tla.id_acervo = ta.id 
-where tla.id_livro = 1 and ta.localidade = 'Ribeirão Preto';
 
 

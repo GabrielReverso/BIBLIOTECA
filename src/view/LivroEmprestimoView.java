@@ -4,6 +4,9 @@
  */
 package view;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import controller.LivroUsuarioDAO;
@@ -27,6 +30,7 @@ public class LivroEmprestimoView extends javax.swing.JPanel {
     public LivroEmprestimoView(Livro livro) {
         initComponents();
         this.livro = livro;
+        loadImage(livro.getPathImagem());
         txtTitulo.setText(livro.getTitulo());
         txtAutor.setText(livro.getAutor());
         txtEditora.setText(livro.getEditora());
@@ -40,11 +44,32 @@ public class LivroEmprestimoView extends javax.swing.JPanel {
         this.livroAcervo = livroAcervo;
         Livro livro = livroAcervo.getLivro();
         this.livro = livro;
+        loadImage(livro.getPathImagem());
         txtTitulo.setText(livro.getTitulo());
         txtAutor.setText(livro.getAutor());
         txtEditora.setText(livro.getEditora());
         txtDescricao.setText(livro.getDescricao());
         txtDisponibilidade.setText(String.format("%d", livroAcervo.getDisponibilidade()));
+    }
+
+    private void loadImage(String path){
+
+        int width = 300;
+        int height = 420;
+
+        try {
+            // Carrega e redimensiona a imagem do livro
+            ImageIcon imageIconLivro = new ImageIcon(getClass().getResource(path));
+            if (imageIconLivro!= null) {
+                Image imageLivro = imageIconLivro.getImage();
+                Image scaledImageLivro = imageLivro.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                ImageIcon scaledIconLivro = new ImageIcon(scaledImageLivro);
+                lblImage.setIcon(scaledIconLivro);
+            }
+        } catch (Exception e) {
+            System.err.println("Erro na obtencao da imagem: " + e.getMessage());
+            lblImage.setText("                                    Image not found");
+        }
     }
 
     /**

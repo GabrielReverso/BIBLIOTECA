@@ -150,6 +150,7 @@ public class LivroUsuarioDAO {
                                         rs.getString("autor"), 
                                         rs.getString("editora"),
                                         rs.getString("descricao"));
+                livro.setPathImagem(rs.getString("imagePath"));
                 
                 lista.add(new LivroUsuario(u, 
                                            livro, 

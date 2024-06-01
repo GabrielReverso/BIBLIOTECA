@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Image;
 import java.util.List;
 
@@ -76,8 +75,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         tabPane.setEnabledAt(0, true);
-        tabPane.setEnabledAt(1, true);
-        tabPane.setEnabledAt(2, true);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
 
     private void loadIcons() {
@@ -172,7 +177,7 @@ public class MainFrame extends javax.swing.JFrame {
         List<Livro> lista = dao.obterLivros();
 
         for (Livro l : lista) {
-            LivroView panel = new LivroView(l.getTitulo(), l.getAutor(), l.getEditora(), l.getDescricao());
+            LivroView panel = new LivroView(l);
             container.add(panel);
         }    
         scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
@@ -187,11 +192,7 @@ public class MainFrame extends javax.swing.JFrame {
         List<LivroAcervo> lista = dao.obterLivrosDoAcervo(local);
 
         for (LivroAcervo l : lista) {
-            LivroView panel = new LivroView(l.getLivro().getTitulo(), 
-                                            l.getLivro().getAutor(), 
-                                            l.getLivro().getEditora(), 
-                                            l.getLivro().getDescricao(), 
-                                            l.getDisponibilidade());
+            LivroView panel = new LivroView(l);
             container.add(panel);
         }    
         scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
@@ -206,7 +207,7 @@ public class MainFrame extends javax.swing.JFrame {
         List<Livro> lista = dao.buscarLivrosDoAcervo(busca);
 
         for (Livro l : lista) {
-            LivroView panel = new LivroView(l.getTitulo(), l.getAutor(), l.getEditora(), l.getDescricao());
+            LivroView panel = new LivroView(l);
             container.add(panel);
         }
         if (lista.isEmpty()){
@@ -227,11 +228,7 @@ public class MainFrame extends javax.swing.JFrame {
         List<LivroAcervo> lista = dao.buscarLivrosDoAcervo(local, busca);
 
         for (LivroAcervo l : lista) {
-            LivroView panel = new LivroView(l.getLivro().getTitulo(), 
-                                            l.getLivro().getAutor(), 
-                                            l.getLivro().getEditora(), 
-                                            l.getLivro().getDescricao(), 
-                                            l.getDisponibilidade());
+            LivroView panel = new LivroView(l);
             container.add(panel);
         }   
         if (lista.isEmpty()){
@@ -1388,17 +1385,33 @@ public class MainFrame extends javax.swing.JFrame {
 
             Usuario u = new Usuario(txtNome_paneCadastro.getText(), txtEmail_paneCadastro.getText(), new String(txtSenha_paneCadastro.getPassword()));
             UsuarioDAO dao = new UsuarioDAO();
-    
-            if (dao.inserirNovoUsuario(u) != -1) {
+
+            int resultado = dao.inserirNovoUsuario(u);
+
+            if (resultado == -1){
+                JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
+            } else if (resultado == -2) {
+                JOptionPane.showMessageDialog(null, "Nome já cadastrado, operação cancelada");
+            } else if (resultado == -3){
+                JOptionPane.showMessageDialog(null, "Email já cadastrado, operação cancelada");
+            } else {
                 JOptionPane.showMessageDialog(null, "Cadastro realizado");
                 txtNome_paneCadastro.setText("");
                 txtEmail_paneCadastro.setText("");
                 txtSenha_paneCadastro.setText("");
                 txtConfirmarSenha_paneCadastro.setText("");
                 tabPane.setSelectedIndex(0);
-            } else {
-                JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
+                tabPane.setEnabledAt(0, true);
+                tabPane.setEnabledAt(1, false);
+                tabPane.setEnabledAt(2, false);
+                tabPane.setEnabledAt(3, false);
+                tabPane.setEnabledAt(4, false);
+                tabPane.setEnabledAt(5, false);
+                tabPane.setEnabledAt(6, false);
+                tabPane.setEnabledAt(7, false);
+                tabPane.setEnabledAt(8, false);
             }
+
         } else {
             lblConfirmarSenha_paneCadastro.setForeground(Color.RED);
             txtConfirmarSenha_paneCadastro.setForeground(Color.RED);
@@ -1416,6 +1429,12 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, true);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
 
     /*FIM-CADASTRO*************************************************************************/
@@ -1452,6 +1471,12 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, true);
         tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
 
     private void txtNome_paneLoginFocusGained(java.awt.event.FocusEvent evt) {                                              
@@ -1472,6 +1497,12 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, true);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
 
     private void btnEmprestimo_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {                                                       
@@ -1479,6 +1510,12 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, true);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
 
     private void btnDevolucao_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {   
@@ -1487,6 +1524,12 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, true);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
 
     private void btnRenovar_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {                                                    
@@ -1495,11 +1538,26 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, true);
+        tabPane.setEnabledAt(8, false);
     }
 
     private void btnLivrosEscolhidos_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {                                                             
         adicionarLivrosEmprestadosScroll();
         tabPane.setSelectedIndex(5);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, true);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
 
     private void btnBuscar_paneMenuMouseEntered(java.awt.event.MouseEvent evt) {                                                
@@ -1555,6 +1613,12 @@ public class MainFrame extends javax.swing.JFrame {
             tabPane.setEnabledAt(0, true);
             tabPane.setEnabledAt(1, false);
             tabPane.setEnabledAt(2, false);
+            tabPane.setEnabledAt(3, false);
+            tabPane.setEnabledAt(4, false);
+            tabPane.setEnabledAt(5, false);
+            tabPane.setEnabledAt(6, false);
+            tabPane.setEnabledAt(7, false);
+            tabPane.setEnabledAt(8, false);
             usuarioLogado = null;
         }
 
@@ -1568,6 +1632,12 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, true);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
 
     private void cbxSelecioneRegiao_paneVerLivrosItemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1607,6 +1677,7 @@ public class MainFrame extends javax.swing.JFrame {
         cbxSelecioneRegiao_paneVerLivros.setSelectedIndex(-1);
         adicionarLivrosScroll();
     }
+    /*FIM-VER LIVROS*************************************************************************/
 
     /*LIVROS EMPRESTADOS*************************************************************************/
     private void iconVoltar_paneLivrosEmprestadosMouseClicked(java.awt.event.MouseEvent evt) {
@@ -1614,7 +1685,14 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, true);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
+    /*FIM-LIVROS EMPRESTADOS*************************************************************************/
     
     /*EMPRESTIMO*************************************************************************/
     private void cbxSelecioneRegiao_paneEmprestimoItemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1651,6 +1729,12 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, true);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
 
     private void btnLimpar_paneEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1658,6 +1742,7 @@ public class MainFrame extends javax.swing.JFrame {
         cbxSelecioneRegiao_paneEmprestimo.setSelectedIndex(-1);
         adicionarEmprestimoScroll();
     }
+    /*FIM-EMPRESTIMO*************************************************************************/
 
     /*RENOVAR**************************************************************************/
     private void iconVoltar_paneRenovarMouseClicked(java.awt.event.MouseEvent evt) {
@@ -1665,7 +1750,14 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, true);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
+    /*FIM-RENOVAR*************************************************************************/
 
     /*DEVOLUÇÃO**************************************************************************/
     private void iconVoltar_paneDevolucaoMouseClicked(java.awt.event.MouseEvent evt) {
@@ -1673,7 +1765,14 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, true);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
+    /*FIM-DEVOLUÇÃO*************************************************************************/
 
     /*CONFIGURAÇÕES***********************************************************************/
     private void btnAlterarNome_paneConfigActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1763,6 +1862,12 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
         tabPane.setEnabledAt(2, true);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, false);
     }
 
     private void btnEncerrar_paneConfigActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1778,6 +1883,12 @@ public class MainFrame extends javax.swing.JFrame {
             tabPane.setEnabledAt(0, true);
             tabPane.setEnabledAt(1, false);
             tabPane.setEnabledAt(2, false);
+            tabPane.setEnabledAt(3, false);
+            tabPane.setEnabledAt(4, false);
+            tabPane.setEnabledAt(5, false);
+            tabPane.setEnabledAt(6, false);
+            tabPane.setEnabledAt(7, false);
+            tabPane.setEnabledAt(8, false);
             usuarioLogado = null;
         }
     }
@@ -1789,27 +1900,82 @@ public class MainFrame extends javax.swing.JFrame {
     //ICONES DE CONFIGURAÇÃO
     private void iconConfigMouseClicked(java.awt.event.MouseEvent evt) {
         tabPane.setSelectedIndex(8);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, true);
     }
 
     private void iconConfig2MouseClicked(java.awt.event.MouseEvent evt) {
         tabPane.setSelectedIndex(8);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, true);
     }
 
     private void iconConfig4MouseClicked(java.awt.event.MouseEvent evt) {
         tabPane.setSelectedIndex(8);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, true);
     }
 
     private void iconConfig3MouseClicked(java.awt.event.MouseEvent evt) {
         tabPane.setSelectedIndex(8);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, true);
     }
 
     private void iconConfig6MouseClicked(java.awt.event.MouseEvent evt) {
         tabPane.setSelectedIndex(8);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, true);
     }
 
     private void iconConfig5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconConfig5MouseClicked
         tabPane.setSelectedIndex(8);
+        tabPane.setEnabledAt(0, false);
+        tabPane.setEnabledAt(1, false);
+        tabPane.setEnabledAt(2, false);
+        tabPane.setEnabledAt(3, false);
+        tabPane.setEnabledAt(4, false);
+        tabPane.setEnabledAt(5, false);
+        tabPane.setEnabledAt(6, false);
+        tabPane.setEnabledAt(7, false);
+        tabPane.setEnabledAt(8, true);
     }//GEN-LAST:event_iconConfig5MouseClicked
+    /*FIM-CONFIGURAÇÕES*************************************************************************/
 
     
     /**             
