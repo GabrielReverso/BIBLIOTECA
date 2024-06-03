@@ -78,7 +78,6 @@ public class UsuarioDAO {
 
     public Usuario acessarUsuario(String nomeEmail, String senha){
         try {
-
             String SQL;
             if(nomeEmail.contains("@")){
                 SQL = "select * from tb_usuario where email=? and senha=MD5(?)";

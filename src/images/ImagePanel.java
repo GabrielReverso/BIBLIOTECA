@@ -1,5 +1,6 @@
 package images;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
@@ -13,7 +14,8 @@ public class ImagePanel extends JPanel {
 
     public ImagePanel() {
         try {
-            this.img = ImageIO.read(new URL(getClass().getResource("/images/background.png"), "background.png"));
+            this.setLayout(new BorderLayout());
+            this.img = ImageIO.read(new URL(getClass().getResource("/images/background8.png"), "background8.png"));
         } catch (IOException e) {
             System.err.println("ERRO: " + e.getMessage());
         }

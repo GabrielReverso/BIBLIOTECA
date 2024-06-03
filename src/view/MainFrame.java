@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
+import java.sql.Connection;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -20,12 +21,14 @@ import controller.LivroAcervoDAO;
 import controller.LivroDAO;
 import controller.LivroUsuarioDAO;
 import controller.UsuarioDAO;
+import controller.conexao.Conexao;
 import images.ImagePanel;
 import model.Acervo;
 import model.Livro;
 import model.LivroAcervo;
 import model.LivroUsuario;
 import model.Usuario;
+import components.CustomBorder;
 
 public class MainFrame extends javax.swing.JFrame {
 
@@ -39,13 +42,27 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         configureLoginPaneWithBackground();
         configureTabbedPaneUI();
+        verificarConexao();
         loadIcons();
-        adicionarLivrosScroll();
-        adicionarEmprestimoScroll();
-        preencherComboBox();
         setLocationRelativeTo(null);
         setResizable(false); 
         setTitle("BIBLIOTECA");
+    }
+
+    private void verificarConexao(){
+        Connection con = Conexao.conectar();
+
+        if (con == null) {
+            JOptionPane.showMessageDialog(null, 
+                                          "Banco de dados indisponível, reinicie a aplicação!", 
+                                          "Alerta", 
+                                          JOptionPane.WARNING_MESSAGE);
+        } else {
+            adicionarLivrosScroll();
+            adicionarEmprestimoScroll();
+            preencherComboBox();
+            Conexao.desconectar(con);
+        }
     }
 
     private void configureLoginPaneWithBackground() {
@@ -54,9 +71,10 @@ public class MainFrame extends javax.swing.JFrame {
         
         // Torna o painel de login transparente
         paneLogin.setOpaque(false);
-        //paneLogin.getComponent(0).setOpaque(false); // Repita isso para todos os componentes filhos
+
         // Defina o layout do painel de login para BorderLayout
-        paneLogin.setLayout(new BorderLayout());
+        paneLoginBox.setBackground(new Color(67, 35, 17, 230));    
+        paneLoginBox.setBorder(new CustomBorder(new Color(210, 210, 210)));  
         
         // Adicione o painel de login ao painel de imagem
         background.add(paneLogin, BorderLayout.CENTER);
@@ -389,6 +407,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         tabPane = new javax.swing.JTabbedPane();
         paneLogin = new javax.swing.JPanel();
+        paneLoginBox = new javax.swing.JPanel();
         lblLogin_paneLogin = new javax.swing.JLabel();
         lblNome_paneLogin = new javax.swing.JLabel();
         txtNome_paneLogin = new javax.swing.JTextField();
@@ -398,6 +417,7 @@ public class MainFrame extends javax.swing.JFrame {
         lblCadastre_paneLogin = new javax.swing.JLabel();
         txtSenha_paneLogin = new javax.swing.JPasswordField();
         paneCadastro = new javax.swing.JPanel();
+        paneCadastroBox = new javax.swing.JPanel();
         lblCadastro_paneCadastro = new javax.swing.JLabel();
         lblNome_paneCadastro = new javax.swing.JLabel();
         txtNome_paneCadastro = new javax.swing.JTextField();
@@ -479,12 +499,19 @@ public class MainFrame extends javax.swing.JFrame {
 
         paneLogin.setPreferredSize(new java.awt.Dimension(800, 600));
 
+        paneLoginBox.setBackground(new java.awt.Color(67, 35, 17));
+        paneLoginBox.setForeground(new java.awt.Color(210, 210, 210));
+        paneLoginBox.setPreferredSize(new java.awt.Dimension(800, 600));
+
         lblLogin_paneLogin.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
+        lblLogin_paneLogin.setForeground(new java.awt.Color(230, 230, 230));
         lblLogin_paneLogin.setText("LOGIN");
 
         lblNome_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblNome_paneLogin.setForeground(new java.awt.Color(210, 210, 210));
         lblNome_paneLogin.setText("Nome ou Email");
 
+        txtNome_paneLogin.setBackground(new java.awt.Color(182, 143, 97));
         txtNome_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         txtNome_paneLogin.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -493,6 +520,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         lblSenha_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblSenha_paneLogin.setForeground(new java.awt.Color(210, 210, 210));
         lblSenha_paneLogin.setText("Senha");
 
         btnEntrar_paneLogin.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
@@ -504,10 +532,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         lblNoConta_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblNoConta_paneLogin.setForeground(new java.awt.Color(210, 210, 210));
         lblNoConta_paneLogin.setText("Não possui conta?");
 
         lblCadastre_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblCadastre_paneLogin.setForeground(new java.awt.Color(0, 0, 255));
+        lblCadastre_paneLogin.setForeground(new java.awt.Color(102, 255, 255));
         lblCadastre_paneLogin.setText("Cadastre-se");
         lblCadastre_paneLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblCadastre_paneLogin.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -516,6 +545,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        txtSenha_paneLogin.setBackground(new java.awt.Color(182, 143, 97));
         txtSenha_paneLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         txtSenha_paneLogin.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -523,79 +553,107 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout paneLoginBoxLayout = new javax.swing.GroupLayout(paneLoginBox);
+        paneLoginBox.setLayout(paneLoginBoxLayout);
+        paneLoginBoxLayout.setHorizontalGroup(
+            paneLoginBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginBoxLayout.createSequentialGroup()
+                .addContainerGap(96, Short.MAX_VALUE)
+                .addGroup(paneLoginBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNome_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSenha_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSenha_paneLogin)
+                    .addComponent(lblNome_paneLogin))
+                .addGap(83, 83, 83))
+            .addGroup(paneLoginBoxLayout.createSequentialGroup()
+                .addGroup(paneLoginBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneLoginBoxLayout.createSequentialGroup()
+                        .addGap(233, 233, 233)
+                        .addComponent(lblLogin_paneLogin))
+                    .addGroup(paneLoginBoxLayout.createSequentialGroup()
+                        .addGap(226, 226, 226)
+                        .addComponent(btnEntrar_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneLoginBoxLayout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(lblNoConta_paneLogin)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblCadastre_paneLogin)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        paneLoginBoxLayout.setVerticalGroup(
+            paneLoginBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneLoginBoxLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(lblLogin_paneLogin)
+                .addGap(80, 80, 80)
+                .addComponent(lblNome_paneLogin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNome_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(lblSenha_paneLogin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSenha_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72)
+                .addComponent(btnEntrar_paneLogin)
+                .addGap(54, 54, 54)
+                .addGroup(paneLoginBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNoConta_paneLogin)
+                    .addComponent(lblCadastre_paneLogin))
+                .addGap(48, 48, 48))
+        );
+
         javax.swing.GroupLayout paneLoginLayout = new javax.swing.GroupLayout(paneLogin);
         paneLogin.setLayout(paneLoginLayout);
         paneLoginLayout.setHorizontalGroup(
             paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblLogin_paneLogin)
-                .addGap(341, 341, 341))
             .addGroup(paneLoginLayout.createSequentialGroup()
-                .addGap(189, 189, 189)
-                .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblSenha_paneLogin)
-                    .addComponent(txtSenha_paneLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
-                    .addComponent(lblNome_paneLogin)
-                    .addComponent(txtNome_paneLogin))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
-                .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
-                        .addComponent(lblNoConta_paneLogin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblCadastre_paneLogin)
-                        .addGap(265, 265, 265))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneLoginLayout.createSequentialGroup()
-                        .addComponent(btnEntrar_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(334, 334, 334))))
+                .addGap(99, 99, 99)
+                .addComponent(paneLoginBox, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100))
         );
         paneLoginLayout.setVerticalGroup(
             paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneLoginLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblLogin_paneLogin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addComponent(lblNome_paneLogin)
-                .addGap(18, 18, 18)
-                .addComponent(txtNome_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblSenha_paneLogin)
-                .addGap(18, 18, 18)
-                .addComponent(txtSenha_paneLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(93, 93, 93)
-                .addComponent(btnEntrar_paneLogin)
-                .addGap(62, 62, 62)
-                .addGroup(paneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCadastre_paneLogin)
-                    .addComponent(lblNoConta_paneLogin))
-                .addGap(38, 38, 38))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(paneLoginBox, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
         );
 
         tabPane.addTab("Login", paneLogin);
 
+        paneCadastroBox.setBackground(new java.awt.Color(67, 35, 17));
+        paneCadastroBox.setPreferredSize(new java.awt.Dimension(600, 550));
+
         lblCadastro_paneCadastro.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
+        lblCadastro_paneCadastro.setForeground(new java.awt.Color(230, 230, 230));
         lblCadastro_paneCadastro.setText("CADASTRO");
 
         lblNome_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblNome_paneCadastro.setForeground(new java.awt.Color(210, 210, 210));
         lblNome_paneCadastro.setText("Nome");
 
+        txtNome_paneCadastro.setBackground(new java.awt.Color(182, 143, 97));
         txtNome_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
 
         lblEmail_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblEmail_paneCadastro.setForeground(new java.awt.Color(210, 210, 210));
         lblEmail_paneCadastro.setText("Email");
 
+        txtEmail_paneCadastro.setBackground(new java.awt.Color(182, 143, 97));
         txtEmail_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
 
         lblSenha_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblSenha_paneCadastro.setForeground(new java.awt.Color(210, 210, 210));
         lblSenha_paneCadastro.setText("Senha");
 
+        txtSenha_paneCadastro.setBackground(new java.awt.Color(182, 143, 97));
         txtSenha_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
 
         lblConfirmarSenha_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        lblConfirmarSenha_paneCadastro.setForeground(new java.awt.Color(210, 210, 210));
         lblConfirmarSenha_paneCadastro.setText("Confirmar senha");
 
+        txtConfirmarSenha_paneCadastro.setBackground(new java.awt.Color(182, 143, 97));
         txtConfirmarSenha_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
 
         btnCadastrar_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
@@ -607,7 +665,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         lblRetornarLogin_paneCadastro.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblRetornarLogin_paneCadastro.setForeground(new java.awt.Color(0, 0, 255));
+        lblRetornarLogin_paneCadastro.setForeground(new java.awt.Color(102, 255, 255));
         lblRetornarLogin_paneCadastro.setText("Retornar ao Login");
         lblRetornarLogin_paneCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblRetornarLogin_paneCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -616,64 +674,76 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout paneCadastroBoxLayout = new javax.swing.GroupLayout(paneCadastroBox);
+        paneCadastroBox.setLayout(paneCadastroBoxLayout);
+        paneCadastroBoxLayout.setHorizontalGroup(
+            paneCadastroBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneCadastroBoxLayout.createSequentialGroup()
+                .addContainerGap(85, Short.MAX_VALUE)
+                .addGroup(paneCadastroBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneCadastroBoxLayout.createSequentialGroup()
+                        .addGroup(paneCadastroBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNome_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblConfirmarSenha_paneCadastro)
+                            .addComponent(lblNome_paneCadastro)
+                            .addComponent(lblEmail_paneCadastro)
+                            .addComponent(lblSenha_paneCadastro)
+                            .addComponent(txtConfirmarSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEmail_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(85, 85, 85))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneCadastroBoxLayout.createSequentialGroup()
+                        .addComponent(lblCadastro_paneCadastro)
+                        .addGap(200, 200, 200))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneCadastroBoxLayout.createSequentialGroup()
+                        .addGroup(paneCadastroBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCadastrar_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblRetornarLogin_paneCadastro))
+                        .addGap(221, 221, 221))))
+        );
+        paneCadastroBoxLayout.setVerticalGroup(
+            paneCadastroBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneCadastroBoxLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(lblCadastro_paneCadastro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 16, Short.MAX_VALUE)
+                .addComponent(lblNome_paneCadastro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNome_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblEmail_paneCadastro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblSenha_paneCadastro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblConfirmarSenha_paneCadastro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtConfirmarSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addComponent(btnCadastrar_paneCadastro)
+                .addGap(18, 18, 18)
+                .addComponent(lblRetornarLogin_paneCadastro)
+                .addGap(20, 20, 20))
+        );
+
         javax.swing.GroupLayout paneCadastroLayout = new javax.swing.GroupLayout(paneCadastro);
         paneCadastro.setLayout(paneCadastroLayout);
         paneCadastroLayout.setHorizontalGroup(
             paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneCadastroLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCadastrar_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblRetornarLogin_paneCadastro))
-                .addGap(318, 318, 318))
             .addGroup(paneCadastroLayout.createSequentialGroup()
-                .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(paneCadastroLayout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblConfirmarSenha_paneCadastro)
-                            .addComponent(lblSenha_paneCadastro)
-                            .addComponent(lblEmail_paneCadastro)
-                            .addComponent(lblNome_paneCadastro)))
-                    .addGroup(paneCadastroLayout.createSequentialGroup()
-                        .addGap(299, 299, 299)
-                        .addComponent(lblCadastro_paneCadastro)))
-                .addContainerGap(307, Short.MAX_VALUE))
-            .addGroup(paneCadastroLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtSenha_paneCadastro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .addComponent(txtEmail_paneCadastro, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNome_paneCadastro, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtConfirmarSenha_paneCadastro, javax.swing.GroupLayout.Alignment.LEADING))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(100, 100, 100)
+                .addComponent(paneCadastroBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100))
         );
         paneCadastroLayout.setVerticalGroup(
             paneCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneCadastroLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblCadastro_paneCadastro)
-                .addGap(31, 31, 31)
-                .addComponent(lblNome_paneCadastro)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNome_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblEmail_paneCadastro)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtEmail_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblSenha_paneCadastro)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblConfirmarSenha_paneCadastro)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtConfirmarSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addComponent(btnCadastrar_paneCadastro)
-                .addGap(38, 38, 38)
-                .addComponent(lblRetornarLogin_paneCadastro)
-                .addGap(32, 32, 32))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(paneCadastroBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
         );
 
         tabPane.addTab("Cadastro", paneCadastro);
@@ -867,7 +937,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnLivrosEscolhidos_paneMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
+                .addGap(60, 60, 60)
                 .addGroup(paneHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblOperacoes_paneMenu)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -880,7 +950,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnRenovar_paneMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Home", paneHome);
@@ -983,7 +1053,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(txtBucarTitulo_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpar_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrollVerLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))
+                .addComponent(scrollVerLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Ver Livros", paneVerLivros);
@@ -1086,7 +1156,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(txtBucarTitulo_paneEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpar_paneEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrollEmprestimo, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))
+                .addComponent(scrollEmprestimo, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Emprestimo", paneEmprestimo);
@@ -1136,7 +1206,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(lblLivros_paneLivrosEmprestados)
                         .addComponent(iconVoltar_paneLivrosEmprestados, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollLivrosEmprestados, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE))
+                .addComponent(scrollLivrosEmprestados, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Livros Emp.", paneLivrosEmprestados);
@@ -1186,7 +1256,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(lblLivros_paneDevolucao)
                         .addComponent(iconVoltar_paneDevolucao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollDevolucao, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE))
+                .addComponent(scrollDevolucao, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Devolucao", paneDevolucao);
@@ -1236,7 +1306,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(lblLivros_paneRenovar)
                         .addComponent(iconVoltar_paneRenovar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollRenovar, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE))
+                .addComponent(scrollRenovar, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Renovar", paneRenovar);
@@ -1341,7 +1411,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(paneConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(lblCOnfiguracoes_paneConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(iconVoltar_paneConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addGroup(paneConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblOperacoes_paneConfig, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1367,7 +1437,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabPane, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(tabPane, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
         );
 
         pack();
@@ -1450,8 +1520,8 @@ public class MainFrame extends javax.swing.JFrame {
             usuarioLogado = dao.acessarUsuario(nomeEmail, senha);
             System.out.println(usuarioLogado);
             if (usuarioLogado == null){
-                txtNome_paneLogin.setForeground(Color.RED);
-                txtSenha_paneLogin.setForeground(Color.RED);
+                txtNome_paneLogin.setForeground(new Color(135, 12, 12));
+                txtSenha_paneLogin.setForeground(new Color(135, 12, 12));
                 JOptionPane.showMessageDialog(null, "Usuário ou Senha inválidos");
             } else {
                 txtNome_paneLogin.setText("");
@@ -2077,12 +2147,14 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblSenha_paneCadastro;
     private javax.swing.JLabel lblSenha_paneLogin;
     private javax.swing.JPanel paneCadastro;
+    private javax.swing.JPanel paneCadastroBox;
     private javax.swing.JPanel paneConfig;
     private javax.swing.JPanel paneDevolucao;
     private javax.swing.JPanel paneEmprestimo;
     private javax.swing.JPanel paneHome;
     private javax.swing.JPanel paneLivrosEmprestados;
     private javax.swing.JPanel paneLogin;
+    private javax.swing.JPanel paneLoginBox;
     private javax.swing.JPanel paneRenovar;
     private javax.swing.JPanel paneVerLivros;
     private javax.swing.JScrollPane scrollDevolucao;

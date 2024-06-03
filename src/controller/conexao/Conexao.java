@@ -25,7 +25,6 @@ public class Conexao {
             if (con != null){
                 con.close();
             }
-            con.close();
         } catch (Exception e) {
             System.err.println("ERRO: " + e.getMessage());
         }
