@@ -10,12 +10,46 @@ import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
 
+    public static final int defaultBackground = 1;
+    public static final int homeBackground = 2;
+    public static final int scrollBackground = 3;
+    public static final int configBackground = 4;
     private Image img;
+
+    public ImagePanel(int backgroundType) {
+        try {
+            this.setLayout(new BorderLayout());
+            switch (backgroundType) {
+                case defaultBackground:{
+                    this.img = ImageIO.read(new URL(getClass().getResource("/images/mainBackground.png"), "mainBackground.png"));
+                    break;
+                }
+                case homeBackground: {
+                    this.img = ImageIO.read(new URL(getClass().getResource("/images/homeBackground.png"), "homeBackground.png"));
+                    break;
+                }
+                case scrollBackground: {
+                    this.img = ImageIO.read(new URL(getClass().getResource("/images/scrollBackground.png"), "scrollBackground.png"));
+                    break;
+                }
+                case configBackground: {
+                    this.img = ImageIO.read(new URL(getClass().getResource("/images/configBackground.png"), "configBackground.png"));
+                    break;
+                }
+                default:{
+                    this.img = ImageIO.read(new URL(getClass().getResource("/images/mainBackground.png"), "mainBackground.png"));
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("ERRO: " + e.getMessage());
+        }
+    }
 
     public ImagePanel() {
         try {
             this.setLayout(new BorderLayout());
-            this.img = ImageIO.read(new URL(getClass().getResource("/images/background8.png"), "background8.png"));
+            this.img = ImageIO.read(new URL(getClass().getResource("/images/mainBackground.png"), "mainBackground.png"));
         } catch (IOException e) {
             System.err.println("ERRO: " + e.getMessage());
         }

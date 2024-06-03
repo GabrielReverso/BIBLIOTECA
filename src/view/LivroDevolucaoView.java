@@ -55,7 +55,7 @@ public class LivroDevolucaoView extends javax.swing.JPanel {
 
             @Override
             public void paint(Graphics2D g, JTextArea field, int width, int height) {
-                g.setColor(new Color(67, 35, 17, 230));
+                g.setColor(new Color(103, 46, 14));
                 g.fill(new Rectangle(
                         0, 
                         0, 
@@ -72,7 +72,7 @@ public class LivroDevolucaoView extends javax.swing.JPanel {
 
     private void loadBackground(){
         try {
-            this.background = ImageIO.read(new URL(getClass().getResource("/images/livroBackground4.png"), "livroBackground4.png"));
+            this.background = ImageIO.read(new URL(getClass().getResource("/images/livroBackground.png"), "livroBackground.png"));
         } catch (IOException e) {
             System.err.println("ERRO: " + e.getMessage());
         }
@@ -165,11 +165,11 @@ public class LivroDevolucaoView extends javax.swing.JPanel {
         jScrollPane1.setViewportView(txtTitulo);
 
         lblTitulo.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(204, 204, 204));
+        lblTitulo.setForeground(new java.awt.Color(230, 230, 230));
         lblTitulo.setText("Título:");
 
         lblPrazoVencimento.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        lblPrazoVencimento.setForeground(new java.awt.Color(204, 204, 204));
+        lblPrazoVencimento.setForeground(new java.awt.Color(230, 230, 230));
         lblPrazoVencimento.setText("Prazo de vencimento:");
 
         txtPrazoVencimento.setEditable(false);
@@ -183,7 +183,7 @@ public class LivroDevolucaoView extends javax.swing.JPanel {
         jScrollPane2.setViewportView(txtPrazoVencimento);
 
         lblStatus.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        lblStatus.setForeground(new java.awt.Color(204, 204, 204));
+        lblStatus.setForeground(new java.awt.Color(230, 230, 230));
         lblStatus.setText("Status:");
 
         txtStatus.setEditable(false);
@@ -197,7 +197,7 @@ public class LivroDevolucaoView extends javax.swing.JPanel {
         jScrollPane3.setViewportView(txtStatus);
 
         lblDiaEmprestimo.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        lblDiaEmprestimo.setForeground(new java.awt.Color(204, 204, 204));
+        lblDiaEmprestimo.setForeground(new java.awt.Color(230, 230, 230));
         lblDiaEmprestimo.setText("Dia do empréstimo:");
 
         txtDiaEmprestimo.setEditable(false);
@@ -211,7 +211,7 @@ public class LivroDevolucaoView extends javax.swing.JPanel {
         jScrollPane5.setViewportView(txtDiaEmprestimo);
 
         lblAutor.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        lblAutor.setForeground(new java.awt.Color(204, 204, 204));
+        lblAutor.setForeground(new java.awt.Color(230, 230, 230));
         lblAutor.setText("Autor:");
 
         txtAutor.setEditable(false);

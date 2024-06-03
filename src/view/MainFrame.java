@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.sql.Connection;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.Painter;
@@ -43,33 +45,18 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form UsuarioView
      */
     public MainFrame() {
-        //this.setContentPane(new ImagePanel());
         initComponents();
         configureBackground();
         configureTabbedPaneUI();
+        configureUI();
         verificarConexao();
         loadIcons();
         setLocationRelativeTo(null);
         setResizable(false); 
         setTitle("BIBLIOTECA");
-        UIDefaults overrides = new UIDefaults();
-        overrides.put("TextArea[Disabled].backgroundPainter", new Painter<JTextArea>() {
-
-            @Override
-            public void paint(Graphics2D g, JTextArea field, int width, int height) {
-                g.setColor(Color.GREEN);
-                g.fill(new Rectangle(
-                        0, 
-                        0, 
-                        width ,  // Tirar tudo pra ficar sem borda
-                        height));
-            }
-
-        });
-        txtDescricaoBusca_paneMenu.putClientProperty("Nimbus.Overrides", overrides);
-        txtDescricaoOp_paneMenu.putClientProperty("Nimbus.Overrides", overrides);
     }
 
+    /*Método para verificar se está conectado ao banco de dados*/
     private void verificarConexao(){
         Connection con = Conexao.conectar();
 
@@ -78,6 +65,7 @@ public class MainFrame extends javax.swing.JFrame {
                                           "Banco de dados indisponível, reinicie a aplicação!", 
                                           "Alerta", 
                                           JOptionPane.WARNING_MESSAGE);
+            btnEntrar_paneLogin.setEnabled(false);
         } else {
             adicionarLivrosScroll();
             adicionarEmprestimoScroll();
@@ -86,11 +74,57 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
+    /*Método para configurar o UI dos TextArea e Separators*/
+    private void configureUI(){
+        UIDefaults overrides = new UIDefaults();
+        overrides.put("TextArea[Disabled].backgroundPainter", new Painter<JTextArea>() {
+
+            @Override
+            public void paint(Graphics2D g, JTextArea field, int width, int height) {
+                g.setColor(new Color(182,143,97));
+                g.fill(new Rectangle(
+                        0, 
+                        0, 
+                        width,
+                        height));
+            }
+
+        });
+        txtDescricaoBusca_paneMenu.putClientProperty("Nimbus.Overrides", overrides);
+        txtDescricaoOp_paneMenu.putClientProperty("Nimbus.Overrides", overrides);
+        overrides.put("Separator[Enabled].backgroundPainter", new Painter<JSeparator>() {
+
+            @Override
+            public void paint(Graphics2D g, JSeparator separator, int width, int height) {
+                g.setColor(new Color(67, 35, 17));
+                g.fill(new Rectangle(
+                        0, 
+                        3, 
+                        width,
+                        2));
+            }
+
+        });
+        jSeparator2.putClientProperty("Nimbus.Overrides", overrides);
+        jSeparator1.putClientProperty("Nimbus.Overrides", overrides);
+        jSeparator5.putClientProperty("Nimbus.Overrides", overrides);
+        jSeparator4.putClientProperty("Nimbus.Overrides", overrides);
+    }
+
+    /*Método para chamar as configurações de fundo*/
     private void configureBackground(){
         configureLoginPaneWithBackground();
         configureCadastroPaneWithBackground();
+        configureHomePaneWithBackground();
+        configureVerLivrosPaneWithBackground();
+        configureDevolucaoPaneWithBackground();
+        configureEmprestimoPaneWithBackground();
+        configureLivrosEmprestadosPaneWithBackground();
+        configureRenovarPaneWithBackground();
+        configureConfigPaneWithBackground();
     }
 
+    /*Método para configurar o fundo de LOGIN*/
     private void configureLoginPaneWithBackground() {
         // Crie objeto ImagePanel
         ImagePanel backgroundLogin = new ImagePanel();
@@ -111,6 +145,7 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setSelectedIndex(0);
     }
 
+    /*Método para configurar o fundo de CADASTRO*/
     private void configureCadastroPaneWithBackground() {
         // Crie objeto ImagePanel
         ImagePanel backgroundCadastro = new ImagePanel();
@@ -131,6 +166,128 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setSelectedIndex(0);
     }
 
+    /*Método para configurar o fundo de HOME*/
+    private void configureHomePaneWithBackground() {
+        // Crie objeto ImagePanel
+        ImagePanel backgroundHome = new ImagePanel(ImagePanel.homeBackground);
+        
+        // Torna o painel pai transparente
+        paneHome.setOpaque(false);
+        jSeparator1.setBackground(new Color(67,35,17));
+        jSeparator1.setForeground(new Color(67,35,17));
+        
+        // Adicione o painel ao painel de imagem
+        backgroundHome.add(paneHome, BorderLayout.CENTER);
+        
+        // Substitua o painel original pelo painel com imagem
+        tabPane.remove(paneHome);
+        tabPane.insertTab("Home", null, backgroundHome, null, 2);
+        tabPane.setSelectedIndex(0);
+    }
+
+    /*Método para configurar o fundo de VER LIVROS*/
+    private void configureVerLivrosPaneWithBackground() {
+        // Crie objeto ImagePanel
+        ImagePanel backgroundVerLivros = new ImagePanel(ImagePanel.scrollBackground);
+        
+        // Torna o painel pai transparente
+        paneVerLivros.setOpaque(false);
+        
+        // Adicione o painel ao painel de imagem
+        backgroundVerLivros.add(paneVerLivros, BorderLayout.CENTER);
+        
+        // Substitua o painel original pelo painel com imagem
+        tabPane.remove(paneVerLivros);
+        tabPane.insertTab("Ver Livros", null, backgroundVerLivros, null, 3);
+        tabPane.setSelectedIndex(0);
+    }
+
+    /*Método para configurar o fundo de LIVROS EMPRESTADOS*/
+    private void configureLivrosEmprestadosPaneWithBackground() {
+        // Crie objeto ImagePanel
+        ImagePanel backgroundLivrosEmprestados = new ImagePanel(ImagePanel.scrollBackground);
+        
+        // Torna o painel pai transparente
+        paneLivrosEmprestados.setOpaque(false);
+        
+        // Adicione o painel ao painel de imagem
+        backgroundLivrosEmprestados.add(paneLivrosEmprestados, BorderLayout.CENTER);
+        
+        // Substitua o painel original pelo painel com imagem
+        tabPane.remove(paneLivrosEmprestados);
+        tabPane.insertTab("Livros Emp.", null, backgroundLivrosEmprestados, null, 5);
+        tabPane.setSelectedIndex(0);
+    }
+
+    /*Método para configurar o fundo de RENOVAR*/
+    private void configureRenovarPaneWithBackground() {
+        // Crie objeto ImagePanel
+        ImagePanel backgroundRenovar = new ImagePanel(ImagePanel.scrollBackground);
+        
+        // Torna o painel pai transparente
+        paneRenovar.setOpaque(false);
+        
+        // Adicione o painel ao painel de imagem
+        backgroundRenovar.add(paneRenovar, BorderLayout.CENTER);
+        
+        // Substitua o painel original pelo painel com imagem
+        tabPane.remove(paneRenovar);
+        tabPane.insertTab("Renovar", null, backgroundRenovar, null, 7);
+        tabPane.setSelectedIndex(0);
+    }
+
+    /*Método para configurar o fundo de EMPRESTIMO*/
+    private void configureEmprestimoPaneWithBackground() {
+        // Crie objeto ImagePanel
+        ImagePanel backgroundEmprestimo = new ImagePanel(ImagePanel.scrollBackground);
+        
+        // Torna o painel pai transparente
+        paneEmprestimo.setOpaque(false);
+        
+        // Adicione o painel ao painel de imagem
+        backgroundEmprestimo.add(paneEmprestimo, BorderLayout.CENTER);
+        
+        // Substitua o painel original pelo painel com imagem
+        tabPane.remove(paneEmprestimo);
+        tabPane.insertTab("Emprestimo", null, backgroundEmprestimo, null, 4);
+        tabPane.setSelectedIndex(0);
+    }
+
+    /*Método para configurar o fundo de DEVOLUÇAÕ*/
+    private void configureDevolucaoPaneWithBackground() {
+        // Crie objeto ImagePanel
+        ImagePanel backgroundDevolucao = new ImagePanel(ImagePanel.scrollBackground);
+        
+        // Torna o painel pai transparente
+        paneDevolucao.setOpaque(false);
+        
+        // Adicione o painel ao painel de imagem
+        backgroundDevolucao.add(paneDevolucao, BorderLayout.CENTER);
+        
+        // Substitua o painel original pelo painel com imagem
+        tabPane.remove(paneDevolucao);
+        tabPane.insertTab("Devolucao", null, backgroundDevolucao, null, 6);
+        tabPane.setSelectedIndex(0);
+    }
+
+    /*Método para configurar o fundo de CONFIG*/
+    private void configureConfigPaneWithBackground() {
+        // Crie objeto ImagePanel
+        ImagePanel backgroundConfig = new ImagePanel(ImagePanel.configBackground);
+        
+        // Torna o painel pai transparente
+        paneConfig.setOpaque(false);
+        
+        // Adicione o painel ao painel de imagem
+        backgroundConfig.add(paneConfig, BorderLayout.CENTER);
+        
+        // Substitua o painel original pelo painel com imagem
+        tabPane.remove(paneConfig);
+        tabPane.insertTab("Config", null, backgroundConfig, null, 8);
+        tabPane.setSelectedIndex(0);
+    }
+
+    /*Método para onfiguração do tabPane*/
     private void configureTabbedPaneUI() {
         tabPane.setUI(new BasicTabbedPaneUI() {
             @Override
@@ -149,6 +306,7 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(8, false);
     }
 
+    /*Método para carregar todos os ícones da aplicação*/
     private void loadIcons() {
 
         int homeIconWidth = 40;
@@ -231,7 +389,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
-    /*******VER LIVROS*****/
+    /*******SCROLLERS VER LIVROS*****/
     private void adicionarLivrosScroll() {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
@@ -305,7 +463,7 @@ public class MainFrame extends javax.swing.JFrame {
         scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
-    /*******EMPRESTIMO*****/
+    /*******SCROLLERS EMPRESTIMO*****/
     private void adicionarEmprestimoScroll() {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
@@ -379,7 +537,7 @@ public class MainFrame extends javax.swing.JFrame {
         scrollEmprestimo.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
-    /******EMPRESTADO******/
+    /******SCROLLER EMPRESTADO******/
     private void adicionarLivrosEmprestadosScroll() {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
@@ -395,7 +553,7 @@ public class MainFrame extends javax.swing.JFrame {
         scrollLivrosEmprestados.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
-    /******RENOVAR******/
+    /******SCROLLER RENOVAR******/
     private void adicionarLivrosRenovarScroll() {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
@@ -411,7 +569,7 @@ public class MainFrame extends javax.swing.JFrame {
         scrollRenovar.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
-    /******DEVOLUCAO******/
+    /******SCROLLER DEVOLUCAO******/
     private void adicionarLivrosDevolucaoScroll() {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
@@ -427,7 +585,7 @@ public class MainFrame extends javax.swing.JFrame {
         scrollDevolucao.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
-    //COMBOBOX
+    /*Método para preencheimento da combobox*/
     private void preencherComboBox(){
         DefaultComboBoxModel<String> m = new DefaultComboBoxModel<>();
 
@@ -797,10 +955,11 @@ public class MainFrame extends javax.swing.JFrame {
         lblMenu_paneMenu.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
         lblMenu_paneMenu.setText("MENU DE OPÇÕES");
 
+        jSeparator1.setForeground(new java.awt.Color(67, 35, 17));
         jSeparator1.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
 
         lblBusca_paneMenu.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
-        lblBusca_paneMenu.setForeground(new java.awt.Color(153, 153, 153));
+        lblBusca_paneMenu.setForeground(new java.awt.Color(67, 35, 17));
         lblBusca_paneMenu.setText("Busca");
 
         btnBuscar_paneMenu.setFont(new java.awt.Font("sansserif", 0, 22)); // NOI18N
@@ -820,9 +979,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         lblOperacoes_paneMenu.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
-        lblOperacoes_paneMenu.setForeground(new java.awt.Color(153, 153, 153));
+        lblOperacoes_paneMenu.setForeground(new java.awt.Color(67, 35, 17));
         lblOperacoes_paneMenu.setText("Operações");
 
+        jSeparator2.setBackground(new java.awt.Color(67, 35, 17));
+        jSeparator2.setForeground(new java.awt.Color(67, 35, 17));
         jSeparator2.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
 
         btnEmprestimo_paneMenu.setFont(new java.awt.Font("sansserif", 0, 22)); // NOI18N
@@ -895,6 +1056,9 @@ public class MainFrame extends javax.swing.JFrame {
         txtDescricaoBusca_paneMenu.setLineWrap(true);
         txtDescricaoBusca_paneMenu.setRows(2);
         txtDescricaoBusca_paneMenu.setWrapStyleWord(true);
+        txtDescricaoBusca_paneMenu.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(67, 35, 17)), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 1)));
+        txtDescricaoBusca_paneMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        txtDescricaoBusca_paneMenu.setDisabledTextColor(new java.awt.Color(230, 230, 230));
         txtDescricaoBusca_paneMenu.setEnabled(false);
         jScrollPane1.setViewportView(txtDescricaoBusca_paneMenu);
 
@@ -906,6 +1070,8 @@ public class MainFrame extends javax.swing.JFrame {
         txtDescricaoOp_paneMenu.setLineWrap(true);
         txtDescricaoOp_paneMenu.setRows(5);
         txtDescricaoOp_paneMenu.setWrapStyleWord(true);
+        txtDescricaoOp_paneMenu.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(67, 35, 17)), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 1)));
+        txtDescricaoOp_paneMenu.setDisabledTextColor(new java.awt.Color(230, 230, 230));
         txtDescricaoOp_paneMenu.setEnabled(false);
         jScrollPane2.setViewportView(txtDescricaoOp_paneMenu);
 
@@ -996,7 +1162,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnRenovar_paneMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Home", paneHome);
@@ -1099,7 +1265,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(txtBucarTitulo_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpar_paneVerLivros, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrollVerLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
+                .addComponent(scrollVerLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Ver Livros", paneVerLivros);
@@ -1202,7 +1368,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(txtBucarTitulo_paneEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpar_paneEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrollEmprestimo, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
+                .addComponent(scrollEmprestimo, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Emprestimo", paneEmprestimo);
@@ -1252,7 +1418,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(lblLivros_paneLivrosEmprestados)
                         .addComponent(iconVoltar_paneLivrosEmprestados, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollLivrosEmprestados, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE))
+                .addComponent(scrollLivrosEmprestados, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Livros Emp.", paneLivrosEmprestados);
@@ -1302,7 +1468,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(lblLivros_paneDevolucao)
                         .addComponent(iconVoltar_paneDevolucao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollDevolucao, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE))
+                .addComponent(scrollDevolucao, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Devolucao", paneDevolucao);
@@ -1352,7 +1518,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(lblLivros_paneRenovar)
                         .addComponent(iconVoltar_paneRenovar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollRenovar, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE))
+                .addComponent(scrollRenovar, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE))
         );
 
         tabPane.addTab("Renovar", paneRenovar);
@@ -1361,9 +1527,10 @@ public class MainFrame extends javax.swing.JFrame {
         lblCOnfiguracoes_paneConfig.setText("CONFIGURAÇÕES");
 
         lblOperacoes_paneConfig.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
-        lblOperacoes_paneConfig.setForeground(new java.awt.Color(153, 153, 153));
+        lblOperacoes_paneConfig.setForeground(new java.awt.Color(67, 35, 17));
         lblOperacoes_paneConfig.setText("Operações");
 
+        jSeparator4.setForeground(new java.awt.Color(67, 35, 17));
         jSeparator4.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
 
         btnAlterarNome_paneConfig.setFont(new java.awt.Font("sansserif", 0, 22)); // NOI18N
@@ -1382,6 +1549,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jSeparator5.setForeground(new java.awt.Color(67, 35, 17));
         jSeparator5.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
 
         btnAlterarEmail_paneConfig.setFont(new java.awt.Font("sansserif", 0, 22)); // NOI18N
@@ -1444,7 +1612,7 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(iconInformacao, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(paneConfigLayout.createSequentialGroup()
-                        .addGap(264, 264, 264)
+                        .addGap(268, 268, 268)
                         .addComponent(btnEncerrar_paneConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1495,45 +1663,48 @@ public class MainFrame extends javax.swing.JFrame {
      * 
      **/
     /*CADASTRO*************************************************************************/
-    private void btnCadastrar_paneCadastroActionPerformed(java.awt.event.ActionEvent evt) {                                                          
+    private void btnCadastrar_paneCadastroActionPerformed(java.awt.event.ActionEvent evt) {    
         
-        if(txtSenha_paneCadastro.getText().equals(txtConfirmarSenha_paneCadastro.getText())){
-
-            Usuario u = new Usuario(txtNome_paneCadastro.getText(), txtEmail_paneCadastro.getText(), new String(txtSenha_paneCadastro.getPassword()));
-            UsuarioDAO dao = new UsuarioDAO();
-
-            int resultado = dao.inserirNovoUsuario(u);
-
-            if (resultado == -1){
-                JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
-            } else if (resultado == -2) {
-                JOptionPane.showMessageDialog(null, "Nome já cadastrado, operação cancelada");
-            } else if (resultado == -3){
-                JOptionPane.showMessageDialog(null, "Email já cadastrado, operação cancelada");
+        if(txtEmail_paneCadastro.getText().contains("@")){
+            if(txtSenha_paneCadastro.getText().equals(txtConfirmarSenha_paneCadastro.getText())){
+    
+                Usuario u = new Usuario(txtNome_paneCadastro.getText(), txtEmail_paneCadastro.getText(), new String(txtSenha_paneCadastro.getPassword()));
+                UsuarioDAO dao = new UsuarioDAO();
+    
+                int resultado = dao.inserirNovoUsuario(u);
+    
+                if (resultado == -1){
+                    JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
+                } else if (resultado == -2) {
+                    JOptionPane.showMessageDialog(null, "Nome já cadastrado, operação cancelada");
+                } else if (resultado == -3){
+                    JOptionPane.showMessageDialog(null, "Email já cadastrado, operação cancelada");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Cadastro realizado");
+                    txtNome_paneCadastro.setText("");
+                    txtEmail_paneCadastro.setText("");
+                    txtSenha_paneCadastro.setText("");
+                    txtConfirmarSenha_paneCadastro.setText("");
+                    tabPane.setSelectedIndex(0);
+                    tabPane.setEnabledAt(0, true);
+                    tabPane.setEnabledAt(1, false);
+                    tabPane.setEnabledAt(2, false);
+                    tabPane.setEnabledAt(3, false);
+                    tabPane.setEnabledAt(4, false);
+                    tabPane.setEnabledAt(5, false);
+                    tabPane.setEnabledAt(6, false);
+                    tabPane.setEnabledAt(7, false);
+                    tabPane.setEnabledAt(8, false);
+                }
+    
             } else {
-                JOptionPane.showMessageDialog(null, "Cadastro realizado");
-                txtNome_paneCadastro.setText("");
-                txtEmail_paneCadastro.setText("");
-                txtSenha_paneCadastro.setText("");
-                txtConfirmarSenha_paneCadastro.setText("");
-                tabPane.setSelectedIndex(0);
-                tabPane.setEnabledAt(0, true);
-                tabPane.setEnabledAt(1, false);
-                tabPane.setEnabledAt(2, false);
-                tabPane.setEnabledAt(3, false);
-                tabPane.setEnabledAt(4, false);
-                tabPane.setEnabledAt(5, false);
-                tabPane.setEnabledAt(6, false);
-                tabPane.setEnabledAt(7, false);
-                tabPane.setEnabledAt(8, false);
+                txtSenha_paneCadastro.setForeground(new Color(135, 12, 12));
+                txtConfirmarSenha_paneCadastro.setForeground(new Color(135, 12, 12));
+                JOptionPane.showMessageDialog(null, "Senhas não correspondem!");
             }
-
         } else {
-            txtSenha_paneCadastro.setForeground(new Color(135, 12, 12));
-            txtConfirmarSenha_paneCadastro.setForeground(new Color(135, 12, 12));
-            JOptionPane.showMessageDialog(null, "Senhas não correspondem");
+            JOptionPane.showMessageDialog(null, "Insira um email válido!");
         }
-
     }
 
     private void lblRetornarLogin_paneCadastroMouseClicked(java.awt.event.MouseEvent evt) {   

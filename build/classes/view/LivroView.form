@@ -157,7 +157,7 @@
           <Font name="sansserif" size="14" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+          <Color blue="e6" green="e6" red="e6" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="T&#xed;tulo:"/>
       </Properties>
@@ -168,7 +168,7 @@
           <Font name="sansserif" size="14" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+          <Color blue="e6" green="e6" red="e6" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Autor:"/>
       </Properties>
@@ -207,7 +207,7 @@
           <Font name="sansserif" size="14" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+          <Color blue="e6" green="e6" red="e6" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Editora:"/>
       </Properties>
@@ -246,7 +246,7 @@
           <Font name="sansserif" size="14" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+          <Color blue="e6" green="e6" red="e6" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Descri&#xe7;&#xe3;o:"/>
       </Properties>
@@ -285,7 +285,7 @@
           <Font name="sansserif" size="14" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+          <Color blue="e6" green="e6" red="e6" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Disponibilidade:"/>
       </Properties>

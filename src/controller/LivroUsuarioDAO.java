@@ -214,7 +214,6 @@ public class LivroUsuarioDAO {
 
             int quantidadeLivroPosse = 0;
 
-            
             SQL = "select * from tb_livro_usuario where id_usuario = ?";
 
             cmd = con.prepareStatement(SQL);
