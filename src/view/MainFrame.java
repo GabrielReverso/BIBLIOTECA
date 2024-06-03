@@ -40,7 +40,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         //this.setContentPane(new ImagePanel());
         initComponents();
-        configureLoginPaneWithBackground();
+        configureBackground();
         configureTabbedPaneUI();
         verificarConexao();
         loadIcons();
@@ -65,23 +65,48 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
+    private void configureBackground(){
+        configureLoginPaneWithBackground();
+        configureCadastroPaneWithBackground();
+    }
+
     private void configureLoginPaneWithBackground() {
-        // Crie um objeto ImagePanel
-        ImagePanel background = new ImagePanel();
+        // Crie objeto ImagePanel
+        ImagePanel backgroundLogin = new ImagePanel();
         
-        // Torna o painel de login transparente
+        // Torna o painel pai transparente
         paneLogin.setOpaque(false);
 
-        // Defina o layout do painel de login para BorderLayout
+        // Defina cores e bordas para a box
         paneLoginBox.setBackground(new Color(67, 35, 17, 230));    
         paneLoginBox.setBorder(new CustomBorder(new Color(210, 210, 210)));  
         
-        // Adicione o painel de login ao painel de imagem
-        background.add(paneLogin, BorderLayout.CENTER);
+        // Adicione o painel ao painel de imagem
+        backgroundLogin.add(paneLogin, BorderLayout.CENTER);
         
-        // Substitua o painel de login original pelo painel de imagem
+        // Substitua o painel original pelo painel com imagem
         tabPane.remove(paneLogin);
-        tabPane.insertTab("Login", null, background, null, 0);
+        tabPane.insertTab("Login", null, backgroundLogin, null, 0);
+        tabPane.setSelectedIndex(0);
+    }
+
+    private void configureCadastroPaneWithBackground() {
+        // Crie objeto ImagePanel
+        ImagePanel backgroundCadastro = new ImagePanel();
+        
+        // Torna o painel pai transparente
+        paneCadastro.setOpaque(false);
+
+        // Defina cores e bordas para a box
+        paneCadastroBox.setBackground(new Color(67, 35, 17, 230));    
+        paneCadastroBox.setBorder(new CustomBorder(new Color(210, 210, 210)));  
+        
+        // Adicione o painel ao painel de imagem
+        backgroundCadastro.add(paneCadastro, BorderLayout.CENTER);
+        
+        // Substitua o painel original pelo painel com imagem
+        tabPane.remove(paneCadastro);
+        tabPane.insertTab("Cadastro", null, backgroundCadastro, null, 1);
         tabPane.setSelectedIndex(0);
     }
 
@@ -704,9 +729,9 @@ public class MainFrame extends javax.swing.JFrame {
         paneCadastroBoxLayout.setVerticalGroup(
             paneCadastroBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneCadastroBoxLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(20, 20, 20)
                 .addComponent(lblCadastro_paneCadastro)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 16, Short.MAX_VALUE)
+                .addGap(16, 16, 16)
                 .addComponent(lblNome_paneCadastro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNome_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -722,11 +747,11 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(lblConfirmarSenha_paneCadastro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtConfirmarSenha_paneCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
                 .addComponent(btnCadastrar_paneCadastro)
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
                 .addComponent(lblRetornarLogin_paneCadastro)
-                .addGap(20, 20, 20))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout paneCadastroLayout = new javax.swing.GroupLayout(paneCadastro);
@@ -1483,8 +1508,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
 
         } else {
-            lblConfirmarSenha_paneCadastro.setForeground(Color.RED);
-            txtConfirmarSenha_paneCadastro.setForeground(Color.RED);
+            txtSenha_paneCadastro.setForeground(new Color(135, 12, 12));
+            txtConfirmarSenha_paneCadastro.setForeground(new Color(135, 12, 12));
             JOptionPane.showMessageDialog(null, "Senhas não correspondem");
         }
 
