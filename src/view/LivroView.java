@@ -4,12 +4,16 @@
  */
 package view;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import model.Livro;
 import model.LivroAcervo;
 
+import java.awt.Graphics;
 import java.awt.Image;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  *
@@ -17,11 +21,14 @@ import java.awt.Image;
  */
 public class LivroView extends javax.swing.JPanel {
 
+    private Image background;
+
     /**
      * Creates new form LivroView
      */
     public LivroView(Livro livro) {
         initComponents();
+        loadBackground();
         loadImage(livro.getPathImagem());
         txtTitulo.setText(livro.getTitulo());
         txtAutor.setText(livro.getAutor());
@@ -32,12 +39,32 @@ public class LivroView extends javax.swing.JPanel {
 
     public LivroView(LivroAcervo livroAcervo) {
         initComponents();
+        loadBackground();
         loadImage(livroAcervo.getLivro().getPathImagem());
         txtTitulo.setText(livroAcervo.getLivro().getTitulo());
         txtAutor.setText(livroAcervo.getLivro().getAutor());
         txtEditora.setText(livroAcervo.getLivro().getEditora());
         txtDescricao.setText(livroAcervo.getLivro().getDescricao());
         txtDisponibilidade.setText(String.format("%d", livroAcervo.getDisponibilidade()));
+    
+    }
+
+    private void loadBackground(){
+        try {
+            this.background = ImageIO.read(new URL(getClass().getResource("/images/livroBackground4.png"), "livroBackground4.png"));
+        } catch (IOException e) {
+            System.err.println("ERRO: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (background!= null) {
+            // Redimensiona a imagem para cobrir toda a área do painel
+            Image scaledImg = background.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT);
+            g.drawImage(scaledImg, 0, 0, this);
+        }
     }
 
     private void loadImage(String path){
@@ -110,13 +137,16 @@ public class LivroView extends javax.swing.JPanel {
         txtTitulo.setLineWrap(true);
         txtTitulo.setRows(1);
         txtTitulo.setWrapStyleWord(true);
+        txtTitulo.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         txtTitulo.setEnabled(false);
         jScrollPane1.setViewportView(txtTitulo);
 
         lblTitulo.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(204, 204, 204));
         lblTitulo.setText("Título:");
 
         lblAutor.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblAutor.setForeground(new java.awt.Color(204, 204, 204));
         lblAutor.setText("Autor:");
 
         txtAutor.setEditable(false);
@@ -129,6 +159,7 @@ public class LivroView extends javax.swing.JPanel {
         jScrollPane2.setViewportView(txtAutor);
 
         lblEditora.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblEditora.setForeground(new java.awt.Color(204, 204, 204));
         lblEditora.setText("Editora:");
 
         txtEditora.setEditable(false);
@@ -141,6 +172,7 @@ public class LivroView extends javax.swing.JPanel {
         jScrollPane3.setViewportView(txtEditora);
 
         lblDescricao.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblDescricao.setForeground(new java.awt.Color(204, 204, 204));
         lblDescricao.setText("Descrição:");
 
         txtDescricao.setEditable(false);
@@ -153,6 +185,7 @@ public class LivroView extends javax.swing.JPanel {
         jScrollPane4.setViewportView(txtDescricao);
 
         lblDisponibilidade.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblDisponibilidade.setForeground(new java.awt.Color(204, 204, 204));
         lblDisponibilidade.setText("Disponibilidade:");
 
         txtDisponibilidade.setEditable(false);

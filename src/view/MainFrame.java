@@ -2,7 +2,10 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.sql.Connection;
 import java.util.List;
 
@@ -13,7 +16,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.Painter;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 import controller.AcervoDAO;
@@ -47,6 +55,23 @@ public class MainFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false); 
         setTitle("BIBLIOTECA");
+        UIDefaults overrides = new UIDefaults();
+        overrides.put("TextArea[Disabled].backgroundPainter", new Painter<JTextArea>() {
+
+            @Override
+            public void paint(Graphics2D g, JTextArea field, int width, int height) {
+                g.setColor(Color.GREEN);
+                Insets insets = field.getInsets();
+                g.fill(new Rectangle(
+                        insets.left, 
+                        insets.top, 
+                        width - (insets.left + insets.right),  // Tirar tudo pra ficar sem borda
+                        height - (insets.top + insets.bottom)));
+            }
+
+        });
+        txtDescricaoBusca_paneMenu.putClientProperty("Nimbus.Overrides", overrides);
+        txtDescricaoOp_paneMenu.putClientProperty("Nimbus.Overrides", overrides);
     }
 
     private void verificarConexao(){
@@ -869,6 +894,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         txtDescricaoBusca_paneMenu.setEditable(false);
+        txtDescricaoBusca_paneMenu.setBackground(new java.awt.Color(255, 255, 204));
         txtDescricaoBusca_paneMenu.setColumns(1);
         txtDescricaoBusca_paneMenu.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         txtDescricaoBusca_paneMenu.setLineWrap(true);
@@ -2100,7 +2126,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+             
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
