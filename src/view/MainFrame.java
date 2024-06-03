@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.sql.Connection;
 import java.util.List;
@@ -20,8 +19,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.Painter;
 import javax.swing.UIDefaults;
-import javax.swing.UIManager;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 import controller.AcervoDAO;
@@ -61,12 +58,11 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void paint(Graphics2D g, JTextArea field, int width, int height) {
                 g.setColor(Color.GREEN);
-                Insets insets = field.getInsets();
                 g.fill(new Rectangle(
-                        insets.left, 
-                        insets.top, 
-                        width - (insets.left + insets.right),  // Tirar tudo pra ficar sem borda
-                        height - (insets.top + insets.bottom)));
+                        0, 
+                        0, 
+                        width ,  // Tirar tudo pra ficar sem borda
+                        height));
             }
 
         });
@@ -894,7 +890,6 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         txtDescricaoBusca_paneMenu.setEditable(false);
-        txtDescricaoBusca_paneMenu.setBackground(new java.awt.Color(255, 255, 204));
         txtDescricaoBusca_paneMenu.setColumns(1);
         txtDescricaoBusca_paneMenu.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         txtDescricaoBusca_paneMenu.setLineWrap(true);

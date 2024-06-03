@@ -4,10 +4,20 @@
  */
 package view;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.Painter;
+import javax.swing.UIDefaults;
 
 import controller.LivroUsuarioDAO;
 import model.Livro;
@@ -19,8 +29,9 @@ import model.LivroAcervo;
  */
 public class LivroEmprestimoView extends javax.swing.JPanel {
     
-    public Livro livro;
-    public LivroAcervo livroAcervo;
+    private Livro livro;
+    private LivroAcervo livroAcervo;
+    private Image background;
 
     /**
      * Creates new form LivroView
@@ -29,8 +40,10 @@ public class LivroEmprestimoView extends javax.swing.JPanel {
      */
     public LivroEmprestimoView(Livro livro) {
         initComponents();
+        loadBackground();
         this.livro = livro;
         loadImage(livro.getPathImagem());
+        overrideLookAndFeel();
         txtTitulo.setText(livro.getTitulo());
         txtAutor.setText(livro.getAutor());
         txtEditora.setText(livro.getEditora());
@@ -40,16 +53,56 @@ public class LivroEmprestimoView extends javax.swing.JPanel {
 
     public LivroEmprestimoView(LivroAcervo livroAcervo) {
         initComponents();
-        
+        loadBackground();
         this.livroAcervo = livroAcervo;
         Livro livro = livroAcervo.getLivro();
         this.livro = livro;
         loadImage(livro.getPathImagem());
+        overrideLookAndFeel();
         txtTitulo.setText(livro.getTitulo());
         txtAutor.setText(livro.getAutor());
         txtEditora.setText(livro.getEditora());
         txtDescricao.setText(livro.getDescricao());
         txtDisponibilidade.setText(String.format("%d", livroAcervo.getDisponibilidade()));
+    }
+
+    private void loadBackground(){
+        try {
+            this.background = ImageIO.read(new URL(getClass().getResource("/images/livroBackground4.png"), "livroBackground4.png"));
+        } catch (IOException e) {
+            System.err.println("ERRO: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (background!= null) {
+            // Redimensiona a imagem para cobrir toda a área do painel
+            Image scaledImg = background.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT);
+            g.drawImage(scaledImg, 0, 0, this);
+        }
+    }
+
+    private void overrideLookAndFeel(){
+        UIDefaults overrides = new UIDefaults();
+        overrides.put("TextArea[Disabled].backgroundPainter", new Painter<JTextArea>() {
+
+            @Override
+            public void paint(Graphics2D g, JTextArea field, int width, int height) {
+                g.setColor(new Color(67, 35, 17, 230));
+                g.fill(new Rectangle(
+                        0, 
+                        0, 
+                        width ,  // Tirar tudo pra ficar sem borda
+                        height));
+            }
+        });
+        txtTitulo.putClientProperty("Nimbus.Overrides", overrides);
+        txtAutor.putClientProperty("Nimbus.Overrides", overrides);
+        txtEditora.putClientProperty("Nimbus.Overrides", overrides);
+        txtDescricao.putClientProperty("Nimbus.Overrides", overrides);
+        txtDisponibilidade.putClientProperty("Nimbus.Overrides", overrides);
     }
 
     private void loadImage(String path){
@@ -101,7 +154,7 @@ public class LivroEmprestimoView extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         btnPedirEmprestado = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(244, 231, 207));
+        setBackground(new java.awt.Color(67, 35, 17));
 
         imageBackground.setBackground(new java.awt.Color(204, 141, 72));
         imageBackground.setPreferredSize(new java.awt.Dimension(300, 420));
@@ -123,13 +176,16 @@ public class LivroEmprestimoView extends javax.swing.JPanel {
         txtTitulo.setLineWrap(true);
         txtTitulo.setRows(1);
         txtTitulo.setWrapStyleWord(true);
+        txtTitulo.setDisabledTextColor(new java.awt.Color(220, 220, 220));
         txtTitulo.setEnabled(false);
         jScrollPane1.setViewportView(txtTitulo);
 
         lblTitulo.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(204, 204, 204));
         lblTitulo.setText("Título:");
 
         lblAutor.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblAutor.setForeground(new java.awt.Color(204, 204, 204));
         lblAutor.setText("Autor:");
 
         txtAutor.setEditable(false);
@@ -138,10 +194,12 @@ public class LivroEmprestimoView extends javax.swing.JPanel {
         txtAutor.setLineWrap(true);
         txtAutor.setRows(1);
         txtAutor.setWrapStyleWord(true);
+        txtAutor.setDisabledTextColor(new java.awt.Color(220, 220, 220));
         txtAutor.setEnabled(false);
         jScrollPane2.setViewportView(txtAutor);
 
         lblEditora.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblEditora.setForeground(new java.awt.Color(204, 204, 204));
         lblEditora.setText("Editora:");
 
         txtEditora.setEditable(false);
@@ -150,10 +208,12 @@ public class LivroEmprestimoView extends javax.swing.JPanel {
         txtEditora.setLineWrap(true);
         txtEditora.setRows(1);
         txtEditora.setWrapStyleWord(true);
+        txtEditora.setDisabledTextColor(new java.awt.Color(220, 220, 220));
         txtEditora.setEnabled(false);
         jScrollPane3.setViewportView(txtEditora);
 
         lblDescricao.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblDescricao.setForeground(new java.awt.Color(204, 204, 204));
         lblDescricao.setText("Descrição:");
 
         txtDescricao.setEditable(false);
@@ -162,10 +222,12 @@ public class LivroEmprestimoView extends javax.swing.JPanel {
         txtDescricao.setLineWrap(true);
         txtDescricao.setRows(1);
         txtDescricao.setWrapStyleWord(true);
+        txtDescricao.setDisabledTextColor(new java.awt.Color(220, 220, 220));
         txtDescricao.setEnabled(false);
         jScrollPane4.setViewportView(txtDescricao);
 
         lblDisponibilidade.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblDisponibilidade.setForeground(new java.awt.Color(204, 204, 204));
         lblDisponibilidade.setText("Disponibilidade:");
 
         txtDisponibilidade.setEditable(false);
@@ -174,6 +236,7 @@ public class LivroEmprestimoView extends javax.swing.JPanel {
         txtDisponibilidade.setLineWrap(true);
         txtDisponibilidade.setRows(1);
         txtDisponibilidade.setWrapStyleWord(true);
+        txtDisponibilidade.setDisabledTextColor(new java.awt.Color(220, 220, 220));
         txtDisponibilidade.setEnabled(false);
         jScrollPane5.setViewportView(txtDisponibilidade);
 

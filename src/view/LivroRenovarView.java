@@ -1,10 +1,20 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.Painter;
+import javax.swing.UIDefaults;
 
 import controller.LivroUsuarioDAO;
 import model.LivroUsuario;
@@ -16,6 +26,7 @@ import model.LivroUsuario;
 public class LivroRenovarView extends javax.swing.JPanel {
 
     private LivroUsuario livroUsuario;
+    private Image background;
 
     /**
      * Creates new form LivroView
@@ -30,11 +41,52 @@ public class LivroRenovarView extends javax.swing.JPanel {
         initComponents();
         this.livroUsuario = livroUsuario;
         loadImage(livroUsuario.getLivro().getPathImagem());
+        overrideLookAndFeel();
+        loadBackground();
         txtTitulo.setText(livroUsuario.getLivro().getTitulo());
         txtAutor.setText(livroUsuario.getLivro().getAutor());
         txtDiaEmprestimo.setText(livroUsuario.getDataEmprestimo());
         txtPrazoVencimento.setText(livroUsuario.getPrazo());
         txtStatus.setText(livroUsuario.isExpirado()? "Expirado" : "Em dia");
+    }
+
+    private void overrideLookAndFeel(){
+        UIDefaults overrides = new UIDefaults();
+        overrides.put("TextArea[Disabled].backgroundPainter", new Painter<JTextArea>() {
+
+            @Override
+            public void paint(Graphics2D g, JTextArea field, int width, int height) {
+                g.setColor(new Color(67, 35, 17, 230));
+                g.fill(new Rectangle(
+                        0, 
+                        0, 
+                        width ,  // Tirar tudo pra ficar sem borda
+                        height));
+            }
+        });
+        txtTitulo.putClientProperty("Nimbus.Overrides", overrides);
+        txtAutor.putClientProperty("Nimbus.Overrides", overrides);
+        txtDiaEmprestimo.putClientProperty("Nimbus.Overrides", overrides);
+        txtPrazoVencimento.putClientProperty("Nimbus.Overrides", overrides);
+        txtStatus.putClientProperty("Nimbus.Overrides", overrides);
+    }
+
+    private void loadBackground(){
+        try {
+            this.background = ImageIO.read(new URL(getClass().getResource("/images/livroBackground4.png"), "livroBackground4.png"));
+        } catch (IOException e) {
+            System.err.println("ERRO: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (background!= null) {
+            // Redimensiona a imagem para cobrir toda a área do painel
+            Image scaledImg = background.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT);
+            g.drawImage(scaledImg, 0, 0, this);
+        }
     }
 
     private void loadImage(String path){
@@ -86,7 +138,7 @@ public class LivroRenovarView extends javax.swing.JPanel {
         txtAutor = new javax.swing.JTextArea();
         btnRenovar = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(244, 231, 207));
+        setBackground(new java.awt.Color(67, 35, 17));
         setPreferredSize(new java.awt.Dimension(800, 530));
 
         imageBackground.setBackground(new java.awt.Color(204, 141, 72));
@@ -113,9 +165,11 @@ public class LivroRenovarView extends javax.swing.JPanel {
         jScrollPane1.setViewportView(txtTitulo);
 
         lblTitulo.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(204, 204, 204));
         lblTitulo.setText("Título:");
 
         lblPrazoVencimento.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblPrazoVencimento.setForeground(new java.awt.Color(204, 204, 204));
         lblPrazoVencimento.setText("Prazo de vencimento:");
 
         txtPrazoVencimento.setEditable(false);
@@ -128,6 +182,7 @@ public class LivroRenovarView extends javax.swing.JPanel {
         jScrollPane2.setViewportView(txtPrazoVencimento);
 
         lblStatus.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblStatus.setForeground(new java.awt.Color(204, 204, 204));
         lblStatus.setText("Status:");
 
         txtStatus.setEditable(false);
@@ -140,6 +195,7 @@ public class LivroRenovarView extends javax.swing.JPanel {
         jScrollPane3.setViewportView(txtStatus);
 
         lblDiaEmprestimo.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblDiaEmprestimo.setForeground(new java.awt.Color(204, 204, 204));
         lblDiaEmprestimo.setText("Dia do empréstimo:");
 
         txtDiaEmprestimo.setEditable(false);
@@ -152,6 +208,7 @@ public class LivroRenovarView extends javax.swing.JPanel {
         jScrollPane5.setViewportView(txtDiaEmprestimo);
 
         lblAutor.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        lblAutor.setForeground(new java.awt.Color(204, 204, 204));
         lblAutor.setText("Autor:");
 
         txtAutor.setEditable(false);

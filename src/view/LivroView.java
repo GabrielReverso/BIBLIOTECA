@@ -6,12 +6,18 @@ package view;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JTextArea;
+import javax.swing.Painter;
+import javax.swing.UIDefaults;
 
 import model.Livro;
 import model.LivroAcervo;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.net.URL;
 
@@ -28,6 +34,7 @@ public class LivroView extends javax.swing.JPanel {
      */
     public LivroView(Livro livro) {
         initComponents();
+        overrideLookAndFeel();
         loadBackground();
         loadImage(livro.getPathImagem());
         txtTitulo.setText(livro.getTitulo());
@@ -39,6 +46,7 @@ public class LivroView extends javax.swing.JPanel {
 
     public LivroView(LivroAcervo livroAcervo) {
         initComponents();
+        overrideLookAndFeel();
         loadBackground();
         loadImage(livroAcervo.getLivro().getPathImagem());
         txtTitulo.setText(livroAcervo.getLivro().getTitulo());
@@ -47,6 +55,27 @@ public class LivroView extends javax.swing.JPanel {
         txtDescricao.setText(livroAcervo.getLivro().getDescricao());
         txtDisponibilidade.setText(String.format("%d", livroAcervo.getDisponibilidade()));
     
+    }
+
+    private void overrideLookAndFeel(){
+        UIDefaults overrides = new UIDefaults();
+        overrides.put("TextArea[Disabled].backgroundPainter", new Painter<JTextArea>() {
+
+            @Override
+            public void paint(Graphics2D g, JTextArea field, int width, int height) {
+                g.setColor(new Color(67, 35, 17, 230));
+                g.fill(new Rectangle(
+                        0, 
+                        0, 
+                        width,
+                        height));
+            }
+        });
+        txtTitulo.putClientProperty("Nimbus.Overrides", overrides);
+        txtAutor.putClientProperty("Nimbus.Overrides", overrides);
+        txtEditora.putClientProperty("Nimbus.Overrides", overrides);
+        txtDescricao.putClientProperty("Nimbus.Overrides", overrides);
+        txtDisponibilidade.putClientProperty("Nimbus.Overrides", overrides);
     }
 
     private void loadBackground(){
@@ -115,7 +144,7 @@ public class LivroView extends javax.swing.JPanel {
         txtDisponibilidade = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
 
-        setBackground(new java.awt.Color(244, 231, 207));
+        setBackground(new java.awt.Color(67, 35, 17));
 
         imageBackground.setBackground(new java.awt.Color(204, 141, 72));
         imageBackground.setPreferredSize(new java.awt.Dimension(300, 420));
@@ -134,10 +163,11 @@ public class LivroView extends javax.swing.JPanel {
         txtTitulo.setEditable(false);
         txtTitulo.setColumns(20);
         txtTitulo.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
+        txtTitulo.setForeground(new java.awt.Color(220, 220, 220));
         txtTitulo.setLineWrap(true);
         txtTitulo.setRows(1);
         txtTitulo.setWrapStyleWord(true);
-        txtTitulo.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txtTitulo.setDisabledTextColor(new java.awt.Color(220, 220, 220));
         txtTitulo.setEnabled(false);
         jScrollPane1.setViewportView(txtTitulo);
 
@@ -152,9 +182,11 @@ public class LivroView extends javax.swing.JPanel {
         txtAutor.setEditable(false);
         txtAutor.setColumns(20);
         txtAutor.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
+        txtAutor.setForeground(new java.awt.Color(220, 220, 220));
         txtAutor.setLineWrap(true);
         txtAutor.setRows(1);
         txtAutor.setWrapStyleWord(true);
+        txtAutor.setDisabledTextColor(new java.awt.Color(220, 220, 220));
         txtAutor.setEnabled(false);
         jScrollPane2.setViewportView(txtAutor);
 
@@ -165,9 +197,11 @@ public class LivroView extends javax.swing.JPanel {
         txtEditora.setEditable(false);
         txtEditora.setColumns(20);
         txtEditora.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
+        txtEditora.setForeground(new java.awt.Color(220, 220, 220));
         txtEditora.setLineWrap(true);
         txtEditora.setRows(1);
         txtEditora.setWrapStyleWord(true);
+        txtEditora.setDisabledTextColor(new java.awt.Color(220, 220, 220));
         txtEditora.setEnabled(false);
         jScrollPane3.setViewportView(txtEditora);
 
@@ -178,9 +212,11 @@ public class LivroView extends javax.swing.JPanel {
         txtDescricao.setEditable(false);
         txtDescricao.setColumns(20);
         txtDescricao.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
+        txtDescricao.setForeground(new java.awt.Color(220, 220, 220));
         txtDescricao.setLineWrap(true);
         txtDescricao.setRows(1);
         txtDescricao.setWrapStyleWord(true);
+        txtDescricao.setDisabledTextColor(new java.awt.Color(220, 220, 220));
         txtDescricao.setEnabled(false);
         jScrollPane4.setViewportView(txtDescricao);
 
@@ -191,9 +227,11 @@ public class LivroView extends javax.swing.JPanel {
         txtDisponibilidade.setEditable(false);
         txtDisponibilidade.setColumns(20);
         txtDisponibilidade.setFont(new java.awt.Font("sansserif", 0, 17)); // NOI18N
+        txtDisponibilidade.setForeground(new java.awt.Color(220, 220, 220));
         txtDisponibilidade.setLineWrap(true);
         txtDisponibilidade.setRows(1);
         txtDisponibilidade.setWrapStyleWord(true);
+        txtDisponibilidade.setDisabledTextColor(new java.awt.Color(220, 220, 220));
         txtDisponibilidade.setEnabled(false);
         jScrollPane5.setViewportView(txtDisponibilidade);
 
