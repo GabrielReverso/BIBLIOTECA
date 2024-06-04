@@ -40,11 +40,11 @@ public class LivroRenovarView extends javax.swing.JPanel {
     public LivroRenovarView(LivroUsuario livroUsuario) {
         initComponents();
         this.livroUsuario = livroUsuario;
-        loadImage(livroUsuario.getLivro().getPathImagem());
+        loadImage(livroUsuario.getLivroAcervo().getLivro().getPathImagem());
         overrideLookAndFeel();
         loadBackground();
-        txtTitulo.setText(livroUsuario.getLivro().getTitulo());
-        txtAutor.setText(livroUsuario.getLivro().getAutor());
+        txtTitulo.setText(livroUsuario.getLivroAcervo().getLivro().getTitulo());
+        txtAutor.setText(livroUsuario.getLivroAcervo().getLivro().getAutor());
         txtDiaEmprestimo.setText(livroUsuario.getDataEmprestimo());
         txtPrazoVencimento.setText(livroUsuario.getPrazo());
         txtStatus.setText(livroUsuario.isExpirado()? "Expirado" : "Em dia");
@@ -308,7 +308,7 @@ public class LivroRenovarView extends javax.swing.JPanel {
 
             LivroUsuarioDAO dao = new LivroUsuarioDAO();
 
-            dao.RenovarEmprestimo(livroUsuario.getUsuario(), livroUsuario.getLivro(), sqlDate);
+            dao.RenovarEmprestimo(livroUsuario.getUsuario(), livroUsuario.getLivroAcervo(), sqlDate);
 
             JOptionPane.showMessageDialog(null, "Reinicie a página!");
 

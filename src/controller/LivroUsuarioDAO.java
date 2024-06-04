@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.sql.Date;
@@ -14,6 +15,7 @@ import javax.swing.JOptionPane;
 import controller.conexao.Conexao;
 import model.Acervo;
 import model.Livro;
+import model.LivroAcervo;
 import model.LivroUsuario;
 import model.Usuario;
 
@@ -27,7 +29,7 @@ public class LivroUsuarioDAO {
         this.con = Conexao.conectar();
     }
 
-    public void emprestimoLivro(Usuario u, Livro l, Acervo a){
+    public void emprestimoLivro(Usuario u, LivroAcervo la){
         
         try {
             int disponibilidade = 0;
@@ -36,8 +38,8 @@ public class LivroUsuarioDAO {
                          "where id_livro = ? and id_acervo = ?";
 
             cmd = con.prepareStatement(SQL);
-            cmd.setInt(1, l.getId());
-            cmd.setInt(2, a.getId());
+            cmd.setInt(1, la.getLivro().getId());
+            cmd.setInt(2, la.getAcervo().getId());
 
             ResultSet rs = cmd.executeQuery();
 
@@ -70,11 +72,11 @@ public class LivroUsuarioDAO {
 
             }
 
-            SQL = "insert into tb_livro_usuario (id_usuario, id_livro, dataEmprestimo, prazo, expirado) values (?,?,?,?,?)";
+            SQL = "insert into tb_livro_usuario (id_usuario, id_livroAcervo, dataEmprestimo, prazo, expirado) values (?,?,?,?,?)";
 
             cmd = con.prepareStatement(SQL);
             cmd.setInt(1, u.getId());
-            cmd.setInt(2, l.getId());
+            cmd.setInt(2, la.getId());
             cmd.setDate(3, new Date(System.currentTimeMillis()));
             cmd.setDate(4, new Date(System.currentTimeMillis() + SETE_DIAS_EM_MILISEGUNDOS));
             cmd.setBoolean(5, false);
@@ -105,8 +107,8 @@ public class LivroUsuarioDAO {
 
             cmd = con.prepareStatement(SQL);
             cmd.setInt(1, disponibilidade - 1);
-            cmd.setInt(2, l.getId());
-            cmd.setInt(3, a.getId());
+            cmd.setInt(2, la.getLivro().getId());
+            cmd.setInt(3, la.getAcervo().getId());
 
             rowsAffected = cmd.executeUpdate();
 
@@ -132,9 +134,10 @@ public class LivroUsuarioDAO {
         List<LivroUsuario> lista = new LinkedList<>();
 
         try {
-            String SQL = "select * "+
+            String SQL = "select *, tla.id as id_livroAcervo "+
                          "from tb_livro_usuario tlu " +
-                         "inner join tb_livro tl on tl.id = tlu.id_livro " +
+                         "inner join tb_livro_acervo tla on tlu.id_livroacervo = tla.id " +
+                         "inner join tb_livro tl on tl.id = tla.id_livro " +
                          "where tlu.id_usuario = ?";
 
             cmd = con.prepareStatement(SQL);
@@ -151,14 +154,19 @@ public class LivroUsuarioDAO {
                                         rs.getString("editora"),
                                         rs.getString("descricao"));
                 livro.setPathImagem(rs.getString("imagePath"));
+
+                Acervo acervo = new Acervo(rs.getInt("id_acervo"));
+
+                LivroAcervo livroAcervo = new LivroAcervo(rs.getInt("id_livroAcervo"),livro, acervo);
                 
                 lista.add(new LivroUsuario(u, 
-                                           livro, 
+                                           livroAcervo, 
                                            dateFormat.format(rs.getDate("dataEmprestimo")), 
                                            dateFormat.format(rs.getDate("prazo")), 
                                            rs.getBoolean("expirado")));
             }
 
+            Collections.sort(lista);
             return lista;
 
         } catch (Exception e) {
@@ -169,10 +177,10 @@ public class LivroUsuarioDAO {
         }
     }
 
-    public void RenovarEmprestimo(Usuario u, Livro l, Date prazoAtual){
+    public void RenovarEmprestimo(Usuario u, LivroAcervo l, Date prazoAtual){
 
         try {
-            String SQL = "update tb_livro_usuario set prazo = ? where id_usuario = ? and id_livro = ?";
+            String SQL = "update tb_livro_usuario set prazo = ? where id_usuario = ? and id_livroAcervo = ?";
 
             cmd = con.prepareStatement(SQL);
             cmd.setDate(1, new Date(prazoAtual.getTime() + SETE_DIAS_EM_MILISEGUNDOS));
@@ -195,19 +203,56 @@ public class LivroUsuarioDAO {
         }
     }
 
-    public void DevolverLivro(Usuario u, Livro l){
+    public void DevolverLivro(Usuario u, LivroAcervo l){
 
         try {
-            String SQL = "delete from tb_livro_usuario where id_usuario = ? and id_livro = ?";
+            int disponibilidade = 0;
+
+            String SQL = "select disponibilidade from tb_livro_acervo tla " +
+                         "inner join tb_livro_usuario tlu on tla.id = tlu.id_livroAcervo " +
+                         "where tlu.id_usuario = ? and tlu.id_livroAcervo = ?";
+            
+            cmd = con.prepareStatement(SQL);
+            cmd.setInt(1, u.getId());
+            cmd.setInt(2, l.getId());
+
+            ResultSet rs = cmd.executeQuery();
+
+            if(rs.next()){
+                disponibilidade = rs.getInt("disponibilidade");
+            } else {
+                System.err.println("Erro na obtenção da disponibilidade");
+                JOptionPane.showMessageDialog(null, "Erro no banco de dados");
+                return;
+            }
+
+            SQL = "update tb_livro_acervo set disponibilidade = ? where id_livro = ? and id_acervo = ?";
+
+            cmd = con.prepareStatement(SQL);
+            cmd.setInt(1, disponibilidade + 1);
+            cmd.setInt(2, l.getLivro().getId());
+            cmd.setInt(3, l.getAcervo().getId());
+
+            int rowsAffected = cmd.executeUpdate();
+
+            if(rowsAffected == 0){
+                System.err.println("Erro no update da disponibilidade");
+                JOptionPane.showMessageDialog(null, "Erro no banco de dados");
+                return;
+            }
+
+            SQL = "delete from tb_livro_usuario where id_usuario = ? and id_livroAcervo = ?";
 
             cmd = con.prepareStatement(SQL);
             cmd.setInt(1, u.getId());
             cmd.setInt(2, l.getId());
 
-            int rowsAffected = cmd.executeUpdate();
+            rowsAffected = cmd.executeUpdate();
 
             if(rowsAffected == 0){
+                System.err.println("Erro ao deletar da tabela");
                 JOptionPane.showMessageDialog(null, "Erro no banco de dados");
+                return;
             } else {
                 JOptionPane.showMessageDialog(null, "Livro devolvido!");
             }
@@ -219,7 +264,7 @@ public class LivroUsuarioDAO {
             cmd = con.prepareStatement(SQL);
             cmd.setInt(1, u.getId());
 
-            ResultSet rs = cmd.executeQuery();
+            rs = cmd.executeQuery();
 
             while (rs.next()) {
                 quantidadeLivroPosse ++;
@@ -237,6 +282,7 @@ public class LivroUsuarioDAO {
                 rowsAffected = cmd.executeUpdate();
 
                 if(rowsAffected == 0){
+                    System.err.println("Erro ao fazer update no possuiLivro");
                     JOptionPane.showMessageDialog(null, "Erro no banco de dados");
                     return;
                 }
@@ -254,7 +300,7 @@ public class LivroUsuarioDAO {
         if (u.isPossuiLivro()) {
             try {
                 List<Integer> lista = new ArrayList<>();
-                String SQL = "select prazo, id_livro from tb_livro_usuario where id_usuario = ?";
+                String SQL = "select prazo, id_livroAcervo from tb_livro_usuario where id_usuario = ?";
     
                 cmd = con.prepareStatement(SQL);
                 cmd.setInt(1, u.getId());
@@ -265,18 +311,18 @@ public class LivroUsuarioDAO {
 
                 while (rs.next()) {
                     if(rs.getDate("prazo").compareTo(dataAtual) <= 0) {
-                        lista.add(rs.getInt("id_livro"));
+                        lista.add(rs.getInt("id_livroAcervo"));
                     }
                 }
 
                 if (!lista.isEmpty()){
-                    SQL = "update tb_livro_usuario set expirado = ? where id_usuario = ? and id_livro = ?";
+                    SQL = "update tb_livro_usuario set expirado = ? where id_usuario = ? and id_livroAcervo = ?";
 
-                    for (Integer id_livro : lista){
+                    for (Integer id_livroAcervo : lista){
                         cmd = con.prepareStatement(SQL);
                         cmd.setBoolean(1, true);
                         cmd.setInt(2, u.getId());
-                        cmd.setInt(3, id_livro);
+                        cmd.setInt(3, id_livroAcervo);
 
                         int rowsAffected = cmd.executeUpdate();
 
@@ -299,10 +345,10 @@ public class LivroUsuarioDAO {
         }
     }
 
-    public void VerificarLivrosExpirados(Usuario u, Livro l){
+    public void VerificarLivrosExpirados(Usuario u, LivroAcervo l){
 
         try {
-            String SQL = "select prazo, id_livro from tb_livro_usuario where id_usuario = ? and id_livro = ?";
+            String SQL = "select prazo, id_livroAcervo from tb_livro_usuario where id_usuario = ? and id_livroAcervo = ?";
 
             cmd = con.prepareStatement(SQL);
             cmd.setInt(1, u.getId());
@@ -314,7 +360,7 @@ public class LivroUsuarioDAO {
 
             if(rs.next()) {
                 if(rs.getDate("prazo").compareTo(dataAtual) > 0) {
-                    SQL = "update tb_livro_usuario set expirado = ? where id_usuario = ? and id_livro = ?";
+                    SQL = "update tb_livro_usuario set expirado = ? where id_usuario = ? and id_livroAcervo = ?";
 
                     cmd = con.prepareStatement(SQL);
                     cmd.setBoolean(1, false);

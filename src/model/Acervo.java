@@ -9,6 +9,11 @@ public class Acervo {
         this.id = id;
         this.localidade = localidade;
     }
+
+    public Acervo(int id) {
+        this.id = id;
+        this.localidade = "";
+    }
     
     public int getId() {
         return id;

@@ -37,10 +37,10 @@ public class LivroEmprestadoView extends javax.swing.JPanel {
     public LivroEmprestadoView(LivroUsuario livroUsuario) {
         initComponents();
         loadBackground();
-        loadImage(livroUsuario.getLivro().getPathImagem());
+        loadImage(livroUsuario.getLivroAcervo().getLivro().getPathImagem());
         overrideLookAndFeel();
-        txtTitulo.setText(livroUsuario.getLivro().getTitulo());
-        txtAutor.setText(livroUsuario.getLivro().getAutor());
+        txtTitulo.setText(livroUsuario.getLivroAcervo().getLivro().getTitulo());
+        txtAutor.setText(livroUsuario.getLivroAcervo().getLivro().getAutor());
         txtDiaEmprestimo.setText(livroUsuario.getDataEmprestimo());
         txtPrazoVencimento.setText(livroUsuario.getPrazo());
         txtStatus.setText(livroUsuario.isExpirado()? "Expirado" : "Em dia");

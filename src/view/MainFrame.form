@@ -894,6 +894,9 @@
           <SubComponents>
             <Container class="javax.swing.JScrollPane" name="scrollVerLivros">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="11" green="23" red="43" type="rgb"/>
+                </Property>
                 <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
               </Properties>
 
@@ -1070,6 +1073,9 @@
           <SubComponents>
             <Container class="javax.swing.JScrollPane" name="scrollEmprestimo">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="11" green="23" red="43" type="rgb"/>
+                </Property>
                 <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
               </Properties>
 
@@ -1213,6 +1219,9 @@
           <SubComponents>
             <Container class="javax.swing.JScrollPane" name="scrollLivrosEmprestados">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="11" green="23" red="43" type="rgb"/>
+                </Property>
                 <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
               </Properties>
 
@@ -1298,6 +1307,9 @@
           <SubComponents>
             <Container class="javax.swing.JScrollPane" name="scrollDevolucao">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="11" green="23" red="43" type="rgb"/>
+                </Property>
                 <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
               </Properties>
 
@@ -1383,6 +1395,9 @@
           <SubComponents>
             <Container class="javax.swing.JScrollPane" name="scrollRenovar">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="11" green="23" red="43" type="rgb"/>
+                </Property>
                 <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
               </Properties>
 

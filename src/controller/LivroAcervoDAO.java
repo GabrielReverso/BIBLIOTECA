@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.sql.Connection;
@@ -24,7 +25,7 @@ public class LivroAcervoDAO {
         List<LivroAcervo> lista = new LinkedList<>();
 
         try {
-            String SQL = "select * " +
+            String SQL = "select *, tla.id as id_livroAcervo " +
                          "FROM tb_livro tl " + 
                          "INNER JOIN tb_livro_acervo tla ON tl.id = tla.id_livro " +
                          "INNER JOIN tb_acervo ta ON ta.id = tla.id_acervo  " +
@@ -42,18 +43,20 @@ public class LivroAcervoDAO {
                             rs.getString("editora"),
                             rs.getString("descricao")
                         );  
-                livro.setId(rs.getInt("id"));
+                livro.setId(rs.getInt("id_livro"));
                 livro.setPathImagem(rs.getString("imagePath"));
                 
                 Acervo acervo = new Acervo(rs.getInt("id_acervo"), rs.getString("localidade"));
                 
-                LivroAcervo livroAcervo = new LivroAcervo(livro, 
+                LivroAcervo livroAcervo = new LivroAcervo(rs.getInt("id_livroAcervo"),
+                                                          livro, 
                                                           acervo, 
                                                           rs.getInt("quantidade"), 
                                                           rs.getInt("disponibilidade"));
                 lista.add(livroAcervo);
             }
 
+            Collections.sort(lista);
             return lista;
 
         } catch (Exception e) {
@@ -68,7 +71,7 @@ public class LivroAcervoDAO {
         List<LivroAcervo> lista = new LinkedList<>();
 
         try {
-            String SQL = "select * " +
+            String SQL = "select *, tla.id as id_livroAcervo " +
                          "FROM tb_livro tl " + 
                          "INNER JOIN tb_livro_acervo tla ON tl.id = tla.id_livro " +
                          "INNER JOIN tb_acervo ta ON ta.id = tla.id_acervo  " +
@@ -87,18 +90,20 @@ public class LivroAcervoDAO {
                             rs.getString("editora"),
                             rs.getString("descricao")
                         );
-                livro.setId(rs.getInt("id"));
+                livro.setId(rs.getInt("id_livro"));
                 livro.setPathImagem(rs.getString("imagePath"));
 
                 Acervo acervo = new Acervo(rs.getInt("id_acervo"), rs.getString("localidade"));
 
-                LivroAcervo livroAcervo = new LivroAcervo(livro, 
+                LivroAcervo livroAcervo = new LivroAcervo(rs.getInt("id_livroAcervo"),
+                                                          livro, 
                                                           acervo, 
                                                           rs.getInt("quantidade"), 
                                                           rs.getInt("disponibilidade"));
                 lista.add(livroAcervo);
             }
 
+            Collections.sort(lista);
             return lista;
 
         } catch (Exception e) {
@@ -134,6 +139,7 @@ public class LivroAcervoDAO {
                 lista.add(livro);
             }
 
+            Collections.sort(lista);
             return lista;
 
         } catch (Exception e) {

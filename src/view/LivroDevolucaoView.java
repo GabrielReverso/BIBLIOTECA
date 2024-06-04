@@ -40,10 +40,10 @@ public class LivroDevolucaoView extends javax.swing.JPanel {
         initComponents();
         loadBackground();
         this.livroUsuario = livroUsuario;
-        loadImage(livroUsuario.getLivro().getPathImagem());
+        loadImage(livroUsuario.getLivroAcervo().getLivro().getPathImagem());
         overrideLookAndFeel();
-        txtTitulo.setText(livroUsuario.getLivro().getTitulo());
-        txtAutor.setText(livroUsuario.getLivro().getAutor());
+        txtTitulo.setText(livroUsuario.getLivroAcervo().getLivro().getTitulo());
+        txtAutor.setText(livroUsuario.getLivroAcervo().getLivro().getAutor());
         txtDiaEmprestimo.setText(livroUsuario.getDataEmprestimo());
         txtPrazoVencimento.setText(livroUsuario.getPrazo());
         txtStatus.setText(livroUsuario.isExpirado()? "Expirado" : "Em dia");
@@ -301,7 +301,7 @@ public class LivroDevolucaoView extends javax.swing.JPanel {
         
         LivroUsuarioDAO dao = new LivroUsuarioDAO();
 
-        dao.DevolverLivro(livroUsuario.getUsuario(), livroUsuario.getLivro());
+        dao.DevolverLivro(livroUsuario.getUsuario(), livroUsuario.getLivroAcervo());
 
         JOptionPane.showMessageDialog(null, "Reinicie a página!");
         

@@ -3,6 +3,7 @@ package controller;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class LivroDAO {
                 lista.add(livro);
             }
 
+            Collections.sort(lista);
             return lista;
 
         } catch (Exception e) {

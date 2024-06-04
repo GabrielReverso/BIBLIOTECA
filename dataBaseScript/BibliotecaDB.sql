@@ -54,19 +54,20 @@ update tb_livro set imagepath = '/images/CapaModernWeb.jpg' where id = 10;
 insert  into tb_acervo (localidade) values ('Ribeirão Preto'), ('São Paulo');
 
 /*TABELAS RELACIONAIS*/
-create table tb_livro_usuario (
-	id_usuario int references tb_usuario(id) on delete cascade,
-	id_livro int references tb_livro(id) on delete cascade,
-	dataEmprestimo date,
-	prazo date,
-	expirado boolean
-);
-
 create table tb_livro_acervo (
+	id serial primary key,
 	id_livro int references tb_livro(id) on delete cascade,
 	id_acervo int references tb_acervo(id) on delete cascade,
 	quantidade int,
 	disponibilidade int
+);
+
+create table tb_livro_usuario (
+	id_usuario int references tb_usuario(id) on delete cascade,
+	id_livroAcervo int references tb_livro_acervo(id) on delete cascade,
+	dataEmprestimo date,
+	prazo date,
+	expirado boolean
 );
 
 /*SCRIPT POSTGRE PARA ADICIONAR TODOS OS LIVROS NOS DOIS ACERVOS AUTOMATICAMENTE*/
@@ -82,5 +83,6 @@ begin
 		end loop;
 	end loop;
 end $$;
+
 
 

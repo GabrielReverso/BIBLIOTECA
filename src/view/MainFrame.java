@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.sql.Connection;
 import java.util.List;
@@ -67,8 +66,6 @@ public class MainFrame extends javax.swing.JFrame {
                                           JOptionPane.WARNING_MESSAGE);
             btnEntrar_paneLogin.setEnabled(false);
         } else {
-            adicionarLivrosScroll();
-            adicionarEmprestimoScroll();
             preencherComboBox();
             Conexao.desconectar(con);
         }
@@ -393,6 +390,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void adicionarLivrosScroll() {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+        container.setBackground(new Color(67,35,17));
     
         LivroDAO dao = new LivroDAO();
 
@@ -408,6 +406,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void adicionarVerLivrosScroll(String local) {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+        container.setBackground(new Color(67,35,17));
     
         LivroAcervoDAO dao = new LivroAcervoDAO();
 
@@ -423,6 +422,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void adicionarBuscaScroll(String busca) {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+        container.setBackground(new Color(67,35,17));
     
         LivroAcervoDAO dao = new LivroAcervoDAO();
 
@@ -444,6 +444,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void adicionarBuscaScroll(String local, String busca) {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+        container.setBackground(new Color(67,35,17));
     
         LivroAcervoDAO dao = new LivroAcervoDAO();
 
@@ -467,6 +468,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void adicionarEmprestimoScroll() {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+        container.setBackground(new Color(67,35,17));
     
         LivroDAO dao = new LivroDAO();
 
@@ -482,6 +484,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void adicionarEmprestimoScroll(String local) {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+        container.setBackground(new Color(67,35,17));
     
         LivroAcervoDAO dao = new LivroAcervoDAO();
 
@@ -496,6 +499,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void adicionarEmprestimoBuscaScroll(String busca) {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+        container.setBackground(new Color(67,35,17));
     
         LivroAcervoDAO dao = new LivroAcervoDAO();
 
@@ -506,11 +510,12 @@ public class MainFrame extends javax.swing.JFrame {
             container.add(panel);
         }
         if (lista.isEmpty()){
+            container.setLayout(new BorderLayout());
             JLabel label = new JLabel("Nenhum livro encontrado com o termo '" + busca + "'");
             label.setFont(new java.awt.Font("sansserif", 0, 18));
-            label.setAlignmentX(JLabel.CENTER);
-            label.setAlignmentY(JLabel.CENTER);
-            container.add(label);
+            label.setForeground(new Color(230,230,230));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            container.add(label, BorderLayout.CENTER);
         }     
         scrollEmprestimo.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
@@ -518,6 +523,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void adicionarEmprestimoBuscaScroll(String local, String busca) {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+        container.setBackground(new Color(67,35,17));
     
         LivroAcervoDAO dao = new LivroAcervoDAO();
 
@@ -528,11 +534,12 @@ public class MainFrame extends javax.swing.JFrame {
             container.add(panel);
         }
         if (lista.isEmpty()){
+            container.setLayout(new BorderLayout());
             JLabel label = new JLabel("Nenhum livro encontrado com o termo '" + busca + "'");
             label.setFont(new java.awt.Font("sansserif", 0, 18));
-            label.setAlignmentX(JLabel.CENTER);
-            label.setAlignmentY(JLabel.CENTER);
-            container.add(label);
+            label.setForeground(new Color(230,230,230));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            container.add(label, BorderLayout.CENTER);
         }     
         scrollEmprestimo.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
@@ -541,6 +548,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void adicionarLivrosEmprestadosScroll() {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+        container.setBackground(new Color(67,35,17));
     
         LivroUsuarioDAO dao = new LivroUsuarioDAO();
 
@@ -550,6 +558,16 @@ public class MainFrame extends javax.swing.JFrame {
             LivroEmprestadoView panel = new LivroEmprestadoView(l);
             container.add(panel);
         }    
+
+        if(lista.isEmpty()){
+            container.setLayout(new BorderLayout());
+            JLabel label = new JLabel("Nenhum livro encontrado");
+            label.setFont(new java.awt.Font("sansserif", 0, 18));
+            label.setForeground(new Color(230,230,230));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            container.add(label, BorderLayout.CENTER);
+        }
+
         scrollLivrosEmprestados.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
@@ -557,6 +575,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void adicionarLivrosRenovarScroll() {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+        container.setBackground(new Color(67,35,17));
     
         LivroUsuarioDAO dao = new LivroUsuarioDAO();
 
@@ -566,6 +585,16 @@ public class MainFrame extends javax.swing.JFrame {
             LivroRenovarView panel = new LivroRenovarView(l);
             container.add(panel);
         }    
+
+        if(lista.isEmpty()){
+            container.setLayout(new BorderLayout());
+            JLabel label = new JLabel("Nenhum livro encontrado");
+            label.setFont(new java.awt.Font("sansserif", 0, 18));
+            label.setForeground(new Color(230,230,230));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            container.add(label, BorderLayout.CENTER);
+        }
+
         scrollRenovar.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
@@ -573,6 +602,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void adicionarLivrosDevolucaoScroll() {
         JPanel container = new JPanel(); // Criando um novo JPanel para conter os outros painéis
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS)); // Usando BoxLayout para organizar verticalmente
+        container.setBackground(new Color(67,35,17));
     
         LivroUsuarioDAO dao = new LivroUsuarioDAO();
 
@@ -581,7 +611,17 @@ public class MainFrame extends javax.swing.JFrame {
         for (LivroUsuario l : lista) {
             LivroDevolucaoView panel = new LivroDevolucaoView(l);
             container.add(panel);
-        }    
+        }
+        
+        if(lista.isEmpty()){
+            container.setLayout(new BorderLayout());
+            JLabel label = new JLabel("Nenhum livro encontrado");
+            label.setFont(new java.awt.Font("sansserif", 0, 18));
+            label.setForeground(new Color(230,230,230));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            container.add(label, BorderLayout.CENTER);
+        }
+
         scrollDevolucao.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
 
@@ -1167,6 +1207,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         tabPane.addTab("Home", paneHome);
 
+        scrollVerLivros.setBackground(new java.awt.Color(67, 35, 17));
         scrollVerLivros.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         lblLivros_paneVerLivros.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
@@ -1270,6 +1311,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         tabPane.addTab("Ver Livros", paneVerLivros);
 
+        scrollEmprestimo.setBackground(new java.awt.Color(67, 35, 17));
         scrollEmprestimo.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         lblLivros_paneEmprestimo.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
@@ -1373,6 +1415,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         tabPane.addTab("Emprestimo", paneEmprestimo);
 
+        scrollLivrosEmprestados.setBackground(new java.awt.Color(67, 35, 17));
         scrollLivrosEmprestados.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         lblLivros_paneLivrosEmprestados.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
@@ -1423,6 +1466,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         tabPane.addTab("Livros Emp.", paneLivrosEmprestados);
 
+        scrollDevolucao.setBackground(new java.awt.Color(67, 35, 17));
         scrollDevolucao.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         lblLivros_paneDevolucao.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
@@ -1473,6 +1517,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         tabPane.addTab("Devolucao", paneDevolucao);
 
+        scrollRenovar.setBackground(new java.awt.Color(67, 35, 17));
         scrollRenovar.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         lblLivros_paneRenovar.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
@@ -1779,7 +1824,8 @@ public class MainFrame extends javax.swing.JFrame {
     /*FIM-LOGIN*************************************************************************/
 
     /*HOME*************************************************************************/
-    private void btnBuscar_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {                                                   
+    private void btnBuscar_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {  
+        adicionarLivrosScroll();                                              
         tabPane.setSelectedIndex(3);
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
@@ -1792,7 +1838,8 @@ public class MainFrame extends javax.swing.JFrame {
         tabPane.setEnabledAt(8, false);
     }
 
-    private void btnEmprestimo_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {                                                       
+    private void btnEmprestimo_paneMenuActionPerformed(java.awt.event.ActionEvent evt) {  
+        adicionarEmprestimoScroll();                                                        
         tabPane.setSelectedIndex(4);
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
@@ -1933,7 +1980,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         if (posicao >= 0){
             String local = cbxSelecioneRegiao_paneVerLivros.getSelectedItem().toString();
-            adicionarVerLivrosScroll(local);
+            if (txtBucarTitulo_paneVerLivros.getText().isEmpty()) {
+                adicionarVerLivrosScroll(local);
+            } else {
+                adicionarBuscaScroll(local, txtBucarTitulo_paneVerLivros.getText());
+            }
         }
     }
 
@@ -1947,15 +1998,11 @@ public class MainFrame extends javax.swing.JFrame {
             local = cbxSelecioneRegiao_paneVerLivros.getSelectedItem().toString();
         }
 
-        if(!busca.isEmpty()){
-
-            if(!local.isEmpty()){
-                adicionarBuscaScroll(local,busca);
-            } else {
-                adicionarBuscaScroll(busca);
-            }
+        if(!local.isEmpty()){
+            adicionarBuscaScroll(local,busca);
+        } else {
+            adicionarBuscaScroll(busca);
         }
-
     }
 
     private void btnLimpar_paneVerLivrosActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1987,7 +2034,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         if (posicao >= 0){
             String local = cbxSelecioneRegiao_paneEmprestimo.getSelectedItem().toString();
-            adicionarEmprestimoScroll(local);
+            if (txtBucarTitulo_paneEmprestimo.getText().isEmpty()) {
+                adicionarEmprestimoScroll(local);
+            } else {
+                adicionarEmprestimoBuscaScroll(local, txtBucarTitulo_paneEmprestimo.getText());
+            }
         }
     }
 
@@ -2001,14 +2052,13 @@ public class MainFrame extends javax.swing.JFrame {
             local = cbxSelecioneRegiao_paneEmprestimo.getSelectedItem().toString();
         }
 
-        if(!busca.isEmpty()){
 
-            if(!local.isEmpty()){
-                adicionarEmprestimoBuscaScroll(local,busca);
-            } else {
-                adicionarEmprestimoBuscaScroll(busca);
-            }
+        if(!local.isEmpty()){
+            adicionarEmprestimoBuscaScroll(local,busca);
+        } else {
+            adicionarEmprestimoBuscaScroll(busca);
         }
+        
     }
 
     private void iconVoltar_paneEmprestimoMouseClicked(java.awt.event.MouseEvent evt) {

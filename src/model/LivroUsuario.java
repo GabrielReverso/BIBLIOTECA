@@ -1,16 +1,16 @@
 package model;
 
-public class LivroUsuario {
+public class LivroUsuario implements Comparable<LivroUsuario>{
     
     private Usuario usuario;
-	private Livro livro;
+	private LivroAcervo livroAcervo;
     private String dataEmprestimo;
 	private String prazo;
 	private boolean expirado;
     
-    public LivroUsuario(Usuario usuario, Livro livro, String dataEmprestimo ,String prazo, boolean expirado) {
+    public LivroUsuario(Usuario usuario, LivroAcervo livroAcervo, String dataEmprestimo ,String prazo, boolean expirado) {
         this.usuario = usuario;
-        this.livro = livro;
+        this.livroAcervo = livroAcervo;
         this.prazo = prazo;
         this.expirado = expirado;
         this.dataEmprestimo = dataEmprestimo;
@@ -22,11 +22,11 @@ public class LivroUsuario {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    public Livro getLivro() {
-        return livro;
+    public LivroAcervo getLivroAcervo() {
+        return livroAcervo;
     }
-    public void setLivro(Livro livro) {
-        this.livro = livro;
+    public void setLivroAcervo(LivroAcervo livroAcervo) {
+        this.livroAcervo = livroAcervo;
     }
     public String getPrazo() {
         return prazo;
@@ -45,5 +45,10 @@ public class LivroUsuario {
     }
     public void setDataEmprestimo(String dataEmprestimo) {
         this.dataEmprestimo = dataEmprestimo;
-    }    
+    }   
+    
+    @Override
+    public int compareTo(LivroUsuario livroUsuario) {
+        return this.livroAcervo.getLivro().compareTo(livroUsuario.getLivroAcervo().getLivro());
+    }
 }
