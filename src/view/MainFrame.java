@@ -433,10 +433,12 @@ public class MainFrame extends javax.swing.JFrame {
             container.add(panel);
         }
         if (lista.isEmpty()){
+            container.setLayout(new BorderLayout());
             JLabel label = new JLabel("Nenhum livro encontrado com o termo '" + busca + "'");
-            label.setFont(new java.awt.Font("sansserif", 0, 24));
-            label.setAlignmentX(JLabel.CENTER);
-            container.add(label);
+            label.setFont(new java.awt.Font("sansserif", 0, 18));
+            label.setForeground(new Color(230,230,230));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            container.add(label, BorderLayout.CENTER);
         }    
         scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
@@ -455,11 +457,12 @@ public class MainFrame extends javax.swing.JFrame {
             container.add(panel);
         }   
         if (lista.isEmpty()){
+            container.setLayout(new BorderLayout());
             JLabel label = new JLabel("Nenhum livro encontrado com o termo '" + busca + "'");
             label.setFont(new java.awt.Font("sansserif", 0, 18));
-            label.setAlignmentX(JLabel.CENTER);
-            label.setAlignmentY(JLabel.CENTER);
-            container.add(label);
+            label.setForeground(new Color(230,230,230));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            container.add(label, BorderLayout.CENTER);
         }  
         scrollVerLivros.setViewportView(container); // Definindo o container como o viewport do JScrollPane
     }
@@ -2119,18 +2122,22 @@ public class MainFrame extends javax.swing.JFrame {
                                         "Alterar nome!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
                                          null, null, null);
         if (resposta == JOptionPane.OK_OPTION){
-            if (novoNome.getText().equals(usuarioLogado.getNome())){
-                JOptionPane.showMessageDialog(null, "Nome não pode ser igual o atual!");
-            } else {
-                int respostaFinal = JOptionPane.showConfirmDialog(null, "Confirmar alteração do nome?","Confirmação",JOptionPane.YES_NO_OPTION);
-                if (respostaFinal == JOptionPane.OK_OPTION){
-                    UsuarioDAO dao = new UsuarioDAO();
-                    dao.alterarNomeUsuario(usuarioLogado, novoNome.getText());
-                    usuarioLogado.setNome(novoNome.getText());
-                    JOptionPane.showMessageDialog(null, "Alteração bem sucedida!");
+            if (!novoNome.getText().isEmpty()) {
+                if (novoNome.getText().equals(usuarioLogado.getNome())){
+                    JOptionPane.showMessageDialog(null, "Nome não pode ser igual o atual!");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Operação cancelada!");
+                    int respostaFinal = JOptionPane.showConfirmDialog(null, "Confirmar alteração do nome?","Confirmação",JOptionPane.YES_NO_OPTION);
+                    if (respostaFinal == JOptionPane.OK_OPTION){
+                        UsuarioDAO dao = new UsuarioDAO();
+                        dao.alterarNomeUsuario(usuarioLogado, novoNome.getText());
+                        usuarioLogado.setNome(novoNome.getText());
+                        JOptionPane.showMessageDialog(null, "Alteração bem sucedida!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Operação cancelada!");
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Campos vazios, operação cancelada!");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Operação cancelada!");
@@ -2144,18 +2151,22 @@ public class MainFrame extends javax.swing.JFrame {
                                         "Alterar email!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
                                          null, null, null);
         if (resposta == JOptionPane.OK_OPTION){
-            if (novoEmail.getText().equals(usuarioLogado.getEmail())){
-                JOptionPane.showMessageDialog(null, "Email não pode ser igual o atual!");
-            } else {
-                int respostaFinal = JOptionPane.showConfirmDialog(null, "Confirmar alteração do email?","Confirmação",JOptionPane.YES_NO_OPTION);
-                if (respostaFinal == JOptionPane.OK_OPTION){
-                    UsuarioDAO dao = new UsuarioDAO();
-                    dao.alterarEmailUsuario(usuarioLogado, novoEmail.getText());
-                    usuarioLogado.setEmail(novoEmail.getText());
-                    JOptionPane.showMessageDialog(null, "Alteração bem sucedida!");
+            if (!novoEmail.getText().isEmpty()){
+                if (novoEmail.getText().equals(usuarioLogado.getEmail())){
+                    JOptionPane.showMessageDialog(null, "Email não pode ser igual o atual!");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Operação cancelada!");
+                    int respostaFinal = JOptionPane.showConfirmDialog(null, "Confirmar alteração do email?","Confirmação",JOptionPane.YES_NO_OPTION);
+                    if (respostaFinal == JOptionPane.OK_OPTION){
+                        UsuarioDAO dao = new UsuarioDAO();
+                        dao.alterarEmailUsuario(usuarioLogado, novoEmail.getText());
+                        usuarioLogado.setEmail(novoEmail.getText());
+                        JOptionPane.showMessageDialog(null, "Alteração bem sucedida!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Operação cancelada!");
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Campos vazios, operação cancelada!");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Operação cancelada!");
@@ -2177,17 +2188,22 @@ public class MainFrame extends javax.swing.JFrame {
                                                   JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
                                              null, null, null);
         if (resposta == JOptionPane.OK_OPTION){
-            if (!novaSenha.getText().equals(novaSenhaConfirmar.getText())){
-                JOptionPane.showMessageDialog(null, "Senhas não conferem!");
-            } else {
-                int respostaFinal = JOptionPane.showConfirmDialog(null, "Confirmar alteração da senha?", "Confirmação",JOptionPane.YES_NO_OPTION);
-                if (respostaFinal == JOptionPane.OK_OPTION){
-                    UsuarioDAO dao = new UsuarioDAO();
-                    dao.alterarSenhaUsuario(usuarioLogado, novaSenha.getText());
-                    JOptionPane.showMessageDialog(null, "Alteração bem sucedida!");
+            if(!novaSenha.getText().isEmpty() && !novaSenhaConfirmar.getText().isEmpty()){
+
+                if (!novaSenha.getText().equals(novaSenhaConfirmar.getText())){
+                    JOptionPane.showMessageDialog(null, "Senhas não conferem!");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Operação cancelada!");
+                    int respostaFinal = JOptionPane.showConfirmDialog(null, "Confirmar alteração da senha?", "Confirmação",JOptionPane.YES_NO_OPTION);
+                    if (respostaFinal == JOptionPane.OK_OPTION){
+                        UsuarioDAO dao = new UsuarioDAO();
+                        dao.alterarSenhaUsuario(usuarioLogado, novaSenha.getText());
+                        JOptionPane.showMessageDialog(null, "Alteração bem sucedida!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Operação cancelada!");
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Campos vazios, operação cancelada!");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Operação cancelada!");
@@ -2231,7 +2247,11 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void iconInformacaoMouseClicked(java.awt.event.MouseEvent evt) {
-        JOptionPane.showMessageDialog(this, "Desenvolvedor: Gabriel Reverso Pereira\nCódigo: 837789");
+        JOptionPane.showMessageDialog(this, "Projeto feito usando Java Swing com intuito de ser " +  
+                                            "uma aplicação simples, elegante e com banco de dados " + 
+                                            "para uma biblioteca física!" + 
+                                            "\n\nDesenvolvedor: Gabriel Reverso Pereira" +
+                                            "\nCódigo: 837789");
     }
 
     //ICONES DE CONFIGURAÇÃO
