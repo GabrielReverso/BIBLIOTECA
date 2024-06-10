@@ -1965,6 +1965,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     /*VER LIVROS*************************************************************************/
     private void iconVoltar_paneVerLivrosMouseClicked(java.awt.event.MouseEvent evt) {
+        cbxSelecioneRegiao_paneVerLivros.setSelectedIndex(-1);
+        txtBucarTitulo_paneVerLivros.setText("");
         tabPane.setSelectedIndex(2);
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
@@ -2065,6 +2067,8 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void iconVoltar_paneEmprestimoMouseClicked(java.awt.event.MouseEvent evt) {
+        cbxSelecioneRegiao_paneEmprestimo.setSelectedIndex(-1);
+        txtBucarTitulo_paneEmprestimo.setText("");
         tabPane.setSelectedIndex(2);
         tabPane.setEnabledAt(0, false);
         tabPane.setEnabledAt(1, false);
